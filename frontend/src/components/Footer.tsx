@@ -1,7 +1,12 @@
+// import {XLogo} from "@/assets/social/x";
+import XLogo from "@/assets/social/x.svg";
+import InstagramLogo from "@/assets/social/instagram.svg";
+import YouTubeLogo from "@/assets/social/youtube.svg";
+import LinkedinLogo from "@/assets/social/linkedin.svg";
 import Image from "next/image";
 import Link from "next/link";
 
-const links = [
+const navLinks = [
   {
     title: "Navegación",
     links: ["Inicio", "Quiénes somos", "Nuestros servicios"],
@@ -16,40 +21,39 @@ const links = [
   },
 ];
 
+const socialLinks = [
+  { link: "https://x.com", image: XLogo, alt: "iUpi en X" },
+  {
+    link: "https://instagram.com",
+    image: InstagramLogo,
+    alt: "iUpi en Instagram",
+  },
+  { link: "https://youtube.com", image: YouTubeLogo, alt: "iUpi en YouTube" },
+  {
+    link: "https://linkedin.com",
+    image: LinkedinLogo,
+    alt: "iUpi en Linkedin",
+  },
+];
+
 export default function Footer() {
   return (
     <footer className="bg-slate-200 w-full">
-      <div className="grid grid-cols-3 justify-items-center max-w-desktop pt-5 pb-8">
-        {/* <section className="flex">
-          <Image src="/iupi.png" alt="iupi logo" width={80} height={80} />
-          <div>
-            <Image
-              src="/assets/social/x.svg"
-              alt="x logo"
-              width={24}
-              height={24}
-            />
-            <Image
-              src="/assets/social/x.svg"
-              alt="x logo"
-              width={24}
-              height={24}
-            />
-            <Image
-              src="/assets/social/x.svg"
-              alt="x logo"
-              width={24}
-              height={24}
-            />
-            <Image
-              src="/assets/social/x.svg"
-              alt="x logo"
-              width={24}
-              height={24}
-            />
+      <div className="max-w-desktop grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-6 lg:gap-0 lg:justify-items-center pt-5 pb-8 mx-2 lg:mx-auto">
+        <section className="grid grid-cols-1 content-start">
+          <Image src="/Iupi.png" alt="iupi logo" width={38} height={24} />
+          <div className="grid grid-cols-4 gap-2 mt-2">
+            {socialLinks.map((media) => (
+              <SocialMediaLink
+                link={media.link}
+                image={media.image}
+                alt={media.alt}
+                key={media.alt}
+              />
+            ))}
           </div>
-        </section> */}
-        {links.map((section) => (
+        </section>
+        {navLinks.map((section) => (
           <section key={section.title} className="">
             <h3 className="font-bold text-2xl pb-1">{section.title}</h3>
             {section.links.map((link) => (
@@ -61,5 +65,19 @@ export default function Footer() {
         ))}
       </div>
     </footer>
+  );
+}
+
+interface SocialMediaLinkProps {
+  link: string,
+  image: string,
+  alt: string,
+}
+
+function SocialMediaLink({ link, image, alt }: SocialMediaLinkProps) {
+  return (
+    <Link href={link}>
+      <Image src={image} alt={alt} width={24} height={24} />
+    </Link>
   );
 }
