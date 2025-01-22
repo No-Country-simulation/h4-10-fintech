@@ -3,6 +3,7 @@ package com.iupi.fintech.services;
 import com.iupi.fintech.dtos.user.UserRequestDto;
 import com.iupi.fintech.dtos.user.UserResponseDto;
 import com.iupi.fintech.models.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,8 @@ public interface UserService extends GenericService<User, Long, UserRequestDto, 
     public UserResponseDto update(Long id, UserRequestDto userRequestDto);
 
     public User findByEmail(String email);
+
+    UserDetails loadUserByUsername(String email);
 
 
 }

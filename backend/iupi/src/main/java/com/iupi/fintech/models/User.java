@@ -32,6 +32,7 @@ public class User implements UserDetails {
     private String telefono;
     // Preguntar que seria, Redundancia?
     private String identificacion;
+    private LocalDate fechaNacimiento;
 
    // private Integer edad;
 
@@ -39,14 +40,13 @@ public class User implements UserDetails {
     private LocalDate fechaUltimaConexion;
 
     // Enums
-    @Enumerated(EnumType.STRING)
-    private LocalDate fechaNacimiento;
+
     @Enumerated(EnumType.STRING)
     private EstadoRegistro estadoRegistro;
     @Enumerated(EnumType.STRING)
     private TipoDeDocumentacion tipoIdentificacion;
 
-    @OneToOne
+    @OneToOne(mappedBy = "user")
     private Perfiles perfiles;
 
     @Override
@@ -61,7 +61,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return email;
     }
 
     @Override

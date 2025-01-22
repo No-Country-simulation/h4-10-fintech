@@ -5,32 +5,34 @@ import com.iupi.fintech.enums.ConocimientoFinanciero;
 import com.iupi.fintech.enums.NivelEconomico;
 import com.iupi.fintech.enums.PerfilDeRiesgo;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
-@Data
+@Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
+@Table(name = "perfiles")
 public class Perfiles {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long perfil_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long perfilId;
+
+    @Enumerated(EnumType.STRING)
+    private NivelEconomico nivelEconomico;
+    @Enumerated(EnumType.STRING)
+    private CapacidadDeAhorro capacidadAhorro;
+    @Enumerated(EnumType.STRING)
+    private ConocimientoFinanciero conocimientoFinanciero;
+    @Enumerated(EnumType.STRING)
+    private PerfilDeRiesgo perfilRiesgo;
+
+    private String objetivoPrincipal;
 
     @OneToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Long usuario_id;
-
-    @Enumerated(EnumType.STRING)
-    private NivelEconomico nivel_economico;
-    @Enumerated(EnumType.STRING)
-    private CapacidadDeAhorro capacidad_ahorro;
-    @Enumerated(EnumType.STRING)
-    private ConocimientoFinanciero conocimiento_financiero;
-    @Enumerated(EnumType.STRING)
-    private PerfilDeRiesgo perfil_riesgo;
-    @Enumerated(EnumType.STRING)
-    private String objetivo_principal;
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
 

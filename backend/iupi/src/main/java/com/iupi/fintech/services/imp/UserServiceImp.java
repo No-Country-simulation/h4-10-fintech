@@ -9,9 +9,13 @@ import com.iupi.fintech.models.User;
 import com.iupi.fintech.repositories.UserRepository;
 import com.iupi.fintech.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
@@ -59,7 +63,8 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email)
+                .orElse(null);
     }
 
 
@@ -94,5 +99,11 @@ public class UserServiceImp implements UserService {
         } else {
             throw new ApplicationException("usuario no encontrado con id: " + id);
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con el email: " + email));
     }
 }

@@ -1,4 +1,7 @@
 package com.iupi.fintech.mappers.perfiles;
 
-public class perfilMapper {
+import org.mapstruct.Mapper;
+
+@Mapper
+public abstract class perfilMapper {
 }
