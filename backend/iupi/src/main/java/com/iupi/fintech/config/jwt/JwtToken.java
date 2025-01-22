@@ -1,6 +1,15 @@
 package com.iupi.fintech.config.jwt;
 
-public class JwtToken {
 
-    private String token;
+import java.io.Serializable;
+
+//@Data
+//@Getter@Setter
+//public class JwtToken {
+//
+//    private String token;
+//}
+public record JwtToken (
+        String jwtToken
+)  implements Serializable {
 }

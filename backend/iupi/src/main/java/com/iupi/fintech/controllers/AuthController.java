@@ -1,6 +1,8 @@
 package com.iupi.fintech.controllers;
 
 import com.iupi.fintech.services.imp.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -9,6 +11,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,8 +69,22 @@ public class AuthController {
                     .body(Map.of("error", "Ocurrió un error al procesar la solicitud.", "details", ex.getMessage()));
         }
 
+    }
 
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // Realiza el logout local
+        SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+        logoutHandler.logout(request, response, null);
 
+        // Redirige a Auth0 para el logout
+        String logoutUrl = "https://dev-byesylnv0qhe4lwt.us.auth0.com/v2/logout";
+        System.out.println("Logout URL: " + logoutUrl);
+
+        // Redirige al usuario a Auth0 para el logout
+        response.sendRedirect(logoutUrl);
+
+        return ResponseEntity.status(302).header("Location", logoutUrl).build();
     }
 
 

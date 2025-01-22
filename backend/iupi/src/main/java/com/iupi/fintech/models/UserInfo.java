@@ -1,8 +1,11 @@
-package com.iupi.fintech.dtos.user;
+package com.iupi.fintech.models;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter @Setter @ToString
 public class UserInfo {
     private String sub;
     private String name;
