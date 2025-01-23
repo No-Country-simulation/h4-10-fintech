@@ -158,6 +158,13 @@
             <version>2.0.16</version>
         </dependency>
 
+        <!-- - - - - - - Dependencia postgresql (BD Render) - - - - - - -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
