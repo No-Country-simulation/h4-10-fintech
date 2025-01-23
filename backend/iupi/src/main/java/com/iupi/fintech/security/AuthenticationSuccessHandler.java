@@ -1,6 +1,9 @@
 package com.iupi.fintech.security;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.iupi.fintech.config.jwt.Auth0TokenValidator;
 import com.iupi.fintech.config.jwt.JwtToken;
+import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.services.imp.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,16 +20,14 @@ import java.io.IOException;
 @Component
 public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-
-    private final AuthService authService;
+    private final Auth0TokenValidator auth0TokenValidator;
     private final OAuth2AuthorizedClientService authorizedClientService;
 
     @Autowired
-    public AuthenticationSuccessHandler(AuthService authService, OAuth2AuthorizedClientService authorizedClientService) {
-        this.authService = authService;
+    public AuthenticationSuccessHandler( Auth0TokenValidator auth0TokenValidator, OAuth2AuthorizedClientService authorizedClientService) {
+        this.auth0TokenValidator = auth0TokenValidator;
         this.authorizedClientService = authorizedClientService;
     }
-
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -36,22 +37,18 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
         // Acceder al token de acceso desde el cliente autorizado
         OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
                 token.getAuthorizedClientRegistrationId(), token.getName());
-
-
+            // Se Extrae el access token
         String accessToken = authorizedClient.getAccessToken().getTokenValue();
-        System.out.println("accessToken em eñ authenticationHandler: " + accessToken);
+
         try {
-           // JwtToken tokenDTO = authService.autentificarUser(accessToken);
-            JwtToken tokenDTO = new JwtToken(authService.autentificarUser(accessToken));
+               DecodedJWT jwt = auth0TokenValidator.validateToken(accessToken);
+               if(jwt == null) {
+                   throw new ApplicationException("Error al validar el token");
+               }
 
-            System.out.println("token custom: " + tokenDTO.jwtToken());
-
-            // Devolver el custom token como parte de la respuesta
-            response.setContentType("application/json");
-            response.getWriter().write("{\"custom_token\": \"" + tokenDTO.jwtToken() + "\"}");
-            response.sendRedirect("/api/home");
+            response.sendRedirect("/api/auth/generate-custom-token?access_token=" + accessToken);
         }catch (Exception e) {
-            e.printStackTrace();
+            throw new ApplicationException("Error al validar el token"+ e.getMessage());
         }
     }
 }

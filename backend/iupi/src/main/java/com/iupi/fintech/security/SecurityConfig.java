@@ -1,9 +1,9 @@
 package com.iupi.fintech.security;
 
 
-import com.iupi.fintech.config.jwt.CustomJwtDecoderService;
+import com.auth0.jwk.*;
+
 import com.iupi.fintech.controllers.LogoutController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,11 +29,13 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
+import java.util.concurrent.TimeUnit;
+
 @Configuration
 //@EnableWebSecurity
 public class SecurityConfig {
     @Value("${auth0.domain}")
-    private String issuer;
+    private String domain;
     @Value("${auth0.clientId}")
     private String clientId;
     @Value("${auth0.clientSecret}")
@@ -52,14 +54,14 @@ public class SecurityConfig {
     @Value("${AUTH0_JWKS_URL}")
     private String jwksUrl;
 
-    private final CustomJwtDecoderService customJwtDecoder;
-private final SecurityFilter securityFilter;
+   // private final CustomJwtDecoderService customJwtDecoder;
+//private final SecurityFilter securityFilter;
 
-    @Autowired
-    public SecurityConfig(CustomJwtDecoderService customJwtDecoder, SecurityFilter securityFilter) {
-        this.customJwtDecoder = customJwtDecoder;
-        this.securityFilter = securityFilter;
-    }
+//    @Autowired
+//    public SecurityConfig(CustomJwtDecoderService customJwtDecoder, SecurityFilter securityFilter) {
+//        this.customJwtDecoder = customJwtDecoder;
+//       // this.securityFilter = securityFilter;
+//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, @Lazy AuthenticationSuccessHandler authenticationSuccessHandler) throws Exception {
@@ -80,9 +82,9 @@ private final SecurityFilter securityFilter;
                         .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserService()))
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwtAuthenticationProvider())
+                        .jwt(jwt -> jwkProvider())
                 )
-                .addFilterBefore(securityFilter, OAuth2LoginAuthenticationFilter.class)
+               // .addFilterBefore(securityFilter, OAuth2LoginAuthenticationFilter.class)
                 .logout(logout -> logout
                         .logoutSuccessHandler(logoutSuccessHandler())
                         .deleteCookies("JSESSIONID")
@@ -90,6 +92,22 @@ private final SecurityFilter securityFilter;
                         .invalidateHttpSession(true)
                 );
         return http.build();
+    }
+
+    @Bean
+    public JwkProvider jwkProvider() {
+        System.out.println("ENTRO AL JWK PROVIDER: JwksUrl: " + jwksUrl);
+
+        JwkProvider jwkProvider = new JwkProviderBuilder("https://"+domain)
+                .cached(10, 24, TimeUnit.HOURS)
+                .rateLimited(10, 1, TimeUnit.MINUTES)
+                .build();
+        return new JwkProvider() {
+            @Override
+            public Jwk get(String kid) throws JwkException {
+                return jwkProvider.get(kid);
+            }
+        };
     }
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
@@ -115,6 +133,7 @@ private final SecurityFilter securityFilter;
             ; // Manejo básico de OIDC User
         };
     }
+
 
 
     @Bean
@@ -152,15 +171,6 @@ private final SecurityFilter securityFilter;
 
         return authenticationConverter;
     }
-
-    @Bean
-    public JwtAuthenticationProvider jwtAuthenticationProvider() {
-        JwtAuthenticationProvider provider = new JwtAuthenticationProvider(customJwtDecoder);
-        provider.setJwtAuthenticationConverter(jwtAuthenticationConverter());
-        return provider;
-    }
-
-
 
 
 }

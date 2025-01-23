@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Date;
+
 @Getter @Setter @ToString
 public class UserInfo {
     private String sub;
@@ -15,7 +17,7 @@ public class UserInfo {
     private String email;
     private boolean email_verified;
     private String picture;
-    private String issued_at;
-    private String expires_in;
+    private Date issued_at;
+    private Date expires_in;
 
 }
