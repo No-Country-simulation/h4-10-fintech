@@ -1,8 +1,10 @@
 package com.iupi.fintech.controllers;
 
+import com.iupi.fintech.config.jwt.JwtToken;
 import com.iupi.fintech.services.imp.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -14,6 +16,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -69,6 +72,18 @@ public class AuthController {
                     .body(Map.of("error", "Ocurrió un error al procesar la solicitud.", "details", ex.getMessage()));
         }
 
+    }
+
+    @GetMapping("/generate-custom-token")
+    public ResponseEntity<?> generateCustomToken(@RequestParam String access_token) throws Exception {
+
+
+        try {
+            String customToken = authService.generateCustomToken(access_token);
+            return ResponseEntity.ok(new JwtToken(customToken));
+        } catch (Exception e) {
+           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: "+ e.getMessage());
+        }
     }
 
     @GetMapping("/logout")

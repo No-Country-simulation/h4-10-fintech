@@ -1,5 +1,6 @@
 package com.iupi.fintech.services.imp;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.iupi.fintech.config.jwt.JwtService;
 import com.iupi.fintech.config.jwt.JwtToken;
 import com.iupi.fintech.models.UserInfo;
@@ -38,31 +39,68 @@ public class AuthService {
         this.userService = userService;
     }
 
+    // METODO OBSOLETO, FALTA CORREGIR CODIGO EN EL CONTROLADOR PARA ELIMINAR
     public String autentificarUser(String accessToken) throws Exception {
 
         String token;
         try {
-            System.out.println(" entro a autentificar al usuario en el auth Service");
-            UserInfo userInfo = getUsernameFromAccessToken(accessToken);
-            System.out.println("user info: "+userInfo.toString());
+            //--------------- Primero validamos el token que recibimos tras loguearnos
+            DecodedJWT signedJWT = jwtService.validateToken(accessToken);
+            System.out.println("verifico token en el authserveice");
+            //------------- Obtenemos los datos de usuario del accesstoken
+            UserInfo userInfo = getDataFromAccessToken(accessToken);
+            System.out.println(" obtubo el user info: " + userInfo.toString());
+            //--------- Obtenemos el usuario si esta en la base de datos, sino pasara a registrarlo
+            User userResponse = userService.findByEmail(userInfo.getEmail());
+            System.out.println(" user response es: " + userResponse.getAuth0Id());
+            System.out.println("Se decodifico y valido el accesstoken");
+            if (userResponse == null) {
+
+                User newUser = userRepository.save(userMapper.toEntitySave(userInfo));
+                System.out.println("new user: " + newUser.toString());
+                String tokennn= jwtService.generateCustomToken(newUser, userInfo);
+                Boolean tr= jwtService.validateCustomToken(tokennn);
+                System.out.println("tokennn: " + tr);
+                return new JwtToken(jwtService.generateCustomToken(newUser, userInfo)).toString();
+            }
+            String tokennn= jwtService.generateCustomToken(userResponse, userInfo);
+            Boolean tr= jwtService.validateCustomToken(tokennn);
+            System.out.println("tokennn: " + tr);
+            return new JwtToken(jwtService.generateCustomToken(userResponse, userInfo)).toString();
+        } catch (Exception e) {
+            throw new Exception("error en el authService : "+ e.getMessage());
+        }
+    }
+
+    public String generateCustomToken(String accessToken) throws Exception {
+        try {
+
+            //------------- Obtenemos los datos de usuario del accesstoken
+            UserInfo userInfo = getDataFromAccessToken(accessToken);
+
+            //--------- Obtenemos el usuario si esta en la base de datos, sino pasara a registrarlo
             User userResponse = userService.findByEmail(userInfo.getEmail());
 
             if (userResponse == null) {
 
                 User newUser = userRepository.save(userMapper.toEntitySave(userInfo));
-                System.out.println("new user: "+newUser.toString());
+                String customToken= jwtService.generateCustomToken(newUser, userInfo);
 
-                return new JwtToken(jwtService.generateToken(newUser, userInfo)).toString();
+                return new JwtToken(customToken).jwtToken();
             }
+            String token= jwtService.generateCustomToken(userResponse, userInfo);
 
-            return new JwtToken((jwtService.generateToken(userResponse, userInfo))).toString();
+            return new JwtToken(token).jwtToken();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new Exception("error al crear el custom Token : "+ e.getMessage());
         }
     }
 
-
-    public UserInfo getUsernameFromAccessToken(String accessToken) {
+    /**
+     * Metodo para obtener los datos del usuario del AccessToken
+     * El metodo hace una peticion a la url de UserInfo para extraer los datos
+     **/
+    public UserInfo getDataFromAccessToken(String accessToken) {
 
         WebClient webClient = WebClient
                 .builder()
@@ -74,7 +112,7 @@ public class AuthService {
                 .headers(header -> header.setBearerAuth(accessToken))
                 .retrieve()
                 .bodyToMono(UserInfo.class)
-                .doOnNext(user -> System.out.println("user en el getUsernameFromAccessToken: " + user.toString()))
+                .doOnNext(user -> System.out.println("user info: " + user.toString()))
                 .doOnError(e -> System.out.println("Error: " + e.getMessage()))
                 .block();
     }

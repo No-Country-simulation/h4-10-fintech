@@ -7,6 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,12 +17,19 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component
+//@Component
+
+
+
+// Security filter, aun por terminar
+
+
 public class SecurityFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserService userService;
 
+    @Autowired
     public SecurityFilter(JwtService jwtService, UserService userService) {
         this.jwtService = jwtService;
         this.userService = userService;
@@ -49,13 +57,13 @@ public class SecurityFilter extends OncePerRequestFilter {
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userService.loadUserByUsername(username);
 
-                if (jwtService.validateToken(token, userDetails)) {
+                if (jwtService.validateTokenLocal(token, userDetails)) {
                     System.out.println("se valido el token");
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
-                if (!jwtService.validateToken(token, userDetails)) {
+                if (!jwtService.validateTokenLocal(token, userDetails)) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.getWriter().write("Token inválido o expirado.");
                     return;
