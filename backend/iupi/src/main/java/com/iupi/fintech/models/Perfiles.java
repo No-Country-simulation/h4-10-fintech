@@ -7,6 +7,8 @@ import com.iupi.fintech.enums.PerfilDeRiesgo;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter @Setter
 @AllArgsConstructor
@@ -33,6 +35,9 @@ public class Perfiles {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "perfil")
+    private List<Transaccion> transacciones;
 
 
 
