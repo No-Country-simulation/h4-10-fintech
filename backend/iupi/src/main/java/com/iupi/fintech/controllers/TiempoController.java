@@ -8,14 +8,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/tiempos")
-@Tag(name = "Tiempo", description = "Operaciones CRUD para la entidad Tiempo.")
+@RequestMapping("api/tiempos")
+@Tag(name = "Tiempos")
 @RequiredArgsConstructor
 public class TiempoController {
 
@@ -40,7 +41,7 @@ public class TiempoController {
     @Operation(summary = "Crear un nuevo tiempo", description = "Crea un nuevo tiempo con los datos proporcionados.")
     public ResponseEntity<ApiResponseDto<TiempoResponseDto>> createTiempo(@Valid @RequestBody TiempoRequestDto tiempoRequestDto) {
         TiempoResponseDto tiempoCreado = tiempoService.save(tiempoRequestDto);
-        return ResponseEntity.status(201).body(new ApiResponseDto<>(true, "Tiempo creado", tiempoCreado));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponseDto<>(true, "Tiempo creado", tiempoCreado));
     }
 
     @PutMapping("/{id}")
@@ -50,12 +51,12 @@ public class TiempoController {
         return ResponseEntity.ok(new ApiResponseDto<>(true, "Tiempo actualizado", tiempoActualizado));
     }
 
-    @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar un tiempo", description = "Elimina un tiempo por su ID.")
-    public ResponseEntity<ApiResponseDto<Void>> deleteTiempo(@PathVariable Long id) {
-        tiempoService.deleteById(id);
-        return ResponseEntity.ok(new ApiResponseDto<>(true, "Tiempo eliminado", null));
-    }
+//    @DeleteMapping("/{id}")
+//    @Operation(summary = "Eliminar un tiempo", description = "Elimina un tiempo por su ID.")
+//    public ResponseEntity<ApiResponseDto<Void>> deleteTiempo(@PathVariable Long id) {
+//        tiempoService.deleteById(id);
+//        return ResponseEntity.ok(new ApiResponseDto<>(true, "Tiempo eliminado", null));
+//    }
 
 
 

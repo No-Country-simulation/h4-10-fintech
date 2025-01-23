@@ -7,18 +7,19 @@ import com.iupi.fintech.services.ProductoFinancieroService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/productos-financieros")
-@Tag(name = "Productos Financieros", description = "Operaciones relacionadas con los productos financieros")
+@RequestMapping("api/productos-financieros")
+@Tag(name = "Productos Financieros")
 @RequiredArgsConstructor
 public class ProductoFinancieroController {
 
-    private ProductoFinancieroService productoFinancieroService;
+    private final ProductoFinancieroService productoFinancieroService;
 
     @GetMapping
     @Operation(summary = "Obtener todos los productos financieros", description = "Devuelve una lista de todos los productos financieros disponibles.")
@@ -42,7 +43,7 @@ public class ProductoFinancieroController {
     @Operation(summary = "Crear un nuevo producto financiero", description = "Permite crear un nuevo producto financiero proporcionando los datos requeridos.")
     public ResponseEntity<ApiResponseDto<ProductoFinancieroResponseDto>>createProducto(@RequestBody ProductoFinancieroRequestDto producto) {
         ProductoFinancieroResponseDto nuevoProducto = productoFinancieroService.save(producto);
-        return ResponseEntity.ok(new ApiResponseDto<>(true, "Producto financiero creado",nuevoProducto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponseDto<>(true, "Producto financiero creado",nuevoProducto));
     }
 
     @PutMapping("/{id}")

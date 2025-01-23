@@ -8,11 +8,13 @@ import com.iupi.fintech.models.ProductoFinanciero;
 import com.iupi.fintech.repositories.ProductoFinancieroRepository;
 import com.iupi.fintech.services.ProductoFinancieroService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Service
 @RequiredArgsConstructor
 public class ProductoFinancieroSerrviceImpl implements ProductoFinancieroService {
 
