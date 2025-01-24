@@ -20,6 +20,8 @@ public abstract class PerfilMapper {
  @Mapping(source = "user", target = "userId", qualifiedByName = "userToLong")
  public abstract PerfilDto toResponseDto(Perfil entity);
 
+ //public abstract void updateEntityFromDto(ProductoFinancieroRequestDto dto, @MappingTarget ProductoFinanciero productoFinanciero);
+
  // Convierte el long del Dto en un usuario
  @Named("longToUser")
  public User toUser(Long id) {
