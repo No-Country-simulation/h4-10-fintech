@@ -2,6 +2,7 @@ package com.iupi.fintech.controllers;
 
 import com.iupi.fintech.config.jwt.JwtToken;
 import com.iupi.fintech.services.imp.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -73,7 +74,6 @@ public class AuthController {
         }
 
     }
-
     @GetMapping("/generate-custom-token")
     public ResponseEntity<?> generateCustomToken(@RequestParam String access_token) throws Exception {
 
@@ -86,7 +86,9 @@ public class AuthController {
         }
     }
 
+
     @GetMapping("/logout")
+    @Operation(summary = "Logout manual del usuario")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // Realiza el logout local
         SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();

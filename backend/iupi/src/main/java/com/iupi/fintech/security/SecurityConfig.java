@@ -96,8 +96,6 @@ public class SecurityConfig {
 
     @Bean
     public JwkProvider jwkProvider() {
-        System.out.println("ENTRO AL JWK PROVIDER: JwksUrl: " + jwksUrl);
-
         JwkProvider jwkProvider = new JwkProviderBuilder("https://"+domain)
                 .cached(10, 24, TimeUnit.HOURS)
                 .rateLimited(10, 1, TimeUnit.MINUTES)
@@ -150,7 +148,6 @@ public class SecurityConfig {
                 .authorizationUri(authorizationUrl)
                 .tokenUri(tokenUrl)
                 .userInfoUri(userInfoUrl)
-               // .jwkSetUri("https://dev-byesylnv0qhe4lwt.us.auth0.com/.well-known/jwks.json")
                 .jwkSetUri(jwksUrl)
                 .userNameAttributeName("sub")
                 .clientName("Auth0")

@@ -5,7 +5,6 @@ import com.iupi.fintech.enums.Genero;
 import com.iupi.fintech.enums.TipoDeDocumentacion;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.cglib.core.Local;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -34,7 +33,7 @@ public class User implements UserDetails {
     private String identificacion;
     private LocalDate fechaNacimiento;
 
-   // private Integer edad;
+    //private Integer edad;
 
     private LocalDate fechaRegistro;
     private LocalDate fechaUltimaConexion;
@@ -47,7 +46,7 @@ public class User implements UserDetails {
     private TipoDeDocumentacion tipoIdentificacion;
 
     @OneToOne(mappedBy = "user")
-    private Perfiles perfiles;
+    private Perfil perfil;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

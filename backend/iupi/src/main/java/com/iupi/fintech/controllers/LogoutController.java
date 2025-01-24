@@ -1,6 +1,7 @@
 package com.iupi.fintech.controllers;
 
 import com.iupi.fintech.services.imp.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/logout")
+
 public class LogoutController implements LogoutSuccessHandler {
 
     @Autowired
