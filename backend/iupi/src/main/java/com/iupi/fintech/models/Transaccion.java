@@ -37,7 +37,7 @@ public class Transaccion {
 
     @ManyToOne
     @JoinColumn(name = "perfil_id", nullable = false)
-    private Perfiles perfil;
+    private Perfil perfil;
 
     @ManyToOne
     @JoinColumn(name = "tiempo_id",nullable = false)
