@@ -38,7 +38,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-200 w-full">
+    <footer className="bg-card w-full">
       <div className="max-w-desktop grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-6 lg:gap-0 lg:justify-items-center pt-5 pb-8 mx-2 lg:mx-auto">
         <section className="grid grid-cols-1 content-start">
           <Image src="/Iupi.png" alt="iupi logo" width={38} height={24} />
