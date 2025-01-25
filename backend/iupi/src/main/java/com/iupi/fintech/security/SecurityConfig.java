@@ -1,9 +1,8 @@
 package com.iupi.fintech.security;
 
-
-import com.auth0.jwk.*;
-
+import com.iupi.fintech.config.jwt.CustomJwtDecoderService;
 import com.iupi.fintech.controllers.LogoutController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +10,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -28,11 +29,11 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-
-import java.util.concurrent.TimeUnit;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 public class SecurityConfig {
     @Value("${auth0.domain}")
     private String domain;
@@ -54,24 +55,36 @@ public class SecurityConfig {
     @Value("${AUTH0_JWKS_URL}")
     private String jwksUrl;
 
-   // private final CustomJwtDecoderService customJwtDecoder;
-//private final SecurityFilter securityFilter;
+    private final CustomJwtDecoderService customJwtDecoder;
+    private final SecurityFilter securityFilter;
 
-//    @Autowired
-//    public SecurityConfig(CustomJwtDecoderService customJwtDecoder, SecurityFilter securityFilter) {
-//        this.customJwtDecoder = customJwtDecoder;
-//       // this.securityFilter = securityFilter;
-//    }
+    @Autowired
+    public SecurityConfig(SecurityFilter securityFilter, CustomJwtDecoderService customJwtDecoder) {
+        this.customJwtDecoder = customJwtDecoder;
+        this.securityFilter = securityFilter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, @Lazy AuthenticationSuccessHandler authenticationSuccessHandler) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         //Auth Controller
                         .requestMatchers("/api/auth/access-token**").permitAll()
                         .requestMatchers("/api/home**").authenticated()
                         .requestMatchers("/logout**").authenticated()
+                        // User Controller
+                        .requestMatchers(HttpMethod.GET, "/api/user**").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/api/user/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/user/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/user/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/user/**").authenticated()
+                        //Perfil Controller
+                        .requestMatchers(HttpMethod.GET, "/api/perfil/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/perfil/**").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/api/perfil/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/perfil/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/perfil/**").authenticated()
 
                         //Swagger
                         .requestMatchers(HttpMethod.GET, "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
@@ -82,9 +95,9 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserService()))
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwkProvider())
+                        .jwt(jwt -> jwtAuthenticationProvider())
                 )
-               // .addFilterBefore(securityFilter, OAuth2LoginAuthenticationFilter.class)
+                .addFilterBefore(securityFilter, OAuth2LoginAuthenticationFilter.class)
                 .logout(logout -> logout
                         .logoutSuccessHandler(logoutSuccessHandler())
                         .deleteCookies("JSESSIONID")
@@ -95,18 +108,21 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JwkProvider jwkProvider() {
-        JwkProvider jwkProvider = new JwkProviderBuilder("https://"+domain)
-                .cached(10, 24, TimeUnit.HOURS)
-                .rateLimited(10, 1, TimeUnit.MINUTES)
-                .build();
-        return new JwkProvider() {
+    public JwtAuthenticationProvider jwtAuthenticationProvider() {
+        JwtAuthenticationProvider provider = new JwtAuthenticationProvider(new CustomJwtDecoderService());
+        provider.setJwtAuthenticationConverter(jwtAuthenticationConverter());
+        return provider;
+    }
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
             @Override
-            public Jwk get(String kid) throws JwkException {
-                return jwkProvider.get(kid);
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
             }
         };
     }
+
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
         return new LogoutController();
@@ -131,7 +147,6 @@ public class SecurityConfig {
             ; // Manejo básico de OIDC User
         };
     }
-
 
 
     @Bean
@@ -168,6 +183,21 @@ public class SecurityConfig {
 
         return authenticationConverter;
     }
+
+    // Utilando Jwk Provider
+    //    @Bean
+//    public JwkProvider jwkProvider() {
+//        JwkProvider jwkProvider = new JwkProviderBuilder("https://"+domain)
+//                .cached(10, 24, TimeUnit.HOURS)
+//                .rateLimited(10, 1, TimeUnit.MINUTES)
+//                .build();
+//        return new JwkProvider() {
+//            @Override
+//            public Jwk get(String kid) throws JwkException {
+//                return jwkProvider.get(kid);
+//            }
+//        };
+//    }
 
 
 }

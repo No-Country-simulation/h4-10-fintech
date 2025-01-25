@@ -13,7 +13,6 @@ import java.util.List;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "perfiles")
 public class Perfil {
 

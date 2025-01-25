@@ -1,0 +1,61 @@
+[
+    {
+      "id": 1,
+      "pregunta": "¿Cuál es tu ingreso mensual promedio en usd?",
+      "opciones": [
+        "Menos de $500",
+        "Entre $500 y $1,500",
+        "Entre $1,500 y $2,500",
+        "Más de $2,500"
+      ]
+    },
+    {
+      "id": 2,
+      "pregunta": "¿Tienes ahorros actualmente?",
+      "opciones": [
+        "Sí, más del 20% de mis ingresos mensuales.",
+        "Sí, entre el 10% y el 20% de mis ingresos mensuales.",
+        "Sí, menos del 10% de mis ingresos mensuales.",
+        "No tengo ahorros."
+      ]
+    },
+    {
+      "id": 3,
+      "pregunta": "¿Qué porcentaje de tus ingresos podrías ahorrar o invertir mensualmente?",
+      "opciones": [
+        "Más del 20%.",
+        "Entre el 10% y el 20%.",
+        "Menos del 10%.",
+        "Actualmente no puedo ahorrar."
+      ]
+    },
+    {
+      "id": 4,
+      "pregunta": "¿Qué tanto conoces sobre instrumentos de ahorro e inversión?",
+      "opciones": [
+        "Muy poco (apenas ahorro y no invierto).",
+        "Nivel básico (ahorro en plazos fijos o similares).",
+        "Nivel intermedio (invierto en fondos, bonos o CEDEARs).",
+        "Nivel avanzado (gestiono inversiones complejas, como ETFs o acciones internacionales)."
+      ]
+    },
+    {
+      "id": 5,
+      "pregunta": "¿Qué tan cómodo te sientes asumiendo riesgos financieros?",
+      "opciones": [
+        "Prefiero opciones seguras, aunque el rendimiento sea bajo.",
+        "Estoy dispuesto a asumir riesgos moderados para obtener mejores rendimientos.",
+        "Puedo asumir riesgos altos para maximizar mis ganancias."
+      ]
+    },
+    {
+      "id": 6,
+      "pregunta": "¿Cuál es tu principal objetivo financiero actualmente?",
+      "opciones": [
+        "Ahorrar para una meta específica (vacaciones, un auto, etc.).",
+        "Generar ingresos pasivos con inversiones.",
+        "Asegurar mi retiro o patrimonio a largo plazo.",
+        "Otro: (Campo de texto libre)."
+      ]
+    }
+  ]
