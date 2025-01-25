@@ -1,16 +1,15 @@
 package com.iupi.fintech.controllers;
 
 import com.iupi.fintech.dtos.ApiResponseDto;
+import com.iupi.fintech.dtos.user.UserRequestDto;
 import com.iupi.fintech.dtos.user.UserResponseDto;
+import com.iupi.fintech.exceptions.ApplicationException;
+import com.iupi.fintech.models.User;
 import com.iupi.fintech.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -24,9 +23,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/perfil")
+    @GetMapping("/{id}")
     @Operation(summary = "Obtiene al usuario actual")
-    public ResponseEntity<ApiResponseDto<UserResponseDto>> getUser(@RequestParam("id") Long id) {
+    public ResponseEntity<ApiResponseDto<UserResponseDto>> getUser(@PathVariable("id") Long id) {
 
         try{
             Optional<UserResponseDto> response = userService.findById(id);
@@ -34,10 +33,64 @@ public class UserController {
                 UserResponseDto user = response.get();
                 return ResponseEntity.ok(new ApiResponseDto<>(true, "Usuario encontrado", user));
             } else {
-                return ResponseEntity.ok(new ApiResponseDto<>(false, "Usuario no encontrado", null));
+                return new ResponseEntity<>(new ApiResponseDto<>(false, "Usuario no encontrado", null), HttpStatus.NOT_FOUND);
             }
         }catch (Exception e){
-            throw new RuntimeException(e);
+           return new ResponseEntity<>(new ApiResponseDto<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/e/{email}")
+    @Operation(summary = "Obtiene al usuario actual")
+    public ResponseEntity<ApiResponseDto<User>> getUserr(@PathVariable("email") String email) {
+
+        try{
+            User response = userService.findByEmail(email);
+            if (response != null) {
+
+                return ResponseEntity.ok(new ApiResponseDto<>(true, "Usuario encontrado", response));
+            } else {
+                return new ResponseEntity<>(new ApiResponseDto<>(false, "Usuario no encontrado", null), HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(new ApiResponseDto<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Actualiza al usuario actual")
+    public ResponseEntity<ApiResponseDto<UserResponseDto>> updateUser(@PathVariable("id") Long id, @RequestBody UserRequestDto user) {
+
+        try{
+            Optional<UserResponseDto> response = userService.findById(id);
+            if (response.isPresent()) {
+                userService.update(id, user);
+                UserResponseDto userResponseDto = response.get();
+                return ResponseEntity.ok(new ApiResponseDto<>(true, "Usuario actualizado", userResponseDto));
+            } else {
+                return new ResponseEntity<>(new ApiResponseDto<>(false, "Usuario no encontrado", null), HttpStatus.NOT_FOUND);
+            }
+        }catch (ApplicationException e){
+            return new ResponseEntity<>(new ApiResponseDto<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Dar de baja al usuario actual")
+    public ResponseEntity<ApiResponseDto<UserResponseDto>> deleteUser(@PathVariable("id") Long id) {
+
+        try {
+            Optional<UserResponseDto> response = userService.findById(id);
+            if (response.isPresent()) {
+                userService.darDeBaja(id);
+                UserResponseDto userResponseDto = response.get();
+                return ResponseEntity.ok(new ApiResponseDto<>(true, "Usuario dado de baja", userResponseDto));
+            } else {
+                return new ResponseEntity<>(new ApiResponseDto<>(false, "Usuario no encontrado", null), HttpStatus.NOT_FOUND);
+            }
+        } catch (ApplicationException e) {
+            return new ResponseEntity<>(new ApiResponseDto<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
     }
 

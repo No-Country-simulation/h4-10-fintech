@@ -6,14 +6,12 @@ import com.iupi.fintech.models.Perfil;
 import com.iupi.fintech.models.UserInfo;
 import com.iupi.fintech.models.User;
 import com.iupi.fintech.repositories.UserRepository;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public abstract class UserMapper {
     @Autowired
     private UserRepository userRepository;
@@ -23,7 +21,7 @@ public abstract class UserMapper {
 
     @Mapping(source = "perfil", target = "perfilId", qualifiedByName = "perfilToLong")
    // @Mapping(source = "user", target = "user", qualifiedByName = "userToLong")
-    @Mapping(source="user", target = "edad", qualifiedByName = "calculateAge")
+    @Mapping(source="user", target = "edad", qualifiedByName = "calculateAge" )
     public abstract UserResponseDto toResponseDTO(User user);
 
     @Mapping(source = "sub", target = "auth0Id")
@@ -43,6 +41,7 @@ public abstract class UserMapper {
     @Named("calculateAge")
     public Integer calculateAge(User user) {
         int anio= new Date().getYear();
+        if(user.getFechaNacimiento() == null) return 0;
         return anio- user.getFechaNacimiento().getYear();
     }
 

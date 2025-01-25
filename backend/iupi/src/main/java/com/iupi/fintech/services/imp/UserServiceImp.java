@@ -67,6 +67,13 @@ public class UserServiceImp implements UserService {
                 .orElse(null);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+
 
     //-----------------------Dar de baja, eliminar o cambiar estados -----------------------------
     @Override
@@ -81,8 +88,7 @@ public class UserServiceImp implements UserService {
         if (user.isPresent()) {
             if ("ACTIVO".equals(user.get().getEstadoRegistro())) {
                 user.get().setEstadoRegistro(EstadoRegistro.INACTIVO);
-            }
-            if ("INACTIVO".equals(user.get().getEstadoRegistro())) {
+            } else {
                 user.get().setEstadoRegistro(EstadoRegistro.ACTIVO);
             }
             userRepository.save(user.get());
@@ -101,9 +107,4 @@ public class UserServiceImp implements UserService {
         }
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con el email: " + email));
-    }
 }
