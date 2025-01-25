@@ -7,6 +7,7 @@ import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.models.User;
 import com.iupi.fintech.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -41,7 +43,7 @@ public class UserController {
     }
 
     @GetMapping("/e/{email}")
-    @Operation(summary = "Obtiene al usuario actual")
+    @Operation(summary = "Obtiene al usuario actual por email")
     public ResponseEntity<ApiResponseDto<User>> getUserr(@PathVariable("email") String email) {
 
         try{
@@ -65,9 +67,10 @@ public class UserController {
         try{
             Optional<UserResponseDto> response = userService.findById(id);
             if (response.isPresent()) {
-                userService.update(id, user);
-                UserResponseDto userResponseDto = response.get();
-                return ResponseEntity.ok(new ApiResponseDto<>(true, "Usuario actualizado", userResponseDto));
+
+                UserResponseDto userResponse = userService.update(id, user);
+
+                return ResponseEntity.ok(new ApiResponseDto<>(true, "Usuario actualizado", userResponse));
             } else {
                 return new ResponseEntity<>(new ApiResponseDto<>(false, "Usuario no encontrado", null), HttpStatus.NOT_FOUND);
             }

@@ -29,6 +29,8 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -73,6 +75,16 @@ public class SecurityConfig {
                         .requestMatchers("/logout**").authenticated()
                         // User Controller
                         .requestMatchers(HttpMethod.GET, "/api/user**").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/api/user/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/user/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/user/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/user/**").authenticated()
+                        //Perfil Controller
+                        .requestMatchers(HttpMethod.GET, "/api/perfil/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/perfil/**").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/api/perfil/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/perfil/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/perfil/**").authenticated()
 
                         //Swagger
                         .requestMatchers(HttpMethod.GET, "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
@@ -100,6 +112,15 @@ public class SecurityConfig {
         JwtAuthenticationProvider provider = new JwtAuthenticationProvider(new CustomJwtDecoderService());
         provider.setJwtAuthenticationConverter(jwtAuthenticationConverter());
         return provider;
+    }
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+            }
+        };
     }
 
     @Bean

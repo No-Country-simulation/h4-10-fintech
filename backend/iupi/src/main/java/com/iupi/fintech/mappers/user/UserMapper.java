@@ -9,14 +9,15 @@ import com.iupi.fintech.repositories.UserRepository;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.Locale;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public abstract class UserMapper {
     @Autowired
     private UserRepository userRepository;
 
-   // @Mapping(target = "authorities", ignore = true)
    public abstract User toEntity(UserRequestDto dto);
 
     @Mapping(source = "perfil", target = "perfilId", qualifiedByName = "perfilToLong")
@@ -27,7 +28,11 @@ public abstract class UserMapper {
     @Mapping(source = "sub", target = "auth0Id")
     @Mapping( source = "email", target = "email")
     @Mapping( source = "name" , target = "nombre")
-   public abstract User toEntitySave(UserInfo userInfo);
+   public abstract UserRequestDto toEntitySave(UserInfo userInfo);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    public abstract void updateUserFromDto(UserRequestDto dto, @MappingTarget User user);
+
 
     @Named("userToLong")
     public Long toLong(User user) {
@@ -40,7 +45,7 @@ public abstract class UserMapper {
     }
     @Named("calculateAge")
     public Integer calculateAge(User user) {
-        int anio= new Date().getYear();
+        int anio= LocalDate.now().getYear();
         if(user.getFechaNacimiento() == null) return 0;
         return anio- user.getFechaNacimiento().getYear();
     }

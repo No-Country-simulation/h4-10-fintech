@@ -2,9 +2,10 @@ package com.iupi.fintech.services.imp;
 
 import com.iupi.fintech.dtos.user.UserRequestDto;
 import com.iupi.fintech.dtos.user.UserResponseDto;
-import com.iupi.fintech.enums.EstadoRegistro;
+import com.iupi.fintech.enums.*;
 import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.mappers.user.UserMapper;
+import com.iupi.fintech.models.Perfil;
 import com.iupi.fintech.models.User;
 import com.iupi.fintech.repositories.UserRepository;
 import com.iupi.fintech.services.UserService;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -29,22 +31,41 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserResponseDto save(UserRequestDto userRequestDto) {
-        User user = userRepository.save(userMapper.toEntity(userRequestDto));
 
-        return userMapper.toResponseDTO(user);
+       User newUser= userMapper.toEntity(userRequestDto);
+
+        return userMapper.toResponseDTO(userRepository.save(newUser));
+    }
+    @Override
+    public User saveFirstUser(UserRequestDto userRequestDto) {
+        User newUser= userMapper.toEntity(userRequestDto);
+        newUser.setEstadoRegistro(EstadoRegistro.INACTIVO);
+        newUser.setFechaRegistro(LocalDate.now());
+        Perfil perfil= new Perfil();
+        perfil.setPerfilRiesgo(PerfilDeRiesgo.CONSERVADOR);
+        perfil.setCapacidadAhorro(CapacidadDeAhorro.BAJO);
+        perfil.setConocimientoFinanciero(ConocimientoFinanciero.NOVATO);
+        perfil.setNivelEconomico(NivelEconomico.BAJO);
+        newUser.setPerfil(perfil);
+        userRepository.save(newUser);
+        return newUser;
     }
 
     @Override
     public UserResponseDto update(Long id, UserRequestDto userRequestDto) {
 
-        if (!userRepository.existsById(id)) {
-            throw new ApplicationException("usuario no encontrado con id: " + id);
-        }
+            User existingUser = userRepository.findById(id)
+                    .orElseThrow(() -> new ApplicationException("Usuario no encontrado con ID: " + id));
 
-        User user = userMapper.toEntity(userRequestDto);
-        user.setUsuarioId(id);
-        return userMapper.toResponseDTO(userRepository.save(user));
-    }
+            // Usar el mapper para copiar los valores no nulos
+            userMapper.updateUserFromDto(userRequestDto, existingUser);
+            existingUser.setEstadoRegistro(EstadoRegistro.ACTIVO);
+
+      userRepository.save(existingUser);
+        return userMapper.toResponseDTO(existingUser);
+        }
+     //
+
 
     @Override
     public Optional<UserResponseDto> findById(Long id) {
@@ -72,6 +93,7 @@ public class UserServiceImp implements UserService {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
+
 
 
 

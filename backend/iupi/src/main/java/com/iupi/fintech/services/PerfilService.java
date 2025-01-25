@@ -10,4 +10,6 @@ public interface PerfilService extends GenericServiceDto<Perfil,PerfilDto> {
 
 PerfilDto findPerfilByUserId(Long userId);
 
+PerfilDto updatePerfil(PerfilDto requestDTO);
+
 }

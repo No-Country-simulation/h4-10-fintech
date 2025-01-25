@@ -19,5 +19,7 @@ public interface UserService extends GenericService<User, Long, UserRequestDto, 
 
     UserDetails loadUserByUsername(String email);
 
+    User saveFirstUser(UserRequestDto userRequestDto);
+
 
 }

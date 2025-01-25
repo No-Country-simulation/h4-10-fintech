@@ -2,6 +2,8 @@ package com.iupi.fintech.services.imp;
 
 import com.iupi.fintech.config.jwt.JwtService;
 import com.iupi.fintech.config.jwt.JwtToken;
+import com.iupi.fintech.dtos.user.UserRequestDto;
+import com.iupi.fintech.dtos.user.UserResponseDto;
 import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.models.UserInfo;
 import com.iupi.fintech.mappers.user.UserMapper;
@@ -31,14 +33,12 @@ public class AuthService {
     @Value("${auth0.domain}")
     private String domain;
 
-    private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final JwtService jwtService;
     private final UserService userService;
 
     @Autowired
-    public AuthService(UserRepository userRepository, UserMapper userMapper, JwtService jwtService, UserService userService) {
-        this.userRepository = userRepository;
+    public AuthService( UserMapper userMapper, JwtService jwtService, UserService userService) {
         this.userMapper = userMapper;
         this.jwtService = jwtService;
         this.userService = userService;
@@ -55,7 +55,11 @@ public class AuthService {
 
             if (userResponse == null) {
 
-                User newUser = userRepository.save(userMapper.toEntitySave(userInfo));
+                UserRequestDto user= userMapper.toEntitySave(userInfo);
+                User newUser = userService.saveFirstUser(user);
+
+
+
                 String customToken = jwtService.generateCustomToken(newUser, userInfo);
 
                 return new JwtToken(customToken).jwtToken();

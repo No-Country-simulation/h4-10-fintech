@@ -1,6 +1,10 @@
 package com.iupi.fintech.services.imp;
 
 import com.iupi.fintech.dtos.perfil.PerfilDto;
+import com.iupi.fintech.enums.CapacidadDeAhorro;
+import com.iupi.fintech.enums.ConocimientoFinanciero;
+import com.iupi.fintech.enums.NivelEconomico;
+import com.iupi.fintech.enums.PerfilDeRiesgo;
 import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.mappers.perfil.PerfilMapper;
 import com.iupi.fintech.models.Perfil;
@@ -25,8 +29,12 @@ public class PerfilServiceImp implements PerfilService {
     @Override
     public PerfilDto save(PerfilDto requestDTO) {
 
-
        Perfil perfil= perfilMapper.toEntity(requestDTO);
+       perfil.setPerfilRiesgo(PerfilDeRiesgo.CONSERVADOR);
+       perfil.setCapacidadAhorro(CapacidadDeAhorro.BAJO);
+       perfil.setConocimientoFinanciero(ConocimientoFinanciero.NOVATO);
+       perfil.setNivelEconomico(NivelEconomico.BAJO);
+
        return perfilMapper.toResponseDto(perfilRepository.save(perfil));
 
 
@@ -59,5 +67,11 @@ public class PerfilServiceImp implements PerfilService {
      Perfil perfil = perfilRepository.findByUser_UsuarioId(id);
      return perfilMapper.toResponseDto(perfil);
 
+    }
+
+    @Override
+    public PerfilDto updatePerfil(PerfilDto requestDTO) {
+
+return null;
     }
 }

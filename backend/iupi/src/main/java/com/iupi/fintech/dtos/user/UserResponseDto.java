@@ -7,16 +7,17 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
-@Getter@Setter
+@Getter@Setter @ToString
 public class UserResponseDto {
+
     private Long usuarioId;
     private String auth0Id;
     private String nombre;
     private String email;
-    private Genero genero;
     private String pais;
     private String direccion;
     private String telefono;
@@ -27,6 +28,8 @@ public class UserResponseDto {
 
     // Enums
 
+    @Enumerated(EnumType.STRING)
+    private Genero genero;
     @Enumerated(EnumType.STRING)
     private EstadoRegistro estadoRegistro;
     @Enumerated(EnumType.STRING)
