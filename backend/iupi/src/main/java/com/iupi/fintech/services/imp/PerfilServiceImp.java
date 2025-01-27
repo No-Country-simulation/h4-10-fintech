@@ -1,5 +1,6 @@
 package com.iupi.fintech.services.imp;
 
+import com.iupi.fintech.dtos.Preguntas_respuestas_perfil.RespuestaUsuario;
 import com.iupi.fintech.dtos.perfil.PerfilDto;
 import com.iupi.fintech.enums.CapacidadDeAhorro;
 import com.iupi.fintech.enums.ConocimientoFinanciero;
@@ -10,9 +11,12 @@ import com.iupi.fintech.mappers.perfil.PerfilMapper;
 import com.iupi.fintech.models.Perfil;
 import com.iupi.fintech.repositories.PerfilRepository;
 import com.iupi.fintech.services.PerfilService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,10 +24,13 @@ public class PerfilServiceImp implements PerfilService {
     private final PerfilRepository perfilRepository;
     private final PerfilMapper perfilMapper;
 
+    private final PreguntasService preguntasService;
+
     @Autowired
-    public PerfilServiceImp(PerfilRepository perfilRepository, PerfilMapper perfilMapper) {
+    public PerfilServiceImp(PerfilRepository perfilRepository, PerfilMapper perfilMapper, PreguntasService preguntasService) {
         this.perfilRepository = perfilRepository;
         this.perfilMapper = perfilMapper;
+        this.preguntasService = preguntasService;
     }
 
     @Override
@@ -70,8 +77,13 @@ public class PerfilServiceImp implements PerfilService {
     }
 
     @Override
-    public PerfilDto updatePerfil(PerfilDto requestDTO) {
+    public void updatePerfil(List<RespuestaUsuario> respuestas, Long id) {
 
-return null;
+        PerfilDto requestDTO = preguntasService.actualizarPerfil(respuestas);
+        Perfil perfil= perfilRepository.findByUser_UsuarioId(id);
+
+        perfilMapper.updateEntityFromDto(requestDTO, perfil);
+        //perfilRepository.save(perfil);
+        System.out.println(perfil.toString());
     }
 }

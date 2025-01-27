@@ -1,12 +1,13 @@
 package com.iupi.fintech.controllers;
 
 import com.iupi.fintech.dtos.ApiResponseDto;
+import com.iupi.fintech.dtos.Preguntas_respuestas_perfil.RespuestaUsuario;
 import com.iupi.fintech.dtos.perfil.PerfilDto;
-import com.iupi.fintech.models.PreguntasRxFinanciera;
+import com.iupi.fintech.dtos.Preguntas_respuestas_perfil.PreguntasRxFinanciera;
+import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.services.PerfilService;
 import com.iupi.fintech.services.imp.PreguntasService;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,28 +41,33 @@ public class PerfilController {
         }
 
     }
-
-
-@PostMapping("/{id}")
-@Operation(summary = "Actualiza el perfil de un usuario",
-        description = "Actualiza el perfil de un usuario, luego de responder el Rx financiero")
-public ResponseEntity<ApiResponseDto<PerfilDto>> updatePerfil(@PathVariable Long id, @RequestBody PerfilDto perfil) {
-
-        return ResponseEntity.ok(new ApiResponseDto<>(true, "Perfil actualizado", perfilService.updatePerfil( perfil)));
-}
-
-@GetMapping("/preguntas")
-@Operation(summary = "Obtiene las preguntas de Rx financiera", description = "Devuelve las preguntas de Rx financiera")
+    @GetMapping("/preguntas")
+    @Operation(summary = "Obtiene las preguntas de Rx financiera", description = "Devuelve las preguntas de Rx financiera")
     public ResponseEntity<List<PreguntasRxFinanciera>> getPreguntas() throws IOException {
-
+try {
     List<PreguntasRxFinanciera> preguntas = preguntasService.cargarPreguntasDesdeJson();
     return ResponseEntity.ok(preguntas);
-
+} catch (IOException e) {
+    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+}
     }
 
 
+@PostMapping("/preguntas/{id}")
+@Operation(summary = "Actualiza el perfil de un usuario",
+        description = "Actualiza el perfil de un usuario, luego de responder las preguntas para el perfil financiero")
+public ResponseEntity<ApiResponseDto<String>> updatePerfil(@PathVariable Long id, @RequestBody List<RespuestaUsuario> respuestas) {
 
-
+        try{
+        if (respuestas.isEmpty()) {
+            return new ResponseEntity<>(new ApiResponseDto<>(false, "Respuestas no proporcionadas", null), HttpStatus.BAD_REQUEST);
+        }
+        perfilService.updatePerfil(respuestas,id);
+        return ResponseEntity.ok(new ApiResponseDto<>(true, "Perfil actualizado",null));
+} catch (ApplicationException e) {
+            return new ResponseEntity<>(new ApiResponseDto<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+        }
+}
 
 
 }
