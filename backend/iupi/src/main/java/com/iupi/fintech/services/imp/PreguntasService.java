@@ -123,6 +123,7 @@ public class PreguntasService {
         } else if (respuesta.getIdRespuesta() == 3) {
             objetivoPrincipal = "Asegurar mi retiro o patrimonio a largo plazo.";
         } else if (respuesta.getIdRespuesta() == 4) {
+            System.out.println("Objetivo principal: " + respuesta.getRespuestaTexto());
             objetivoPrincipal = respuesta.getRespuestaTexto();
         }
         return objetivoPrincipal;

@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor @ToString
 @Table(name = "perfiles")
 public class Perfil {
 
