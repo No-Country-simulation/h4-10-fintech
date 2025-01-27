@@ -22,9 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${lato.variable} antialiased mx-auto`}>
-      <body className="min-h-screen">
+      <body className="min-h-screen w-full">
         <NavBar/>
-        <main className="min-h-[502px] w-full max-w-desktop">
+        <main className="min-h-[502px] w-full max-w-desktop mx-auto">
         {children}
         </main>
         <Footer/>
