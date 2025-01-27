@@ -1,4 +1,4 @@
-package com.iupi.fintech.models;
+package com.iupi.fintech.dtos.Preguntas_respuestas_perfil;
 
 import lombok.*;
 
@@ -9,7 +9,6 @@ public class PreguntasRxFinanciera {
 
         private int id;
         private String pregunta;
-        private List<String> opciones;
-
+List<RespuestaRxFinanciera> opciones;
 
 }
