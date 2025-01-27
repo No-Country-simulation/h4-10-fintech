@@ -45,28 +45,6 @@
   },
   {
     "id": 3,
-    "pregunta": "¿Qué porcentaje de tus ingresos podrías ahorrar o invertir mensualmente?",
-    "opciones": [
-      {
-        "idRespuesta": 1,
-        "respuesta": "Más del 20%."
-      },
-      {
-        "idRespuesta": 2,
-        "respuesta": "Entre el 10% y el 20%."
-      },
-      {
-        "idRespuesta": 3,
-        "respuesta": "Menos del 10%."
-      },
-      {
-        "idRespuesta": 4,
-        "respuesta": "Actualmente no puedo ahorrar."
-      }
-    ]
-  },
-  {
-    "id": 4,
     "pregunta": "¿Qué tanto conoces sobre instrumentos de ahorro e inversión?",
     "opciones": [
       {
@@ -88,7 +66,7 @@
     ]
   },
   {
-    "id": 5,
+    "id": 4,
     "pregunta": "¿Qué tan cómodo te sientes asumiendo riesgos financieros?",
     "opciones": [
       {
@@ -106,7 +84,7 @@
     ]
   },
   {
-    "id": 6,
+    "id": 5,
     "pregunta": "¿Cuál es tu principal objetivo financiero actualmente?",
     "opciones": [
       {

@@ -79,11 +79,12 @@ public class PerfilServiceImp implements PerfilService {
     @Override
     public void updatePerfil(List<RespuestaUsuario> respuestas, Long id) {
 
+
         PerfilDto requestDTO = preguntasService.actualizarPerfil(respuestas);
         Perfil perfil= perfilRepository.findByUser_UsuarioId(id);
 
         perfilMapper.updateEntityFromDto(requestDTO, perfil);
-        //perfilRepository.save(perfil);
-        System.out.println(perfil.toString());
+        perfilRepository.save(perfil);
+
     }
 }

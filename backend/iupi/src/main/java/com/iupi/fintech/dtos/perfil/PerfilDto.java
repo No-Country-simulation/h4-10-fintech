@@ -3,12 +3,12 @@ package com.iupi.fintech.dtos.perfil;
 import com.iupi.fintech.enums.*;
 import com.iupi.fintech.models.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-@Data
+import lombok.*;
+
+@Getter@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class PerfilDto {
 
     private Long perfilId;
