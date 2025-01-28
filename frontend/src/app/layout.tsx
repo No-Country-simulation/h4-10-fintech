@@ -24,7 +24,9 @@ export default function RootLayout({
     <html lang="en" className={`${lato.variable} antialiased mx-auto`}>
       <body className="min-h-screen">
         <NavBar/>
+        <main className="min-h-[502px] w-full max-w-desktop">
         {children}
+        </main>
         <Footer/>
       </body>
     </html>
