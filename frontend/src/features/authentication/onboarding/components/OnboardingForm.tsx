@@ -1,4 +1,4 @@
-import {z} from "zod"
+import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSteps } from "@/features/authentication/onboarding/hooks/useSteps";
-import {onboardingSchema} from "@/features/authentication/onboarding/schemas/onboarding-schema"
+import { onboardingSchema } from "@/features/authentication/onboarding/schemas/onboarding-schema";
 import { onboardingQuestion } from "@/features/authentication/onboarding/types/question";
 
 interface onboardingStepProps {
