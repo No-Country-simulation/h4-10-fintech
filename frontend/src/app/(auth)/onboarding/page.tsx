@@ -1,6 +1,6 @@
 "use client";
 
-import OnboardingStep from "@/features/authentication/onboarding/components/OnboardingStep";
+import OnboardingForm from "@/features/authentication/onboarding/components/OnboardingForm";
 import { useOnboardingQuestions } from "@/features/authentication/onboarding/hooks/useOnboardingQuestions";
 import testQuestions from "@/features/authentication/onboarding/data/questions";
 
@@ -14,7 +14,7 @@ export default function Onboarding() {
 
   if (true || data) return (
     <section className=" max-w-lg mx-auto text-center">
-      <OnboardingStep
+      <OnboardingForm
         questions={testQuestions}
       />
     </section>
