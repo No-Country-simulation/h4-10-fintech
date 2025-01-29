@@ -4,8 +4,8 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
-  FormMessage,
+  // FormLabel,
+  // FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
@@ -22,7 +22,7 @@ interface onboardingStepProps {
 }
 
 export default function OnboardingForm({ questions }: onboardingStepProps) {
-  const { step, showNextStep, showPrevStep, updateAnswers } = useSteps({
+  const { step, showNextStep, showPrevStep, /* updateAnswers */ } = useSteps({
     totalQuestions: questions.length,
   });
   const onboardingForm = useForm<z.infer<typeof onboardingSchema>>({

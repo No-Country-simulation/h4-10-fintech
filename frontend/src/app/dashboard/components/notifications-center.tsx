@@ -19,7 +19,7 @@ const initialNotifications: Notification[] = [
 ]
 
 export function NotificationsCenter() {
-    const [notifications, setNotifications] = useState(initialNotifications)
+    const [notifications, /* setNotifications */] = useState(initialNotifications)
 
     const getIcon = (type: string) => {
         switch (type) {
