@@ -119,5 +119,18 @@ Este proyecto ha sido posible gracias a un equipo de expertos en tecnología, fi
 
 ---
 
+## Documentación QA
+
+- Test Plan
+
+- Test Cases
+
+- Informe de Errores
+
+[Documentación QA](https://drive.google.com/drive/folders/13YyOrC9wEYObiudBAomS9GStjnHua0TM?usp=drive_link)
+
+---
+
+
 📌 **"Empieza hoy a construir tu futuro financiero con IUPI"** 🚀💸
 
