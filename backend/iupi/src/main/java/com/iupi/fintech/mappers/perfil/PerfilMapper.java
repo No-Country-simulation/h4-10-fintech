@@ -4,9 +4,7 @@ import com.iupi.fintech.dtos.perfil.PerfilDto;
 import com.iupi.fintech.models.Perfil;
 import com.iupi.fintech.models.User;
 import com.iupi.fintech.repositories.UserRepository;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
@@ -19,6 +17,8 @@ public abstract class PerfilMapper {
 
  @Mapping(source = "user", target = "userId", qualifiedByName = "userToLong")
  public abstract PerfilDto toResponseDto(Perfil entity);
+ @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+ public abstract void updateEntityFromDto(PerfilDto perfilDTO, @MappingTarget Perfil perfil);
 
  //public abstract void updateEntityFromDto(ProductoFinancieroRequestDto dto, @MappingTarget ProductoFinanciero productoFinanciero);
 
@@ -34,5 +34,6 @@ public abstract class PerfilMapper {
  public Long toLong(User user) {
      return user!=null?user.getUsuarioId():null;
  }
+
 
 }

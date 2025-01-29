@@ -4,10 +4,11 @@ import com.iupi.fintech.dtos.user.UserRequestDto;
 import com.iupi.fintech.dtos.user.UserResponseDto;
 import com.iupi.fintech.models.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface UserService extends GenericService<User, Long, UserRequestDto, UserResponseDto>{
+public interface UserService extends GenericService<User, Long, UserRequestDto, UserResponseDto>, UserDetailsService {
 
     public void changeStatus(Long id);
 
@@ -17,6 +18,8 @@ public interface UserService extends GenericService<User, Long, UserRequestDto, 
     public User findByEmail(String email);
 
     UserDetails loadUserByUsername(String email);
+
+    User saveFirstUser(UserRequestDto userRequestDto);
 
 
 }

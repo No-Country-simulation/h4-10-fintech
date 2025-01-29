@@ -1,8 +1,7 @@
 package com.iupi.fintech.security;
 
-import com.iupi.fintech.config.jwt.JwtService;
 import com.iupi.fintech.services.UserService;
-import com.iupi.fintech.services.imp.UserServiceImp;
+import com.iupi.fintech.services.imp.AuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,22 +16,16 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-//@Component
-
-
-
-// Security filter, aun por terminar
-
-
+@Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-    private final JwtService jwtService;
     private final UserService userService;
+    private final AuthService authService;
 
     @Autowired
-    public SecurityFilter(JwtService jwtService, UserService userService) {
-        this.jwtService = jwtService;
+    public SecurityFilter( UserService userService, AuthService authService) {
         this.userService = userService;
+        this.authService = authService;
     }
 
 
@@ -48,25 +41,23 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         // Extraer el token
         String token = authHeader.substring(7);
-
         try {
             // Validar el token
 
-            String username = jwtService.getUsernameFromToken(token);
+            String username = authService.getUsernameFromToken(token);
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.userService.loadUserByUsername(username);
 
-                if (jwtService.validateTokenLocal(token, userDetails)) {
-                    System.out.println("se valido el token");
+                UserDetails userDetails = userService.loadUserByUsername(username);
+
+                if (authService.validateTokenLocal(token, userDetails)) {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
-                if (!jwtService.validateTokenLocal(token, userDetails)) {
+                if (!authService.validateTokenLocal(token, userDetails)) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.getWriter().write("Token inválido o expirado.");
-                    return;
                 }
             }
 
