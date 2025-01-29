@@ -3,11 +3,12 @@ import { Lato } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import Providers from "@/app/providers";
 
 const lato = Lato({
   variable: "--font-lato",
   subsets: ["latin"],
-  weight: ["400", "700"]
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -23,11 +24,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${lato.variable} antialiased mx-auto`}>
       <body className="min-h-screen w-full">
-        <NavBar/>
-        <main className="min-h-[502px] w-full max-w-desktop mx-auto">
-        {children}
-        </main>
-        <Footer/>
+        <Providers>
+          <NavBar />
+          <main className="min-h-[502px] w-full max-w-desktop mx-auto">
+            {children}
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
