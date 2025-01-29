@@ -43,6 +43,10 @@ public class Transaccion {
     @JoinColumn(name = "tiempo_id",nullable = false)
     private Tiempo tiempo;
 
+    @ManyToOne
+    @JoinColumn(name = "cuenta_id", nullable = false)
+    private Cuenta cuenta;
+
 //    De donde sale este id, en el script es un id de productos pero existen dos tablas de productos
 //    @ManyToOne
 //    @JoinColumn(nullable = false)

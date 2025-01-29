@@ -1,7 +1,6 @@
 package com.iupi.fintech.services.imp;
 
-import com.iupi.fintech.dtos.productoFinanciero.ProductoFinancieroRequestDto;
-import com.iupi.fintech.dtos.productoFinanciero.ProductoFinancieroResponseDto;
+
 import com.iupi.fintech.dtos.tiempo.TiempoRequestDto;
 import com.iupi.fintech.dtos.tiempo.TiempoResponseDto;
 import com.iupi.fintech.dtos.transaccion.TransaccionRequestDto;
