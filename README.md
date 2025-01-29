@@ -1,6 +1,8 @@
 # h4-10-fintech
 # iUPi - Ahorro e Inversiones 🚀
 
+![](https://github.com/No-Country-simulation/h4-10-fintech/blob/main/Logo.png)
+
 ### Empoderando tu futuro financiero 💰
 
 iUPi es una plataforma innovadora diseñada para ayudar a los usuarios a gestionar su patrimonio de manera eficiente, brindando herramientas accesibles para ahorrar e invertir en un contexto económico desafiante.
