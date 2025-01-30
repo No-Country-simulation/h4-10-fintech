@@ -11,7 +11,7 @@ public interface ProductoMapper {
 
     Producto toEntity(ProductoRequestDto requestDto);
 
-    ProductoResponseDto toResponse(Producto productoFinanciero);
+    ProductoResponseDto toResponse(Producto producto);
 
-    void updateEntityFromDto(ProductoRequestDto dto, @MappingTarget Producto productoFinanciero);
+    void updateEntityFromDto(ProductoRequestDto dto, @MappingTarget Producto producto);
 }
