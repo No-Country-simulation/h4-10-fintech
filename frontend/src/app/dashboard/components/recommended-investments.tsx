@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -29,7 +29,7 @@ export function RecommendedInvestments() {
     const [investments, setInvestments] = useState<Investment[]>([])
 
     // Simulación de recomendaciones personalizadas
-    useState(() => {
+    useEffect(() => {
         if (user) {
             // Aquí iría la lógica real de recomendación basada en el perfil del usuario
             const recommendedIds = [1, 3, 4] // Ejemplo: recomendamos los IDs 1, 3 y 4

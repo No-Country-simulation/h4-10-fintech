@@ -25,7 +25,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         });
     }, []);
 
-    const login = async (email: string, password: string) => {
+    const login = async (email: string, /* password: string */) => {
         // Aquí iría la lógica real de autenticación
         setUser({
             id: '1',
