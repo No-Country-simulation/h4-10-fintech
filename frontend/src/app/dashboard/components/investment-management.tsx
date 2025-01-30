@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ArrowUpRight, ArrowDownRight, DollarSign, Percent } from 'lucide-react'
+import { ArrowUpRight, /* ArrowDownRight, DollarSign, Percent */ } from 'lucide-react'
 
 // Datos de ejemplo para las inversiones
 const investmentData = {
@@ -88,7 +88,20 @@ export function InvestmentManagement() {
     )
 }
 
-function InvestmentList({ investments }: { investments: any[] }) {
+interface InvestmentListProps {
+    investments: Investment[],
+}
+
+interface Investment {
+    name: string,
+    ticker: string,
+    rendimiento: number,
+    plazo: string,
+    riesgo: string,
+}
+
+
+function InvestmentList({ investments }: InvestmentListProps) {
     return (
         <div className="space-y-4">
             {investments.map((inv) => (

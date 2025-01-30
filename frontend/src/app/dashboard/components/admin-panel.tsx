@@ -3,11 +3,10 @@
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 export function AdminPanel() {
-    const [users, setUsers] = useState([
+    const [users, /* setUsers */] = useState([
         { id: '1', name: 'Juan Pérez', email: 'juan@example.com', role: 'standard' },
         { id: '2', name: 'María García', email: 'maria@example.com', role: 'standard' },
         { id: '3', name: 'Admin User', email: 'admin@example.com', role: 'admin' },

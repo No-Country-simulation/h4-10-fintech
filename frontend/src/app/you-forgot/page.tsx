@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const ForgotPassword: React.FC = () => {
     return (
@@ -10,13 +11,13 @@ const ForgotPassword: React.FC = () => {
             <div className="flex flex-col-reverse lg:flex-row items-center max-w-6xl mx-auto px-4 lg:px-8">
                 {/* Izquierda */}
                 <div className="w-full lg:w-1/2">
-                    <a href="/" className="text-yellow-500 font-bold text-xl">
+                    <Link href="/" className="text-yellow-500 font-bold text-xl">
                         AGREGAR LOGO
-                    </a>
+                    </Link>
                     <div className="mt-6">
-                        <a href="/login" className="text-blue-600 text-sm hover:underline">
+                        <Link href="/login" className="text-blue-600 text-sm hover:underline">
                             &lt; Regresar a iniciar sesión
-                        </a>
+                        </Link>
                         <h1 className="text-3xl font-semibold mt-4">¿Olvidaste tu contraseña?</h1>
                         <p className="text-gray-600 mt-2">
                             No te preocupes, nos pasa a todos. Ingresa el correo electrónico asociado a tu cuenta.
