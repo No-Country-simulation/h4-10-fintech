@@ -10,6 +10,7 @@ import com.iupi.fintech.mappers.user.UserMapper;
 import com.iupi.fintech.models.User;
 import com.iupi.fintech.repositories.UserRepository;
 import com.iupi.fintech.services.UserService;
+import com.iupi.fintech.utils.iol.IolInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -36,12 +37,14 @@ public class AuthService {
     private final UserMapper userMapper;
     private final JwtService jwtService;
     private final UserService userService;
+    private final IolInterface iolService;
 
     @Autowired
-    public AuthService( UserMapper userMapper, JwtService jwtService, UserService userService) {
+    public AuthService(UserMapper userMapper, JwtService jwtService, UserService userService, IolInterface iolService) {
         this.userMapper = userMapper;
         this.jwtService = jwtService;
         this.userService = userService;
+        this.iolService = iolService;
     }
 
     public String generateCustomToken(String accessToken) {
@@ -52,6 +55,8 @@ public class AuthService {
 
             //--------- Obtenemos el usuario si esta en la base de datos, sino pasara a registrarlo
             User userResponse = userService.findByEmail(userInfo.getEmail());
+            // Nos conectamos al usuario de IOL
+            loginIol(userInfo.getEmail());
 
             if (userResponse == null) {
 
@@ -115,5 +120,13 @@ public class AuthService {
         }
     }
 
+    public void loginIol(String username) {
+       try{
+           System.out.println("entro al login de iol en el authService");
+               iolService.iolLogin(username);
+       } catch (ApplicationException e) {
+           throw new ApplicationException(e.getMessage());
+       }
+    }
 
 }
