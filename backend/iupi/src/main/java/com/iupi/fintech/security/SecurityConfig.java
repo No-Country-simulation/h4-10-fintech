@@ -85,7 +85,18 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/api/perfil/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/perfil/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/perfil/**").authenticated()
-
+// Cedear Controller
+                        .requestMatchers(HttpMethod.GET, "/api/invertir**").authenticated()
+                        //Transaccion Controller
+                        .requestMatchers(HttpMethod.GET, "/api/transacciones/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/transacciones/**").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/api/transacciones/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/transacciones/**").authenticated()
+                        //Producto controller
+                        .requestMatchers(HttpMethod.GET, "api/productos-financieros/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "api/productos-financieros/**").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "api/productos-financieros/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "api/productos-financieros/**").authenticated()
                         //Swagger
                         .requestMatchers(HttpMethod.GET, "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated())

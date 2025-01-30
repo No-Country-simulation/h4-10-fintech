@@ -29,5 +29,4 @@ public class ProductosAhorro {
     @Enumerated(EnumType.STRING)
     private Riesgo riesgo;
 
-
 }

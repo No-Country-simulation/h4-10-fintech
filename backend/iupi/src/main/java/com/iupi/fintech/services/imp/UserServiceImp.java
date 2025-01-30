@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Optional;
 
 @Service
@@ -128,5 +129,4 @@ public class UserServiceImp implements UserService {
             throw new ApplicationException("usuario no encontrado con id: " + id);
         }
     }
-
 }
