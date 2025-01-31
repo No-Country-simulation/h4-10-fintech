@@ -32,7 +32,7 @@ import java.util.Date;
 @Service
 public class JwtService {
     @Value("${SECRET_KEY}")
-    private String secretKey;
+    private String privateKeyContent;
     @Value("${auth0.domain}")
     private String domain;
     @Value("${auth0.clientSecret}")
@@ -60,11 +60,11 @@ public class JwtService {
 
     public String generateCustomToken(User user, UserInfo userInfo) throws  IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 
-        String privateKeyPath = "private_key.pem";
-        String privateKeyContent = new String(Files.readAllBytes(Paths.get(privateKeyPath)))
-                .replace("-----BEGIN PRIVATE KEY-----", "")
-                .replace("-----END PRIVATE KEY-----", "")
-                .replaceAll("\\s", "");
+//        String privateKeyPath = "private_key.pem";
+//        String privateKeyContent = new String(Files.readAllBytes(Paths.get(privateKeyPath)))
+//                .replace("-----BEGIN PRIVATE KEY-----", "")
+//                .replace("-----END PRIVATE KEY-----", "")
+//                .replaceAll("\\s", "");
         byte[] keyBytes = Base64.getDecoder().decode(privateKeyContent);
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
