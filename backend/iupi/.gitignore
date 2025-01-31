@@ -33,5 +33,3 @@ build/
 .vscode/
 ### VARIABLES DE ENTORNO ###
 .env
-private_key.pem
-public_key.pem
