@@ -24,7 +24,7 @@ public class JwtVerifierConfig {
     private String issuer;
     @Value("${auth0.audience}")
     private String audience;
-    @Value("${auth0.publicKey}")
+    @Value("${PUBLIC_KEY}")
     private String publicKeyContent;
 
     @Bean

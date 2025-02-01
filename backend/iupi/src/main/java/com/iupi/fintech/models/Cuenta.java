@@ -12,19 +12,20 @@ import java.util.List;
 @Data
 @Table(name = "cuentas")
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Cuenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String alias;
-
-    @Column(nullable = false, unique = true)
-    private String numeroCuenta;
+    private BigDecimal monto;
 
     @Column(nullable = false)
-    private BigDecimal monto;
+    private BigDecimal invertido;
+
+    @Column(nullable = false)
+    private BigDecimal ahorrado;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)

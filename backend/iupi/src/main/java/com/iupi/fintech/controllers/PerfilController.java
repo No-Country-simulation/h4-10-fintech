@@ -2,10 +2,12 @@ package com.iupi.fintech.controllers;
 
 import com.iupi.fintech.dtos.ApiResponseDto;
 import com.iupi.fintech.dtos.Preguntas_respuestas_perfil.RespuestaUsuario;
+import com.iupi.fintech.dtos.rxFinanciera.RxFinancieraDto;
 import com.iupi.fintech.dtos.perfil.PerfilDto;
 import com.iupi.fintech.dtos.Preguntas_respuestas_perfil.PreguntasRxFinanciera;
 import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.services.PerfilService;
+import com.iupi.fintech.services.RxFinaciera;
 import com.iupi.fintech.services.imp.PreguntasService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,13 @@ public class PerfilController {
 
     private final PerfilService perfilService;
     private final PreguntasService preguntasService;
+    private final RxFinaciera rxFinancieraService;
 
     @Autowired
-    public PerfilController(PerfilService perfilService, PreguntasService preguntasService) {
+    public PerfilController(PerfilService perfilService, PreguntasService preguntasService, RxFinaciera rxFinancieraService) {
         this.perfilService = perfilService;
         this.preguntasService = preguntasService;
+        this.rxFinancieraService = rxFinancieraService;
     }
 
     @GetMapping("/{id}")
@@ -52,7 +56,6 @@ try {
 }
     }
 
-
 @PostMapping("/preguntas/{id}")
 @Operation(summary = "Actualiza el perfil de un usuario",
         description = "Actualiza el perfil de un usuario, luego de responder las preguntas para el perfil financiero")
@@ -69,6 +72,38 @@ public ResponseEntity<ApiResponseDto<String>> updatePerfil(@PathVariable Long id
         }
 }
 
+@PostMapping("/rxfinanciera/{id}")
+@Operation(summary = "Crea la Rx Financiera de un usuario",
+        description = "Crea la radiografia financiera de un usuario, luego de responder el formulario, se envia el id del usuario")
+public ResponseEntity<ApiResponseDto<RxFinancieraDto>> createRxFinanciera(@PathVariable Long id, @RequestBody RxFinancieraDto requestDTO) {
 
+    try {
+        if (requestDTO == null) {
+            return new ResponseEntity<>(new ApiResponseDto<>(false, "Radiografia financiera no proporcionada", null), HttpStatus.BAD_REQUEST);
+        }
+
+        requestDTO.setUserId(id);
+        rxFinancieraService.save(requestDTO);
+        return ResponseEntity.ok(new ApiResponseDto<>(true, "Radiografia financiera creada",requestDTO));
+    } catch (ApplicationException e) {
+        return new ResponseEntity<>(new ApiResponseDto<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+    }
+}
+@PatchMapping("/rxfinanciera/{id}")
+@Operation(summary = "Actualiza el perfil de un usuario",
+        description = "Actualiza la radiografia financiera de un usuario, luego de responder el formulario")
+public ResponseEntity<ApiResponseDto<RxFinancieraDto>> updateRxFinanciera(@PathVariable Long id, @RequestBody RxFinancieraDto requestDTO) {
+
+    try {
+        if (requestDTO == null) {
+            return new ResponseEntity<>(new ApiResponseDto<>(false, "Radiografia financiera no proporcionada", null), HttpStatus.BAD_REQUEST);
+        }
+        rxFinancieraService.updateRxFinanciera(requestDTO, id);
+        return ResponseEntity.ok(new ApiResponseDto<>(true, "Radiografia financiera actualizada",requestDTO));
+    } catch (ApplicationException e) {
+        return new ResponseEntity<>(new ApiResponseDto<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+    }
+
+}
 }
 

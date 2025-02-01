@@ -2,21 +2,26 @@ package com.iupi.fintech.models;
 
 import com.iupi.fintech.enums.EstadoRegistro;
 import com.iupi.fintech.enums.Genero;
+import com.iupi.fintech.enums.Role;
 import com.iupi.fintech.enums.TipoDeDocumentacion;
+import com.iupi.fintech.models.rxFinanciera.RxFinanciera;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "usuario")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails {
 
 @Id
@@ -37,14 +42,27 @@ public class User implements UserDetails {
     private LocalDate fechaUltimaConexion;
 
     // Enums
+    @Enumerated(EnumType.STRING)
+    private Role rol;
 
     @Enumerated(EnumType.STRING)
     private EstadoRegistro estadoRegistro;
     @Enumerated(EnumType.STRING)
     private TipoDeDocumentacion tipoIdentificacion;
 
+    // Relaciones
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Cuenta> cuentas;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
     private Perfil perfil;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<ObjetivoFinanciero> objetivosFinancieros;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private RxFinanciera rxFinanciera;
 
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
@@ -54,7 +72,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return Collections.emptyList();
+        return List.of(new SimpleGrantedAuthority("ROLE_" + rol.name()));
     }
 
     @Override

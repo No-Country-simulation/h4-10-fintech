@@ -1,10 +1,8 @@
 package com.iupi.fintech.mappers.transaccion;
 
-import com.iupi.fintech.dtos.tiempo.TiempoRequestDto;
-import com.iupi.fintech.dtos.tiempo.TiempoResponseDto;
+
 import com.iupi.fintech.dtos.transaccion.TransaccionRequestDto;
 import com.iupi.fintech.dtos.transaccion.TransaccionResponseDto;
-import com.iupi.fintech.models.Tiempo;
 import com.iupi.fintech.models.Transaccion;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

@@ -23,6 +23,10 @@ public class ObjetivoFinanciero {
     @Column(nullable = false)
     private Double montoActual;
 
-    @ManyToOne
+    @Column(nullable = false)
+    private Boolean completado;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }
