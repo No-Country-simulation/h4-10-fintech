@@ -32,7 +32,7 @@ import java.util.Date;
 @Service
 public class JwtService {
     @Value("${SECRET_KEY}")
-    private String secretKey;
+    private String privateKeyContent;
     @Value("${auth0.domain}")
     private String domain;
     @Value("${auth0.clientSecret}")
@@ -43,8 +43,6 @@ public class JwtService {
     private String clientPublic;
     @Value("${AUTH0_ISSUER}")
     private String issuer;
-    @Value("${SECRET_KEY}")
-    private String privateKey;
 
     private final JwtVerifierConfig jwtVerifier;
 
@@ -67,7 +65,7 @@ public class JwtService {
 //                .replace("-----BEGIN PRIVATE KEY-----", "")
 //                .replace("-----END PRIVATE KEY-----", "")
 //                .replaceAll("\\s", "");
-        byte[] keyBytes = Base64.getDecoder().decode(privateKey);
+        byte[] keyBytes = Base64.getDecoder().decode(privateKeyContent);
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         RSAPrivateKey privateKey = (RSAPrivateKey) keyFactory.generatePrivate(spec);

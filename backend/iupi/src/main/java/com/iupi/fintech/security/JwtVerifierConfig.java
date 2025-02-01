@@ -24,15 +24,18 @@ public class JwtVerifierConfig {
     private String issuer;
     @Value("${auth0.audience}")
     private String audience;
+    @Value("${auth0.publicKey}")
+    private String publicKeyContent;
 
     @Bean
     public JWTVerifier jwtVerifier() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         // Leer y procesar la clave pública
-        String publicKeyPath = "public_key.pem";
-        String publicKeyContent = new String(Files.readAllBytes(Paths.get(publicKeyPath)))
-                .replace("-----BEGIN PUBLIC KEY-----", "")
-                .replace("-----END PUBLIC KEY-----", "")
-                .replaceAll("\\s", "");
+//      Lo añadi a una variable de entorno para el deploy
+//        String publicKeyPath = "classpath:public_key.pem";
+//        String publicKeyContent = new String(Files.readAllBytes(Paths.get(publicKeyPath)))
+//                .replace("-----BEGIN PUBLIC KEY-----", "")
+//                .replace("-----END PUBLIC KEY-----", "")
+//                .replaceAll("\\s", "");
         byte[] keyBytes = Base64.getDecoder().decode(publicKeyContent);
         X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
