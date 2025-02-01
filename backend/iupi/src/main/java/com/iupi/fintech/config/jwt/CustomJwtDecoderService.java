@@ -42,6 +42,8 @@ public class CustomJwtDecoderService implements JwtDecoder {
     private String clientPublic;
     @Value("${AUTH0_ISSUER}")
     private String issuer;
+    @Value("${PUBLIC_KEY}")
+    private String publicKey;
 
 
 
@@ -54,12 +56,12 @@ public class CustomJwtDecoderService implements JwtDecoder {
             token = token.replace("Bearer ", "").trim();
 
             // Crear el verificador
-            String publicKeyPath = "public_key.pem";
-            String publicKeyContent = new String(Files.readAllBytes(Paths.get(publicKeyPath)))
-                    .replace("-----BEGIN PUBLIC KEY-----", "")
-                    .replace("-----END PUBLIC KEY-----", "")
-                    .replaceAll("\\s", "");
-            byte[] keyBytes = Base64.getDecoder().decode(publicKeyContent);
+//            String publicKeyPath = "public_key.pem";
+//            String publicKeyContent = new String(Files.readAllBytes(Paths.get(publicKeyPath)))
+//                    .replace("-----BEGIN PUBLIC KEY-----", "")
+//                    .replace("-----END PUBLIC KEY-----", "")
+//                    .replaceAll("\\s", "");
+            byte[] keyBytes = Base64.getDecoder().decode(publicKey);
             X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             RSAPublicKey publicKey = (RSAPublicKey) keyFactory.generatePublic(spec);

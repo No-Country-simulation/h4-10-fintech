@@ -29,6 +29,7 @@ public class User implements UserDetails {
     private String pais;
     private String direccion;
     private String telefono;
+    // documento de identidad
     private String identificacion;
     private LocalDate fechaNacimiento;
 

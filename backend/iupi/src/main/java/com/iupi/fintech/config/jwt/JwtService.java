@@ -43,6 +43,8 @@ public class JwtService {
     private String clientPublic;
     @Value("${AUTH0_ISSUER}")
     private String issuer;
+    @Value("${SECRET_KEY}")
+    private String privateKey;
 
     private final JwtVerifierConfig jwtVerifier;
 
@@ -60,12 +62,12 @@ public class JwtService {
 
     public String generateCustomToken(User user, UserInfo userInfo) throws  IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 
-        String privateKeyPath = "private_key.pem";
-        String privateKeyContent = new String(Files.readAllBytes(Paths.get(privateKeyPath)))
-                .replace("-----BEGIN PRIVATE KEY-----", "")
-                .replace("-----END PRIVATE KEY-----", "")
-                .replaceAll("\\s", "");
-        byte[] keyBytes = Base64.getDecoder().decode(privateKeyContent);
+//        String privateKeyPath = "private_key.pem";
+//        String privateKeyContent = new String(Files.readAllBytes(Paths.get(privateKeyPath)))
+//                .replace("-----BEGIN PRIVATE KEY-----", "")
+//                .replace("-----END PRIVATE KEY-----", "")
+//                .replaceAll("\\s", "");
+        byte[] keyBytes = Base64.getDecoder().decode(privateKey);
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         RSAPrivateKey privateKey = (RSAPrivateKey) keyFactory.generatePrivate(spec);
