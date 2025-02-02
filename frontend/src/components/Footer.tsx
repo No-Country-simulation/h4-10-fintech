@@ -1,4 +1,4 @@
-// import {XLogo} from "@/assets/social/x";
+import iUpi from "@/assets/iUpi.svg"
 import XLogo from "@/assets/social/x.svg";
 import InstagramLogo from "@/assets/social/instagram.svg";
 import YouTubeLogo from "@/assets/social/youtube.svg";
@@ -38,11 +38,11 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-card w-full">
+    <footer className="bg-primary text-primary-foreground w-full">
       <div className="max-w-desktop grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-6 lg:gap-0 lg:justify-items-center pt-5 pb-8 mx-2 lg:mx-auto">
         <section className="grid grid-cols-1 content-start">
-          <Image src="/Iupi.png" alt="iupi logo" width={38} height={24} />
-          <div className="grid grid-cols-4 gap-2 mt-2">
+          <Image src={iUpi} alt="iupi logo" width={61} height={33} />
+          <div className="grid grid-cols-4 gap-2 mt-1">
             {socialLinks.map((media) => (
               <SocialMediaLink
                 link={media.link}
