@@ -1,13 +1,19 @@
 package com.iupi.fintech.services;
 
+import com.iupi.fintech.dtos.tiempo.TiempoDto;
 import com.iupi.fintech.dtos.tiempo.TiempoRequestDto;
-import com.iupi.fintech.dtos.tiempo.TiempoResponseDto;
 
 import com.iupi.fintech.models.Tiempo;
 
-public interface TiempoService extends GenericService<Tiempo, Long, TiempoRequestDto, TiempoResponseDto>{
+import java.time.LocalDate;
 
-    TiempoResponseDto update(Long id, TiempoRequestDto requestDto);
+public interface TiempoService extends GenericService<Tiempo, Long, TiempoRequestDto, TiempoDto>{
+
+    TiempoDto update(Long id, TiempoRequestDto requestDto);
+
+    TiempoDto findByFecha(LocalDate fecha);
+
+    TiempoDto save(LocalDate fecha);
 
 }
 

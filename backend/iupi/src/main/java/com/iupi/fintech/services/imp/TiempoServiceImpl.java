@@ -1,7 +1,7 @@
 package com.iupi.fintech.services.imp;
 
+import com.iupi.fintech.dtos.tiempo.TiempoDto;
 import com.iupi.fintech.dtos.tiempo.TiempoRequestDto;
-import com.iupi.fintech.dtos.tiempo.TiempoResponseDto;
 import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.mappers.timpo.TiempoMapper;
 import com.iupi.fintech.models.Tiempo;
@@ -10,6 +10,9 @@ import com.iupi.fintech.services.TiempoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -21,20 +24,33 @@ public class TiempoServiceImpl implements TiempoService {
     private final TiempoMapper tiempoMapper;
 
 
+
+        @Override
+    public TiempoDto save(LocalDate fecha) {
+            Tiempo tiempo= new Tiempo();
+            tiempo.setFecha(fecha);
+            tiempo.setAnio(fecha.getYear());
+            tiempo.setMes(fecha.getMonthValue());
+            tiempo.setDia(fecha.getDayOfMonth());
+            tiempo.setSemana(fecha.get(WeekFields.of(Locale.getDefault()).weekOfYear()));
+            tiempo.setTrimestre((fecha.getMonthValue() - 1) / 3 + 1);
+            return tiempoMapper.toResponse(tiempoRepository.save(tiempo));
+        }
+
+
     @Override
-    public TiempoResponseDto save(TiempoRequestDto tiempoRequestDto) {
-        Tiempo tiempo = tiempoMapper.toEntity(tiempoRequestDto);
-        Tiempo tiempoGuardado = tiempoRepository.save(tiempo);
-        return tiempoMapper.toResponse(tiempoGuardado);
+    public TiempoDto save(TiempoRequestDto tiempoRequestDto) {
+        return null;
     }
 
     @Override
-    public Optional<TiempoResponseDto> findById(Long id) {
+    public Optional<TiempoDto> findById(Long id) {
         return tiempoRepository.findById(id).map(tiempoMapper::toResponse);
     }
 
+
     @Override
-    public Iterable<TiempoResponseDto> findAll() {
+    public Iterable<TiempoDto> findAll() {
         return tiempoRepository.findAll().stream()
                 .map(tiempoMapper::toResponse)
                 .collect(Collectors.toList());
@@ -46,11 +62,16 @@ public class TiempoServiceImpl implements TiempoService {
     }
 
     @Override
-    public TiempoResponseDto update(Long id, TiempoRequestDto requestDto) {
+    public TiempoDto update(Long id, TiempoRequestDto requestDto) {
         Tiempo tiempoExistente = tiempoRepository.findById(id)
                 .orElseThrow(() -> new ApplicationException("Tiempo no encontrado con ID: " + id));
         tiempoMapper.updateEntityFromDto(requestDto, tiempoExistente);
         Tiempo tiempoActualizado = tiempoRepository.save(tiempoExistente);
         return tiempoMapper.toResponse(tiempoActualizado);
+    }
+
+    @Override
+    public TiempoDto findByFecha(LocalDate fecha) {
+        return tiempoRepository.findByFecha(fecha).map(tiempoMapper::toResponse).orElse(null);
     }
 }

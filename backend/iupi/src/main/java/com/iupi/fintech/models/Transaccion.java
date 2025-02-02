@@ -35,9 +35,6 @@ public class Transaccion {
     @Column(nullable = false, updatable = false)
     private LocalDateTime fecha;
 
-    @ManyToOne
-    @JoinColumn(name = "perfil_id", nullable = false)
-    private Perfil perfil;
 
     @ManyToOne
     @JoinColumn(name = "tiempo_id",nullable = false)
@@ -46,6 +43,11 @@ public class Transaccion {
     @ManyToOne
     @JoinColumn(name = "cuenta_id", nullable = false)
     private Cuenta cuenta;
+
+    //
+//    @ManyToOne
+//    @JoinColumn(name = "perfil_id", nullable = false)
+//    private Perfil perfil;
 
 //    De donde sale este id, en el script es un id de productos pero existen dos tablas de productos
 //    @ManyToOne
