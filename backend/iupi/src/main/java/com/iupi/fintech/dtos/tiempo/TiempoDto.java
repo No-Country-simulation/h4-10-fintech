@@ -11,7 +11,7 @@ public record TiempoDto(
         int dia,
         int trimestre,
         int semana,
-        List<Long> transaccionId
+        List<Long> transaccionesId
 ) {
 
 }

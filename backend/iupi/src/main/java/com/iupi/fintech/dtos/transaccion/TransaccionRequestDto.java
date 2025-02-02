@@ -10,11 +10,8 @@ import java.time.LocalDateTime;
 
 public record TransaccionRequestDto(
 
-//        @NotNull(message = "El ID del usuario es obligatorio.")
-//        Long usuarioId,
-
         @NotNull(message = "El ID del perfil es obligatorio.")
-        Long perfilId,
+        Long cuentaId,
 
 //        @NotNull(message = "El ID del producto es obligatorio.")
 //        Long productoId,
@@ -22,10 +19,6 @@ public record TransaccionRequestDto(
         @NotNull(message = "El tipo de producto es obligatorio.")
         @Pattern(regexp = "Ahorro|Financiero", message = "El tipo de producto debe ser 'Ahorro' o 'Financiero'.")
         String tipoProducto,
-
-        //definir si el tiempo se crea con la transaccion o ya exissten tiempos creados, no entiendo esa tabla
-        @NotNull(message = "El ID del tiempo es obligatorio.")
-        Long tiempoId,
 
         @NotNull(message = "El monto es obligatorio.")
         @Positive(message = "El monto debe ser un valor positivo.")
