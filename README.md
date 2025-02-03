@@ -114,6 +114,7 @@ Este proyecto ha sido posible gracias a un equipo de expertos en tecnología, fi
 | Lorena Maza | Data Analyst        | [![portfolio](https://img.shields.io/badge/GITHUB-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://github.com/LorenaMaza) [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/lorena-maza/) |
 | Leonardo Cortés Zambrano | Data Analyst        | [![portfolio](https://img.shields.io/badge/GITHUB-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://github.com/leocortes85) [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/leonardocorteszambrano/) |
 | Natalin Inchauspe | Diseñadora UX/UI        | [![portfolio](https://img.shields.io/badge/GITHUB-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://github.com/natuinchauspe) [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/natalin-inchauspe-86121b289/) |
+| Cynthia Sotelo | TL        | [![portfolio](https://img.shields.io/badge/GITHUB-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://github.com/Cynthiavcp) [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/cynthiasotelo/) |
 
 📩 ¿Dudas o consultas? Contáctanos en [iupi@contacto.com](mailto:iupi@contacto.com)
 
