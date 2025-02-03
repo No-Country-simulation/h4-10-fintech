@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
-import { AppSidebar } from "@/features/dashboard/components/sidebar";
+import DashboardSidebar from "@/features/dashboard/sidebar/components/DashboardSidebar";
 
 export const metadata: Metadata = {
   title: "Iupi Dashboard",
   description: "Mi dashboard financiero personal",
 };
 
-export default function RootLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
-      <AppSidebar />
-      <main className="flex-1 overflow-y-auto p-8">
-        <div className="w-full mx-auto">{children}</div>
+    <div className="flex flex-col xs:flex-row h-screen bg-background dark:bg-gray-900">
+      <DashboardSidebar />
+      <main className="flex-1 overflow-y-auto p-2 xs:p-6 lg:p-8 mx-auto">
+        {/* <div className=""></div> */}
+        {children}
       </main>
     </div>
   );

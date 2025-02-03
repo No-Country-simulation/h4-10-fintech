@@ -12,7 +12,7 @@ export function FinancialSummary() {
     const totalIncome = 5000
 
     return (
-        <Card className="bg-white dark:bg-gray-800 shadow-sm">
+        <Card className="bg-card dark:bg-gray-800 shadow-sm">
             <CardHeader>
                 <CardTitle className="text-lg font-semibold">Resumen Financiero</CardTitle>
             </CardHeader>
