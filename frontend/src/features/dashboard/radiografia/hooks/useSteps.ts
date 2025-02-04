@@ -24,7 +24,7 @@ export function useSteps({ totalQuestions }: useStepsArgs) {
       idPregunta: currentStep,
       idRespuesta: Number(userChoice),
     };
-    
+
     const oldAnswerIndex = answers.findIndex(
       (e) => e.idPregunta === currentStep - 1
     );

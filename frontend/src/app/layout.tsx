@@ -26,8 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${lato.variable} antialiased mx-auto`}>
       <UserProvider>
-        <body className="min-h-screen w-full">
-          <AuthProvider>
+        <AuthProvider>
+          <body className="min-h-screen w-full">
             <Providers>
               <NavBar />
               <main className="min-h-[502px] w-full max-w-desktop mx-auto">
@@ -35,8 +35,8 @@ export default function RootLayout({
               </main>
               <Footer />
             </Providers>
-          </AuthProvider>
-        </body>
+          </body>
+        </AuthProvider>
       </UserProvider>
     </html>
   );

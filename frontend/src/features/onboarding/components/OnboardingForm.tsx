@@ -13,16 +13,16 @@ import { Button } from "@/components/ui/button";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSteps } from "@/features/authentication/onboarding/hooks/useSteps";
-import { onboardingSchema } from "@/features/authentication/onboarding/schemas/onboarding-schema";
-import { onboardingQuestion } from "@/features/authentication/onboarding/types/question";
+import { useSteps } from "@/features/dashboard/radiografia/hooks/useSteps";
+import { onboardingSchema } from "@/features/onboarding/schemas/onboarding-schema";
+import { onboardingQuestion } from "@/features/dashboard/radiografia/types/question";
 
 interface onboardingStepProps {
   questions: onboardingQuestion[];
 }
 
 export default function OnboardingForm({ questions }: onboardingStepProps) {
-  const { step, showNextStep, showPrevStep, /* updateAnswers */ } = useSteps({
+  const { step, showNextStep, showPrevStep /* updateAnswers */ } = useSteps({
     totalQuestions: questions.length,
   });
   const onboardingForm = useForm<z.infer<typeof onboardingSchema>>({
