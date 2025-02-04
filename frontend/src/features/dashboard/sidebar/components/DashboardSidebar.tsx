@@ -12,7 +12,9 @@ import signOutIcon from "@/features/dashboard/sidebar/assets/signoutIcon.svg";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const dashboardLinks = [
   {
@@ -22,81 +24,102 @@ const dashboardLinks = [
   },
   {
     title: "Resumen financiero",
-    href: "/dashboard/balance",
+    href: "/dashboard/resumen",
     icon: balanceIcon,
   },
   {
     title: "Objetivos",
-    href: "/dashboard/goals",
+    href: "/dashboard/objetivos",
     icon: goalsIcon,
   },
   {
     title: "Inversiones",
-    href: "/dashboard/investments",
+    href: "/dashboard/inversiones",
+    icon: investmentsIcon,
+  },
+  {
+    title: "Radiografía financiera",
+    href: "/dashboard/radiografia",
     icon: investmentsIcon,
   },
   {
     title: "Comunidad",
     href: "/dashboard/community",
     icon: communityIcon,
-  }
+  },
 ];
 
 function DashboardSidebar() {
+  const {user} = useUser();
   const pathname = usePathname();
+console.log({user});
+
+if (!user) return;
+
   return (
-    <aside className="bg-card flex flex-col items-center max-w-[266px] h-full pt-8 pb-24">
-      <div className="w-4/5 flex items-center gap-3">
-        <Avatar className="inline-block">
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        <span className="text-lg">¡Hola, John!</span>
-      </div>
+    <aside className="bg-card flex flex-col items-center w-16 md:w-64 h-full pt-8 pb-24">
+      <TooltipProvider>
+        <div className="w-4/5 flex items-center gap-3">
+          <Avatar className="inline-block ml-1 md:ml-0">
+            <AvatarImage src={user?.picture ?? "iU"} />
+          </Avatar>
+          <div className="hidden md:block">
+            <p className="font-bold">¡Hola{user?.name && user.name.search("@") >= 0 ? "!" : `, ${user.name}`}</p>
+            <p className="text-sm">{user?.email}</p>
+          </div>
+        </div>
 
-      <Input placeholder="Buscar" className="w-4/5 mt-12"></Input>
+        <Input
+          placeholder="Buscar"
+          className="w-4/5 mt-12 hidden md:inline-block"
+        />
 
-      <div className="w-4/5 pt-12 pb-36">
-        {dashboardLinks.map((link) => (
-          <Button
-            key={link.title}
-            variant="ghost"
-            className={cn(
-              "h-14 w-full",
-              pathname === link.href && "bg-secondary text-secondary-foreground"
-            )}
-          >
-            <Link
-              href={link.href}
-              className="w-full text-start h-full flex items-center"
+        <div className="w-4/5 pt-12 pb-36">
+          {dashboardLinks.map((link) => (
+            <Tooltip key={link.title}>
+              <TooltipTrigger asChild>
+                <Link href={link.href}>
+                  <Button
+                    variant="ghost"
+                    className={cn(
+                      "w-full h-14 text-start inline-block p-4 hover:bg-[#eee] hover:text-foreground",
+                      pathname === link.href && "bg-[#D0D0D0]"
+                    )}
+                  >
+                    <Image
+                      src={link.icon}
+                      alt={link.title}
+                      className="inline mr-2 -mt-1"
+                    />
+                    <span className="hidden md:inline-block">{link.title}</span>
+                  </Button>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent className="md:hidden">
+                <p>{link.title}</p>
+              </TooltipContent>
+            </Tooltip>
+          ))}
+        </div>
+
+        <div className="w-4/5">
+          <Link href="/api/auth/logout">
+            <Button
+              variant="ghost"
+              className={cn(
+                "w-full h-14 text-start inline-block p-4 hover:bg-[#eee] hover:text-foreground"
+              )}
             >
               <Image
-                src={link.icon}
-                alt={link.title}
-                className={`inline mr-2 ${
-                  pathname === link.href && "text-secondary-foreground"
-                }`}
+                src={signOutIcon}
+                alt="Cerrar sesión"
+                className="inline mr-2 -mt-1"
               />
-              <span>
-                {link.title}
-              </span>
-            </Link>
-          </Button>
-        ))}
-      </div>
-
-      <div className="w-4/5">
-        <Button variant="ghost" className="h-14 w-full">
-          <Link href="#" className="w-full text-start">
-            <Image
-              src={signOutIcon}
-              alt="Cerrar sesión"
-              className="inline mr-2 -mt-1"
-            />
-            <span>Cerrar sesión</span>
+              <span>Cerrar sesión</span>
+            </Button>
           </Link>
-        </Button>
-      </div>
+        </div>
+      </TooltipProvider>
     </aside>
   );
 }

@@ -1,28 +1,28 @@
-"use client"
+"use client";
 
-import { useAuth } from '@/app/context/auth-context'
-import { AdminPanel } from "@/app/dashboard/components/admin-panel"
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useAuth } from "@/context/auth-context";
+import { AdminPanel } from "@/features/dashboard/components/admin-panel";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function AdminPage() {
-    const { user } = useAuth()
-    const router = useRouter()
+  const { user } = useAuth();
+  const router = useRouter();
 
-    useEffect(() => {
-        if (user && user.role !== 'admin') {
-            router.push('/')
-        }
-    }, [user, router])
-
-    if (!user || user.role !== 'admin') {
-        return null
+  useEffect(() => {
+    if (user && user.role !== "admin") {
+      router.push("/");
     }
+  }, [user, router]);
 
-    return (
-        <div className="space-y-6">
-            <h1 className="text-2xl font-bold">Panel de Administración</h1>
-            <AdminPanel />
-        </div>
-    )
+  if (!user || user.role !== "admin") {
+    return null;
+  }
+
+  return (
+    <div className="space-y-6">
+      <h1 className="text-2xl font-bold">Panel de Administración</h1>
+      <AdminPanel />
+    </div>
+  );
 }
