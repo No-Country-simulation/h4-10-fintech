@@ -35,10 +35,4 @@ public class Perfil {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "perfil")
-    private List<Transaccion> transacciones;
-
-
-
-
 }

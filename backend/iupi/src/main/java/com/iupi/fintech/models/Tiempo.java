@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -13,7 +15,7 @@ public class Tiempo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tiempoId;
+    private Long id;
 
     @Column(nullable = false)
     private LocalDate fecha;
@@ -32,4 +34,7 @@ public class Tiempo {
 
     @Column(nullable = false)
     private int semana;
+
+    @OneToMany(mappedBy = "tiempo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Transaccion> transacciones = new ArrayList<>();
 }

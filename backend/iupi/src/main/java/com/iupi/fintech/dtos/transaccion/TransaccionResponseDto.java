@@ -4,15 +4,15 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public record TransaccionResponseDto(
-        Long transaccionId,
+        Long id,
         Long usuarioId,
-        Long perfilId,
         Long productoId,
         String tipoProducto,
-        Long tiempoId,
         BigDecimal monto,
         String moneda,
         String tipoTransaccion,
-        LocalDateTime fecha
+        LocalDateTime fecha,
+        Long cuentaId,
+        Long tiempoId
 ) {
 }

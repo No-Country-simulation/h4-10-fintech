@@ -45,6 +45,7 @@ public class Producto {
     @Column(nullable = false)
     private Riesgo riesgo;
 
+    //Mercado
     @Column(nullable = false, length = 100)
     private String entidadProveedor;
 }
