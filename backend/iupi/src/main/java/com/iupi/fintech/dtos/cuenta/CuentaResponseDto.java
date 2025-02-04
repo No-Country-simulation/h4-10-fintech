@@ -7,11 +7,11 @@ import java.util.List;
 
 public record CuentaResponseDto(
         Long id,
-        String alias,
-        String numeroCuenta,
+//        String alias,
+//        String numeroCuenta,
         BigDecimal monto,
         Long usuarioId,
-        List<TransaccionResponseDto> transacciones
+        List<Long> transaccionesId
 ) {
 
 }

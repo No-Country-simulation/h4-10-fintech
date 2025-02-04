@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,8 @@ public class TransaccionServiceImpl implements TransaccionService {
 
         Transaccion transaccion = transaccionMapper.toEntity(transaccionRequestDto);
         transaccion.setTiempo(tiempoMapper.toEntity(tiempo));
+        transaccion.setFecha(LocalDateTime.now());
+
        transaccionRepository.save(transaccion);
         return transaccionMapper.toResponse(transaccion);
     }
