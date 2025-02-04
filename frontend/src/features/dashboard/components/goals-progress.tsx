@@ -44,7 +44,7 @@ export function GoalsProgress() {
     }
 
     return (
-        <Card className="bg-white dark:bg-gray-800 shadow-sm">
+        <Card className="bg-card dark:bg-gray-800 shadow-sm">
             <CardHeader>
                 <CardTitle className="text-lg font-semibold">Progreso de Objetivos</CardTitle>
             </CardHeader>
