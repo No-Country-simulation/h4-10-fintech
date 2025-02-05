@@ -12,9 +12,9 @@ import signOutIcon from "@/features/dashboard/sidebar/assets/signoutIcon.svg";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, /* AvatarImage */ } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { useUser } from "@auth0/nextjs-auth0/client";
+import { useAuth } from "@/context/auth-context";
 
 const dashboardLinks = [
   {
@@ -50,21 +50,22 @@ const dashboardLinks = [
 ];
 
 function DashboardSidebar() {
-  const {user} = useUser();
+  const {user} = useAuth();
   const pathname = usePathname();
 console.log({user});
 
-if (!user) return;
+if (false) return;
 
   return (
     <aside className="bg-card flex flex-col items-center w-16 md:w-64 h-full pt-8 pb-24">
       <TooltipProvider>
         <div className="w-4/5 flex items-center gap-3">
           <Avatar className="inline-block ml-1 md:ml-0">
-            <AvatarImage src={user?.picture ?? "iU"} />
+            {/* <AvatarImage src={user?.picture ?? "iU"} /> */}
+            <AvatarFallback>{user?.email[0]}</AvatarFallback>
           </Avatar>
           <div className="hidden md:block">
-            <p className="font-bold">¡Hola{user?.name && user.name.search("@") >= 0 ? "!" : `, ${user.name}`}</p>
+            <p className="font-bold">¡Hola{user?.nombre && user.nombre.search("@") >= 0 ? "!" : `, ${user?.nombre}!`}</p>
             <p className="text-sm">{user?.email}</p>
           </div>
         </div>

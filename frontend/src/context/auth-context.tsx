@@ -1,56 +1,46 @@
-"use client"
+"use client";
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User } from '@/lib/use-roles';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { getUserByEmail } from "@/services/user-service";
+import { User } from "@/types/user";
 
 interface AuthContextType {
-    user: User | null;
-    login: (email: string, password: string) => Promise<void>;
-    logout: () => void;
+  user?: User;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType>({user: undefined});
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const { user } = useUser();
+  const [usuario, setUsuario] = useState<User | undefined>();
 
-    useEffect(() => {
-        // Aquí normalmente verificarías si hay una sesión activa
-        // Por ahora, simularemos un usuario logueado
-        setUser({
-            id: '1',
-            name: 'Usuario Ejemplo',
-            email: 'usuario@ejemplo.com',
-            role: 'standard'
-        });
-    }, []);
+  useEffect(() => {
+    // Aquí normalmente verificarías si hay una sesión activa
+    // Por ahora, simularemos un usuario logueado
+    if (user) {
+      (async () => {
+        const userData = await getUserByEmail(user.email ?? "");
+        setUsuario(userData);
+      })();
+    } else {
+      setUsuario(undefined);
+    }
+  }, [user]);
 
-    const login = async (email: string, /* password: string */) => {
-        // Aquí iría la lógica real de autenticación
-        setUser({
-            id: '1',
-            name: 'Usuario Ejemplo',
-            email: email,
-            role: email.includes('admin') ? 'admin' : 'standard'
-        });
-    };
-
-    const logout = () => {
-        setUser(null);
-    };
-
-    return (
-        <AuthContext.Provider value={{ user, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider value={{ user: usuario }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
-    return context;
+  const context = useContext(AuthContext);
+  if (!context || !context.user) {
+    console.log("Usuario no loggeado!");
+  }
+  return context;
 };
-
