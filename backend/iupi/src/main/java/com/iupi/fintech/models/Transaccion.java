@@ -35,7 +35,6 @@ public class Transaccion {
     @Column(nullable = false, updatable = false)
     private LocalDateTime fecha;
 
-
     @ManyToOne
     @JoinColumn(name = "tiempo_id",nullable = false)
     private Tiempo tiempo;

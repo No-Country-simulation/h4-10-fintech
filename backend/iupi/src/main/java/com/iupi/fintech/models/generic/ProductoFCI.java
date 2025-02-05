@@ -1,7 +1,9 @@
 package com.iupi.fintech.models.generic;
 
 
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -9,8 +11,15 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
+@Entity
 @ToString
-public class FondosComunInversion {
+@NoArgsConstructor
+@Table(name = "productosFCI")
+public class ProductoFCI {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     // tipo de inversion, corto,largo o mediano plazo
     private String horizonteInversion;

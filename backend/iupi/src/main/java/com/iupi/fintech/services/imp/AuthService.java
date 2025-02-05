@@ -49,10 +49,8 @@ public class AuthService {
 
     public String generateCustomToken(String accessToken) {
         try {
-
             //------------- Obtenemos los datos de usuario del accesstoken
             UserInfo userInfo = getDataFromAccessToken(accessToken);
-
             //--------- Obtenemos el usuario si esta en la base de datos, sino pasara a registrarlo
             User userResponse = userService.findByEmail(userInfo.getEmail());
             // Nos conectamos al usuario de IOL

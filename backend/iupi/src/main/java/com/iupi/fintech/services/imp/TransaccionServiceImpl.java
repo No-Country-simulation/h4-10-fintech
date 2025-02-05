@@ -44,6 +44,7 @@ public class TransaccionServiceImpl implements TransaccionService {
         transaccion.setTiempo(tiempoMapper.toEntity(tiempo));
         transaccion.setFecha(LocalDateTime.now());
 
+
        transaccionRepository.save(transaccion);
         return transaccionMapper.toResponse(transaccion);
     }
