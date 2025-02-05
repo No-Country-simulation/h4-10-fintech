@@ -20,6 +20,7 @@ public abstract class TiempoMapper {
     TransaccionRepository transaccionRepository;
 
     @Mapping(source = "transacciones", target = "transaccionesId",qualifiedByName = "transaccionToLong")
+    @Mapping(source = "tiempoId", target = "tiempoId")
     public abstract TiempoDto toResponse(Tiempo tiempo);
 
     @Mapping(source = "transaccionesId", target = "transacciones",qualifiedByName = "longToTransaccion")

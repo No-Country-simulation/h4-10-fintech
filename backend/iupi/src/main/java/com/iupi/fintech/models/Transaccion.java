@@ -19,7 +19,6 @@ public class Transaccion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    Es lo mismo que el Tipo de producto que en productos financieros y productos de ahorros?
     @Enumerated(EnumType.STRING)
     private TransaccionTipoProducto tipoProducto;
 
@@ -44,10 +43,8 @@ public class Transaccion {
     @JoinColumn(name = "cuenta_id", nullable = false)
     private Cuenta cuenta;
 
-
-//    De donde sale este id, en el script es un id de productos pero existen dos tablas de productos
-//    @ManyToOne
-//    @JoinColumn(nullable = false)
-//    private Producto producto;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Producto producto;
 
 }

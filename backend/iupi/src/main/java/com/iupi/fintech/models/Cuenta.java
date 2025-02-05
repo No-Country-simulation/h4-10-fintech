@@ -27,8 +27,8 @@ public class Cuenta {
     @Column(nullable = false)
     private BigDecimal ahorrado;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "usuario_id", unique = true, nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "cuenta")

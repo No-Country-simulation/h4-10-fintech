@@ -13,6 +13,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,9 @@ public abstract class CuentaMapper {
     }
     @Named("transaccionToLong")
     public List<Long> transaccionToLong(List<Transaccion> transacciones) {
+        if (transacciones == null) {
+            return new ArrayList<>();
+        }
         return transacciones.stream().map(Transaccion::getId).collect(Collectors.toList());
     }
 }

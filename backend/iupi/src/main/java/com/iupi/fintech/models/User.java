@@ -52,8 +52,8 @@ public class User implements UserDetails {
 
     // Relaciones
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Cuenta> cuentas;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Cuenta cuenta;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
     private Perfil perfil;

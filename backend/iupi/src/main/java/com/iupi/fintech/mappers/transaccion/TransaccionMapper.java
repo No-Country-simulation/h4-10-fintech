@@ -42,6 +42,6 @@ public abstract class TransaccionMapper {
 
 @Named("tiempoToLong")
 public Long toLong(Tiempo tiempo) {
-    return tiempo != null ? tiempo.getId() : null;}
+    return tiempo != null ? tiempo.getTiempoId() : null;}
 
 }

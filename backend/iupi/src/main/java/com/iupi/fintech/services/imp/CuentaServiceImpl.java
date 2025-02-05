@@ -30,7 +30,6 @@ public class CuentaServiceImpl implements CuentaService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         Cuenta cuenta = cuentaMapper.toEntity(cuentaRequestDto);
-        cuenta.setUser(user);
 
         cuenta = cuentaRepository.save(cuenta);
         return cuentaMapper.toResponse(cuenta);

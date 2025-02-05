@@ -25,7 +25,7 @@ public class TiempoServiceImpl implements TiempoService {
 
 
 
-        @Override
+    @Override
     public TiempoDto save(LocalDate fecha) {
             Tiempo tiempo= new Tiempo();
             tiempo.setFecha(fecha);
@@ -34,7 +34,8 @@ public class TiempoServiceImpl implements TiempoService {
             tiempo.setDia(fecha.getDayOfMonth());
             tiempo.setSemana(fecha.get(WeekFields.of(Locale.getDefault()).weekOfYear()));
             tiempo.setTrimestre((fecha.getMonthValue() - 1) / 3 + 1);
-            return tiempoMapper.toResponse(tiempoRepository.save(tiempo));
+            Tiempo savedTiempo = tiempoRepository.save(tiempo);
+            return tiempoMapper.toResponse(savedTiempo);
         }
 
 

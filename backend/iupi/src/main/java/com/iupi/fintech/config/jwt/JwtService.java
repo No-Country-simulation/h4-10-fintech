@@ -73,7 +73,7 @@ public class JwtService {
         try {
             Algorithm algorithm = Algorithm.RSA256(null, privateKey);
 
-            return JWT.create()
+            String token = JWT.create()
                     .withIssuer(issuer)
                     .withSubject(userInfo.getSub())
                     .withAudience(audience)
@@ -85,6 +85,9 @@ public class JwtService {
                     .withIssuedAt(new Date())
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
+            System.out.println("generateCustomToken: "+ token);
+            return token;
+
 
         } catch (JWTCreationException e) {
             throw new ApplicationException("Error al crear el token: " + e.getMessage());

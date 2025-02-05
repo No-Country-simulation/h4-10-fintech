@@ -15,7 +15,7 @@ public class Tiempo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long tiempoId;
 
     @Column(nullable = false)
     private LocalDate fecha;

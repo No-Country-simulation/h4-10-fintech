@@ -9,7 +9,9 @@ import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.mappers.timpo.TiempoMapper;
 import com.iupi.fintech.mappers.transaccion.TransaccionMapper;
 import com.iupi.fintech.models.Transaccion;
+import com.iupi.fintech.models.User;
 import com.iupi.fintech.repositories.TransaccionRepository;
+import com.iupi.fintech.repositories.UserRepository;
 import com.iupi.fintech.services.TiempoService;
 import com.iupi.fintech.services.TransaccionService;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +30,15 @@ public class TransaccionServiceImpl implements TransaccionService {
     private final TransaccionMapper transaccionMapper;
     private final TiempoService tiempoService;
     private final TiempoMapper tiempoMapper;
+    private final AuthenticatedUserService userAutenticated;
+    private final UserRepository userRepository;
 
+    //tipoproducto quitar
 
     @Override
     public TransaccionResponseDto save(TransaccionRequestDto transaccionRequestDto) {
-        // se debe obtener el usuario autenticado que es el que realiza la transaccion (pendiente)
+        String emailUser = userAutenticated.getAuthenticatedUsername().getEmail();
+        User user = userRepository.findByEmail(emailUser).orElseThrow();
         LocalDate fecha= LocalDate.now();
 
         TiempoDto tiempo = tiempoService.findByFecha(fecha);
@@ -41,11 +47,13 @@ public class TransaccionServiceImpl implements TransaccionService {
         }
 
         Transaccion transaccion = transaccionMapper.toEntity(transaccionRequestDto);
+        //Existen usuarios sin cuenta, dara error si es asi, se debe de creer la cuenta en auto al reistrarse
+        transaccion.setCuenta(user.getCuenta());
         transaccion.setTiempo(tiempoMapper.toEntity(tiempo));
         transaccion.setFecha(LocalDateTime.now());
 
-       transaccionRepository.save(transaccion);
-        return transaccionMapper.toResponse(transaccion);
+        Transaccion savedTransaction = transaccionRepository.save(transaccion);
+        return transaccionMapper.toResponse(savedTransaction);
     }
 
     @Override

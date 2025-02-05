@@ -42,6 +42,7 @@ public class AuthController {
     public ResponseEntity<JwtToken> generateCustomToken(@RequestParam String access_token, HttpSession session) throws Exception {
 
         try {
+
             String customToken = authService.generateCustomToken(access_token);
             session.setAttribute("customToken", customToken);
             return ResponseEntity.ok(new JwtToken(customToken));
