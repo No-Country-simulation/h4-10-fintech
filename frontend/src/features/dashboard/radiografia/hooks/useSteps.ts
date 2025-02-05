@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { onboardingAnswer } from "../types/answers";
+import { OnboardingAnswer } from "../types/answers";
 
 interface useStepsArgs {
   totalQuestions: number;
@@ -7,7 +7,7 @@ interface useStepsArgs {
 
 export function useSteps({ totalQuestions }: useStepsArgs) {
   const [currentStep, setCurrentStep] = useState(1);
-  const [answers, setAnswers] = useState<onboardingAnswer[]>([]);
+  const [answers, setAnswers] = useState<OnboardingAnswer[]>([]);
 
   function showPrevStep() {
     if (currentStep <= 1) return;
@@ -19,8 +19,8 @@ export function useSteps({ totalQuestions }: useStepsArgs) {
     setCurrentStep(currentStep + 1);
   }
 
-  function updateAnswers(userChoice: onboardingAnswer) {
-    const newAnswer: onboardingAnswer = {
+  function updateAnswers(userChoice: OnboardingAnswer) {
+    const newAnswer: OnboardingAnswer = {
       idPregunta: currentStep,
       idRespuesta: Number(userChoice),
     };
