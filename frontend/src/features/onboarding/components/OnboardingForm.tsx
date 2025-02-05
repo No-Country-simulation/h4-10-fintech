@@ -15,10 +15,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSteps } from "@/features/dashboard/radiografia/hooks/useSteps";
 import { onboardingSchema } from "@/features/onboarding/schemas/onboarding-schema";
-import { onboardingQuestion } from "@/features/dashboard/radiografia/types/question";
+import { OnboardingQuestion } from "@/features/dashboard/radiografia/types/question";
 
 interface onboardingStepProps {
-  questions: onboardingQuestion[];
+  questions: OnboardingQuestion[];
 }
 
 export default function OnboardingForm({ questions }: onboardingStepProps) {
