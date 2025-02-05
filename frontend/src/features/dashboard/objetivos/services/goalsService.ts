@@ -8,11 +8,9 @@ export async function getUserGoals() {
   return data.data;
 }
 
-export async function postGoal(newGoal: Omit<Goal, id | montoActual>) {
+export async function postGoal(newGoal: Omit<Goal, "id" | "montoActual">) {
   const options: RequestInit = {
-    headers: {
-      method: "POST",
-    },
+    method: "POST",
     body: JSON.stringify(newGoal),
   };
   const res = await fetch(baseUrl, options);

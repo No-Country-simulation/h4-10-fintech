@@ -1,10 +1,10 @@
-export interface onboardingQuestion {
+export interface OnboardingQuestion {
   id: number,
   pregunta: string,
-  opciones: option[],
+  opciones: Option[],
 }
 
-interface option {
+interface Option {
   idRespuesta: number,
   respuesta: string,
 }
