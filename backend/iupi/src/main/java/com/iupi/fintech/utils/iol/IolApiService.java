@@ -63,8 +63,6 @@ public class IolApiService implements IolInterface{
                 .doOnNext(response -> System.out.println("Response: " + response))
                 .doOnError(e -> System.out.println("Error: " + e.getMessage()))
                 .block();
-        System.out.println(t.toString());
-        System.out.println(t.getAccess_token());
 
        saveIolToken(userIupi,t.getAccess_token());
     }

@@ -1,5 +1,6 @@
 package com.iupi.fintech.models;
 
+
 import com.iupi.fintech.enums.CategoriaProducto;
 import com.iupi.fintech.enums.Moneda;
 import com.iupi.fintech.enums.Riesgo;
@@ -8,15 +9,22 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity
 @Table(name = "productos")
 @Data
 @NoArgsConstructor
 public class Producto {
 
+
+    // solicitud post (perfil usuario, List<ProductosFCI>)
+    // Devuelva List<ProductosFCI> asociados al perfil del usuario
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -39,6 +47,7 @@ public class Producto {
     @Enumerated(EnumType.STRING)
     private TipoProducto tipoProducto;
 
+   //  es igual a la variacion anual
     private Double tasaRendimientoEsperada;
 
     @Enumerated(EnumType.STRING)
