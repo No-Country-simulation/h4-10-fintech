@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -68,6 +69,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, @Lazy AuthenticationSuccessHandler authenticationSuccessHandler) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         //Auth Controller
                         .requestMatchers("/api/auth/access-token**").permitAll()
@@ -93,10 +95,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/api/transacciones/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/transacciones/**").authenticated()
                         //Producto controller
-                        .requestMatchers(HttpMethod.GET, "api/productos-financieros/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "api/productos-financieros/**").authenticated()
-                        .requestMatchers(HttpMethod.PATCH, "api/productos-financieros/**").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "api/productos-financieros/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/productos-financieros/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/productos-financieros/**").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/api/productos-financieros/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/productos-financieros/**").authenticated()
                         //
                         .requestMatchers(HttpMethod.GET, "/api/v1/fci/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/v1/fci/**").authenticated()
@@ -215,6 +217,7 @@ public class SecurityConfig {
 //            }
 //        };
 //    }
+
 
 
 }
