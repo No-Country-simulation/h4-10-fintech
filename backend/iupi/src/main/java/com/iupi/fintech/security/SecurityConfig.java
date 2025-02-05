@@ -97,6 +97,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "api/productos-financieros/**").authenticated()
                         .requestMatchers(HttpMethod.PATCH, "api/productos-financieros/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "api/productos-financieros/**").authenticated()
+                        //
+                        .requestMatchers(HttpMethod.GET, "/api/v1/fci/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/fci/**").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/fci/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/fci/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/fci/**").authenticated()
                         //Swagger
                         .requestMatchers(HttpMethod.GET, "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated())
