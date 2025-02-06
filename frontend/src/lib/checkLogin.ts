@@ -23,8 +23,8 @@ export async function checkAuthentication() {
         );
         if (tokenResponse.ok) {
           const data = await tokenResponse.json();
+          console.log({tuToken: data.token})
           return data.token;
-           // Limpiar la URL
         }
       } else {
         console.log("Dice que no está autenticado"); // Redirigir si no está autenticado
@@ -33,5 +33,7 @@ export async function checkAuthentication() {
       console.error("Error verificando autenticación:", error);
       window.location.href = "/";
     }
+  } else {
+    console.log("No está obteniendo loggedIn de los params")
   }
 }
