@@ -9,8 +9,11 @@ import { Badge } from "@/components/ui/badge";
 import { Trophy, Plus } from "lucide-react";
 import { Goal } from "../objetivos/types/goalTypes";
 import { postGoal } from "../objetivos/services/goalsService";
+import { useGoals } from "../objetivos/hooks/goalsQuery";
 
 export function GoalsProgress() {
+  const {data} = useGoals();
+  console.log({data});
   const goals = [
     {
       id: 1,

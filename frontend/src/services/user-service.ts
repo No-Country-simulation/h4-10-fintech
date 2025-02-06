@@ -36,7 +36,6 @@ export async function getAccessToken(): Promise<string> {
     method: "POST",
     headers: headers,
   };
-  console.log(url.href);
   const res = await fetch(url.href, req);
   const data = await res.json();
   return data.access_token;

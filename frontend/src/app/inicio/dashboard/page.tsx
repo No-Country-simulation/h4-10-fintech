@@ -1,4 +1,4 @@
-"use client"
+/* "use client"
 
 import { DashboardHeader } from "@/features/dashboard/components/dashboard-header";
 import { FinancialSummary } from "@/features/dashboard/components/financial-summary";
@@ -12,26 +12,10 @@ import { FinancialEducation } from "@/features/dashboard/components/financial-ed
 import { NotificationsCenter } from "@/features/dashboard/components/notifications-center";
 import { ExpenseAnalysis } from "@/features/dashboard/components/expense-analysis";
 import { FinancialInstrumentComparator } from "@/features/dashboard/components/financial-instrument-comparator";
-import { useEffect } from "react";
-import { checkAuthentication } from "@/lib/checkLogin";
-import { useUserStore } from "@/store/user-store";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function HomePage() {
-  const iUpiUser = useUserStore((state) => state.iUpiUser);
-  const customToken = useUserStore((state) => state.customToken);
-  const setCustomToken = useUserStore(state => state.setCustomToken);
-
-  useEffect(() => {
-    (async () => {
-      console.log({customToken})
-      if(!customToken) {
-        const newToken = await checkAuthentication();
-        setCustomToken(newToken);
-      }
-    })()
-  }, [customToken, setCustomToken]);
-
-  console.log({iUpiUser, customToken})
+  const {iUpiUser, customToken} = useAuth();
   
   return (
     <div className="space-y-6">
@@ -58,3 +42,4 @@ export default function HomePage() {
     </div>
   );
 }
+ */

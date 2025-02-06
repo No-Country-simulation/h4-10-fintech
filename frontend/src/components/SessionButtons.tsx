@@ -26,7 +26,7 @@ export default function SessionButtons() {
           Registrarse
         </Button>
       </a>
-      <a href="/api/auth/login">
+      <a href="https://h4-10-fintech.onrender.com/">
         <Button
           variant="outline"
           className="text-base hover:bg-[#eee] hover:text-foreground"
