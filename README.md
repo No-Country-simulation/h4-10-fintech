@@ -34,10 +34,10 @@ Facilitar el acceso a la educación financiera y la inversión responsable en Ar
 - Seguimiento de metas financieras con gamificación.
 - Acceso directo a recomendaciones de inversión.
 
-### 3️⃣ **Gestión de Inversiones** 📈
-- Portafolios personalizados según perfil de riesgo.
+### 3️⃣ **Gestión y recomendación de Inversiones** 📈.
 - Análisis de inversiones en pesos y dólares.
 - Opciones avanzadas como ETFs y bonos locales.
+- Sistema de recomendación personalizado, según el perfil de usuario
 
 ### 4️⃣ **Comunidad & Noticias** 📰
 - Foro interactivo de discusión sobre inversiones.
@@ -53,6 +53,7 @@ Facilitar el acceso a la educación financiera y la inversión responsable en Ar
 - Backend seguro con integración de APIs financieras.
 - Sistema de autenticación robusto.
 - Gamificación y notificaciones para mejorar la experiencia del usuario.
+- Sistema de recomendación utilizando herramientas avanzadas de Machine Learning
 
 📌 **Enfoque UX/UI**
 - Inspirado en plataformas como eToro.
