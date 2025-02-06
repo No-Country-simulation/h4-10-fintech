@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, AlertTriangle, Info } from "lucide-react";
-import { useAuth } from "@/context/auth-context";
 
 interface Investment {
   id: number;
@@ -60,19 +59,16 @@ const allInvestments: Investment[] = [
 ];
 
 export function RecommendedInvestments() {
-  const { user } = useAuth();
   const [investments, setInvestments] = useState<Investment[]>([]);
 
   // Simulación de recomendaciones personalizadas
   useEffect(() => {
-    if (user) {
       // Aquí iría la lógica real de recomendación basada en el perfil del usuario
       const recommendedIds = [1, 3, 4]; // Ejemplo: recomendamos los IDs 1, 3 y 4
       setInvestments(
         allInvestments.filter((inv) => recommendedIds.includes(inv.id))
       );
-    }
-  }, [user]);
+  }, []);
 
   return (
     <Card className="bg-card dark:bg-gray-800 shadow-sm">

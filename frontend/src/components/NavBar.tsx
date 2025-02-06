@@ -4,9 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import iUpi from "@/assets/iUpi.svg";
 import SessionButtons from "@/components/SessionButtons";
-import { getAccessToken } from "@/services/user-service";
-
-// const navLinks = ["Metas", "Inversiones", "Comunidad", "Educación financiera"];
+import { getCustomToken } from "@/services/user-service";
 
 export default function NavBar() {
   return (
@@ -15,24 +13,14 @@ export default function NavBar() {
         <Link
           href="/"
           onClick={async () => {
-            const token = await getAccessToken();
-            console.log({ token });
+            const customToken = await getCustomToken();
+            console.log(customToken);
           }}
         >
           <Image src={iUpi} width={64} height={64} alt="iupi logo" />
         </Link>
 
         <div className="flex justify-between items-center">
-          {/* {navLinks.map((link) => (
-            <Button
-              key={link}
-              variant="link"
-              className="text-white font-bold text-base"
-            >
-              <Link href="#">{link}</Link>
-            </Button>
-          ))}
-          <Input className="mx-6 text-base" placeholder="Buscar" /> */}
           <SessionButtons />
         </div>
       </div>

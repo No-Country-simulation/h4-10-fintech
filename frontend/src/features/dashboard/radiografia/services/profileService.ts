@@ -7,7 +7,7 @@ const baseUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/perfil`;
 export async function getUserProfile(userId: number) {
   const res = await fetch(`${baseUrl}/${userId}`);
   const data = await res.json();
-  return data.data;
+  return data;
 }
 
 export async function postUserProfile(
@@ -20,7 +20,7 @@ export async function postUserProfile(
   };
   const res = await fetch(`${baseUrl}/preguntas/${userId}`, options);
   const data = await res.json();
-  return data.data;
+  return data;
 }
 
 export async function getOnboardingQuestions(): Promise<OnboardingQuestion[]> {
@@ -36,5 +36,5 @@ export async function postUserRx(userId: number, rxAnswers: FinancialRx) {
   };
   const res = await fetch(`${baseUrl}/rxfinanciera/${userId}`, options);
   const data = await res.json();
-  return data.data;
+  return data;
 }
