@@ -3,8 +3,10 @@ package com.iupi.fintech.controllers;
 
 import com.iupi.fintech.dtos.ApiResponseDto;
 import com.iupi.fintech.dtos.ProductoFciDto;
+import com.iupi.fintech.dtos.user.UserResponseDto;
 import com.iupi.fintech.enums.PerfilDeRiesgo;
 import com.iupi.fintech.exceptions.ApplicationException;
+import com.iupi.fintech.models.User;
 import com.iupi.fintech.services.ProductoFciService;
 import com.iupi.fintech.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +15,8 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,8 +56,6 @@ public class CedearsController {
     @Operation(summary = "Obtener todos los títulos de Fondos Comunes de Inversión", description = "Devuelve una lista de todos los títulos de Fondos Comunes de Inversión disponibles.")
     public ResponseEntity<ApiResponseDto<ProductoFciDto>> getTitulosFCI() {
 
-//        OidcUser oidcUser = (OidcUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        String userIupi = (String) oidcUser.getClaims().get("email");
         Iterable<ProductoFciDto> productoFCI = productoFciService.findAll();
 
         return ResponseEntity.ok(new ApiResponseDto<>(true, "Operación exitosa", productoFCI));
@@ -64,9 +66,6 @@ public class CedearsController {
     public ResponseEntity<ApiResponseDto<ProductoFciDto>> getTituloBySimbolo(@PathVariable String simbolo) {
 
         try {
-//            OidcUser oidcUser = (OidcUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//            String userIupi = (String) oidcUser.getClaims().get("email");
-//            ProductoFCI iolData = iolDataInterface.getIolDataBySimbolo(userIupi, simbolo);
 
             ProductoFciDto fci = productoFciService.findBySimbolo(simbolo);
 
@@ -95,7 +94,7 @@ public class CedearsController {
                     @ExampleObject(name = "30 dias", value = "Corto Plazo"),
                     @ExampleObject(name = "180 dias", value = "Mediano Plazo"),
                     @ExampleObject(name = "300 dias", value = "Largo Plazo")
-            })  @PathVariable String horizonteInversion){
+            }) @PathVariable String horizonteInversion) {
         try {
             List<ProductoFciDto> fci = productoFciService.findByHorizonteInversion(horizonteInversion);
 
@@ -105,5 +104,19 @@ public class CedearsController {
         }
     }
 
+    @GetMapping("/recomendaciones")
+    @Operation(summary = "Obtener todas las recomendaciones de Fondos Comunes de Inversión", description = "Devuelve una lista de todas las recomendaciones de Fondos Comunes de Inversión disponibles basadas en el perfil del usuario.")
+    public ResponseEntity<ApiResponseDto<ProductoFciDto>> getRecomendacionesFCI() {
+        try {
+
+            OidcUser oidcUser = (OidcUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String email = (String) oidcUser.getClaims().get("email");
+            User user = userService.findByEmail(email);
+            Iterable<ProductoFciDto> fci = productoFciService.getRecomedacionesByPerfilUser(user.getIdentificacion());
+            return ResponseEntity.ok(new ApiResponseDto<>(true, "Operación exitosa", fci));
+        } catch (ApplicationException e) {
+            return new ResponseEntity(new ApiResponseDto<>(false, "Ha ocurrido un error: " + e.getMessage(), null), HttpStatus.NOT_FOUND);
+        }
+    }
 }
 

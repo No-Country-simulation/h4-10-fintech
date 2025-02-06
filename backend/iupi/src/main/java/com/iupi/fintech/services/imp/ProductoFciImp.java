@@ -8,7 +8,10 @@ import com.iupi.fintech.repositories.ProductoFciRepository;
 import com.iupi.fintech.services.ProductoFciService;
 import com.iupi.fintech.utils.iol.FciUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Optional;
@@ -72,5 +75,22 @@ public class ProductoFciImp implements ProductoFciService{
     public void updateDataFciNow(){
 
         fciUpdateService.updateFCI();
+    }
+
+    @Override
+    public List<ProductoFciDto> getRecomedacionesByPerfilUser(String identificacion){
+
+        WebClient webClient = WebClient.builder()
+                .baseUrl("https://xxxxxxx")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+        return webClient.get()
+                .uri("/getRecomendacion/" + identificacion)
+                .retrieve()
+                .bodyToFlux(ProductoFciDto.class)
+                .collectList()
+                .block();
+
     }
 }

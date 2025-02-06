@@ -15,4 +15,6 @@ public interface ProductoFciService extends GenericServiceDto<ProductoFci, Produ
     List<ProductoFciDto> findByHorizonteInversion(String horizonteInversion);
 
     void updateDataFciNow();
+
+    List<ProductoFciDto> getRecomedacionesByPerfilUser(String identificacion);
 }

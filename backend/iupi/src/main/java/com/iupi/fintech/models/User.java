@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -30,7 +29,6 @@ public class User implements UserDetails {
     private String auth0Id;
     private String nombre;
     private String email;
-    private Genero genero;
     private String pais;
     private String direccion;
     private String telefono;
@@ -44,7 +42,8 @@ public class User implements UserDetails {
     // Enums
     @Enumerated(EnumType.STRING)
     private Role rol;
-
+    @Enumerated(EnumType.STRING)
+    private Genero genero;
     @Enumerated(EnumType.STRING)
     private EstadoRegistro estadoRegistro;
     @Enumerated(EnumType.STRING)
