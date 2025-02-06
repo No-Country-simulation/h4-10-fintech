@@ -30,32 +30,32 @@ import { wait } from "@/lib/wait";
 const dashboardLinks = [
   {
     title: "Inicio",
-    href: "/dashboard",
+    href: "/inicio/dashboard",
     icon: homeIcon,
   },
   {
     title: "Resumen financiero",
-    href: "/dashboard/resumen",
+    href: "/inicio/dashboard/resumen",
     icon: balanceIcon,
   },
   {
     title: "Objetivos",
-    href: "/dashboard/objetivos",
+    href: "/inicio/dashboard/objetivos",
     icon: goalsIcon,
   },
   {
     title: "Inversiones",
-    href: "/dashboard/inversiones",
+    href: "/inicio/dashboard/inversiones",
     icon: investmentsIcon,
   },
   {
     title: "Radiografía financiera",
-    href: "/dashboard/radiografia",
+    href: "/inicio/dashboard/radiografia",
     icon: docIcon,
   },
   {
     title: "Comunidad",
-    href: "/dashboard/community",
+    href: "/inicio/dashboard/comunidad",
     icon: communityIcon,
   },
 ];
@@ -81,7 +81,7 @@ function DashboardSidebar() {
           </Avatar>
           <div className="hidden md:block">
             <p className="font-bold">
-              ¡Hola
+              ¡Hola!
               {/* {user?.nombre && user.nombre.search("@") >= 0 ? "!" : `, ${user?.nombre}!`} */}
             </p>
             <p className="text-sm">{loggedUser.email}</p>
