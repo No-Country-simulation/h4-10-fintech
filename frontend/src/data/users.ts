@@ -3,7 +3,7 @@ export const users = [
     usuarioId: 1,
     auth0Id: "auth0|123456789",
     nombre: "Carlos Mendoza",
-    email: "carlos.mendoza@example.com",
+    email: "carlos.mendoza@gmail.com",
     genero: "Masculino",
     pais: "Argentina",
     direccion: "Calle San Nicolás 351, Rosario",

@@ -9,7 +9,7 @@ import { useUserStore } from "@/store/session-store";
 export default function SessionButtons() {
   const iUpiUser = useUserStore(state => state.iUpiUser);
 
-  if (iUpiUser) return (
+  if (iUpiUser !== "") return (
     <Popover>
       <PopoverTrigger>
         <Image src={BellIcon} alt="Notificaciones"/>

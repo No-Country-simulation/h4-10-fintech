@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { useUserStore } from "@/store/session-store";
 
 const SignIn: React.FC = () => {
-    const setIUpiUser = useUserStore((state) => state.setIUpiUser);
+  const setIUpiUser = useUserStore((state) => state.setIUpiUser);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -37,8 +37,8 @@ const SignIn: React.FC = () => {
 
     if (validateForm()) {
       const index = users.findIndex((user) => user.email === email);
-      setIUpiUser(users[index])
-      redirect("/inicio/dashboard")
+      setIUpiUser(users[index]);
+      redirect("/inicio/dashboard");
     }
   };
 

@@ -1,5 +1,5 @@
+import DashboardSidebar from "@/app/inicio/dashboard/sidebar/components/DashboardSidebar";
 import type { Metadata } from "next";
-import DashboardSidebar from "@/features/dashboard/sidebar/components/DashboardSidebar";
 
 export const metadata: Metadata = {
   title: "Iupi Dashboard",
