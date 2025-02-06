@@ -3,7 +3,7 @@ package com.iupi.fintech.models;
 import com.iupi.fintech.enums.Moneda;
 import com.iupi.fintech.enums.TipoTransaccion;
 import com.iupi.fintech.enums.TransaccionTipoProducto;
-import com.iupi.fintech.models.generic.ProductoFCI;
+import com.iupi.fintech.models.generic.ProductoFci;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,7 +44,9 @@ public class Transaccion {
     private Cuenta cuenta;
 
     @ManyToOne
-    @JoinColumn(name = "productoFCI_id", nullable = false)
-    private ProductoFCI productoFCI;
+    @JoinColumn( name = "productofci_id",nullable = false)
+    private ProductoFci productofci;
 
+
+//
 }

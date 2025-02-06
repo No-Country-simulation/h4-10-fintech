@@ -9,6 +9,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -17,7 +19,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @Table(name = "productosFCI")
-public class ProductoFCI {
+public class ProductoFci {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +51,6 @@ public class ProductoFCI {
     // monto minimo para operar
     private BigDecimal montoMinimo;
 
-    @OneToMany(mappedBy = "productoFCI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Transaccion> transacciones;
+    @OneToMany(mappedBy = "productofci", fetch = FetchType.LAZY)
+    private List<Transaccion> transacciones= new ArrayList<>();
 }
