@@ -8,16 +8,16 @@ import Link from "next/link";
 
 const navLinks = [
   {
-    title: "Navegación",
-    links: ["Inicio", "Quiénes somos", "Nuestros servicios"],
+    title: "Información básica",
+    links: ["Inicio", "Acerca de nosotros", "Preguntas frecuentes", "Blog financiero", "Contacto"],
   },
   {
-    title: "Ayuda",
-    links: ["Preguntas frecuentes", "Contacto", "Términos financieros"],
+    title: "Legales",
+    links: ["Términos y condiciones", "Política de privacidad", "Política de cookies"],
   },
   {
-    title: "Información legal",
-    links: ["Términos y condiciones", "Política de privacidad", "Regulaciones"],
+    title: "Soporte al usuario",
+    links: ["Ayuda en línea", "Línea de atención al cliente"],
   },
 ];
 
@@ -63,7 +63,14 @@ export default function Footer() {
             ))}
           </section>
         ))}
+        
       </div>
+      <section className="w-full text-center flex flex-col items-center justify-centerr">
+          <p>Las recomendaciones ofrecidasd en la plataforma son de carácter informativo y no sustituyen el 
+            asesoramiento financiero profecional.
+          </p>
+          <p>&copy; 2025 iUPi. Todos los derechos reservados.</p>
+        </section>
     </footer>
   );
 }
