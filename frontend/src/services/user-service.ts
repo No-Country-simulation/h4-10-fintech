@@ -3,10 +3,20 @@ import { User } from "@/types/user";
 const baseUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/user`;
 console.log(baseUrl);
 
+interface JwtRes {
+  jwtToken: string
+}
+
+export async function getCustomToken(): Promise<JwtRes> {
+  const res = await fetch("https://h4-10-fintech.onrender.com/");
+  const jwtRes = res.json();
+  return jwtRes;
+}
+
 export async function getUserByEmail(email: string): Promise<User> {
   const res = await fetch(`${baseUrl}/e/${email}`);
   const data = await res.json();
-  return data.data;
+  return data;
 }
 
 export async function getAccessToken(): Promise<string> {

@@ -2,9 +2,9 @@
 "use client"
 import Image from "next/image";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import BellIcon from "@/assets/bell-icon.svg"
 import { Button } from "@/components/ui/button";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function SessionButtons() {
   const {user} = useUser();
@@ -26,7 +26,7 @@ export default function SessionButtons() {
           Registrarse
         </Button>
       </a>
-      <a href="https://h4-10-fintech.onrender.com/">
+      <a href="/api/auth/login">
         <Button
           variant="outline"
           className="text-base hover:bg-[#eee] hover:text-foreground"

@@ -14,7 +14,6 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, /* AvatarImage */ } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { useAuth } from "@/context/auth-context";
 
 const dashboardLinks = [
   {
@@ -50,9 +49,7 @@ const dashboardLinks = [
 ];
 
 function DashboardSidebar() {
-  const {user} = useAuth();
   const pathname = usePathname();
-console.log({user});
 
 if (false) return;
 
@@ -62,11 +59,11 @@ if (false) return;
         <div className="w-4/5 flex items-center gap-3">
           <Avatar className="inline-block ml-1 md:ml-0">
             {/* <AvatarImage src={user?.picture ?? "iU"} /> */}
-            <AvatarFallback>{user?.email[0]}</AvatarFallback>
+            <AvatarFallback>{"user?.email[0]"}</AvatarFallback>
           </Avatar>
           <div className="hidden md:block">
-            <p className="font-bold">¡Hola{user?.nombre && user.nombre.search("@") >= 0 ? "!" : `, ${user?.nombre}!`}</p>
-            <p className="text-sm">{user?.email}</p>
+            <p className="font-bold">¡Hola{/* {user?.nombre && user.nombre.search("@") >= 0 ? "!" : `, ${user?.nombre}!`} */}</p>
+            <p className="text-sm">{"user?.email"}</p>
           </div>
         </div>
 

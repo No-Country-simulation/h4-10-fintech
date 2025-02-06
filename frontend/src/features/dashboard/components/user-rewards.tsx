@@ -1,52 +1,51 @@
 "use client";
 
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
-import { Trophy, Star, Award } from "lucide-react";
-import { useAuth } from "@/context/auth-context";
+// import { Progress } from "@/components/ui/progress";
+// import { Badge } from "@/components/ui/badge";
+import { Trophy, /* Star, Award */ } from "lucide-react";
 
-interface Reward {
+/* interface Reward {
   id: number;
   name: string;
   description: string;
   icon: React.ElementType;
   progress: number;
-}
+} */
 
-const rewardsData: Reward[] = [
-  {
-    id: 1,
-    name: "Ahorrador Novato",
-    description: "Ahorra tu primer $1000",
-    icon: Trophy,
-    progress: 75,
-  },
-  {
-    id: 2,
-    name: "Inversor Prudente",
-    description: "Realiza 5 inversiones",
-    icon: Star,
-    progress: 40,
-  },
-  {
-    id: 3,
-    name: "Maestro Financiero",
-    description: "Completa todos los módulos educativos",
-    icon: Award,
-    progress: 20,
-  },
-];
+// const rewardsData: Reward[] = [
+//   {
+//     id: 1,
+//     name: "Ahorrador Novato",
+//     description: "Ahorra tu primer $1000",
+//     icon: Trophy,
+//     progress: 75,
+//   },
+//   {
+//     id: 2,
+//     name: "Inversor Prudente",
+//     description: "Realiza 5 inversiones",
+//     icon: Star,
+//     progress: 40,
+//   },
+//   {
+//     id: 3,
+//     name: "Maestro Financiero",
+//     description: "Completa todos los módulos educativos",
+//     icon: Award,
+//     progress: 20,
+//   },
+// ];
 
 export function UserRewards() {
-  const { user } = useAuth();
-  const [rewards, setRewards] = useState<Reward[]>([]);
+  // const { user } = useAuth();
+  // const [rewards, setRewards] = useState<Reward[]>([]);
 
-  useEffect(() => {
-    // En una implementación real, obtendríamos las recompensas del usuario desde el backend
-    setRewards(rewardsData);
-  }, [user]);
+  // useEffect(() => {
+  //   // En una implementación real, obtendríamos las recompensas del usuario desde el backend
+  //   setRewards(rewardsData);
+  // }, [user]);
 
   return (
     <Card className="bg-white dark:bg-gray-800 shadow-sm">
@@ -58,7 +57,7 @@ export function UserRewards() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {rewards.map((reward) => (
+          {/* {rewards.map((reward) => (
             <div key={reward.id} className="space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
@@ -72,7 +71,7 @@ export function UserRewards() {
               </p>
               <Progress value={reward.progress} className="h-2" />
             </div>
-          ))}
+          ))} */}
         </div>
       </CardContent>
     </Card>

@@ -1,3 +1,5 @@
+"use client"
+
 import { DashboardHeader } from "@/features/dashboard/components/dashboard-header";
 import { FinancialSummary } from "@/features/dashboard/components/financial-summary";
 import { GoalsProgress } from "@/features/dashboard/components/goals-progress";
@@ -10,8 +12,13 @@ import { FinancialEducation } from "@/features/dashboard/components/financial-ed
 import { NotificationsCenter } from "@/features/dashboard/components/notifications-center";
 import { ExpenseAnalysis } from "@/features/dashboard/components/expense-analysis";
 import { FinancialInstrumentComparator } from "@/features/dashboard/components/financial-instrument-comparator";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function HomePage() {
+  const {iUpiUser, customToken} = useAuth();
+
+  console.log("Valores de dash home:", iUpiUser, customToken)
+  
   return (
     <div className="space-y-6">
       <DashboardHeader />

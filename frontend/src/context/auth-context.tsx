@@ -1,37 +1,42 @@
-"use client";
+/* "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { getUserByEmail } from "@/services/user-service";
 import { User } from "@/types/user";
+import { useUserStore } from "@/store/token-store";
+import { redirect } from "next/navigation";
 
 interface AuthContextType {
   user?: User;
+  customToken: string,
 }
 
-const AuthContext = createContext<AuthContextType>({user: undefined});
+const AuthContext = createContext<AuthContextType>({user: undefined, customToken: ""});
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { user } = useUser();
-  const [usuario, setUsuario] = useState<User | undefined>();
+  const iUpiUser = useUserStore(state => state.iUpiUser);
+  const customToken = useUserStore(state => state.customToken);
+  const setiUpiUser = useUserStore((state) => state.setiUpiUser);
+  const setCustomToken = useUserStore((state) => state.setCustomToken);
 
   useEffect(() => {
-    // Aquí normalmente verificarías si hay una sesión activa
-    // Por ahora, simularemos un usuario logueado
+    if(!user) return redirect("/");
     if (user) {
       (async () => {
         const userData = await getUserByEmail(user.email ?? "");
-        setUsuario(userData);
+        setiUpiUser(userData);
       })();
     } else {
-      setUsuario(undefined);
+      setiUpiUser(undefined);
     }
   }, [user]);
 
   return (
-    <AuthContext.Provider value={{ user: usuario }}>
+    <AuthContext.Provider value={{ user: iUpiUser }}>
       {children}
     </AuthContext.Provider>
   );
@@ -44,3 +49,4 @@ export const useAuth = () => {
   }
   return context;
 };
+ */

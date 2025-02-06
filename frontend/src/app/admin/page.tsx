@@ -1,6 +1,5 @@
 "use client";
 
-// import { useAuth } from "@/context/auth-context";
 import { AdminPanel } from "@/features/dashboard/components/admin-panel";
 // import { useRouter } from "next/navigation";
 // import { useEffect } from "react";
