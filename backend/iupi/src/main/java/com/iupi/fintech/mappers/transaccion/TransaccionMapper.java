@@ -29,11 +29,11 @@ public abstract class TransaccionMapper {
     @Mapping(source = "productofci", target = "productofci", qualifiedByName = "productoToLong")
     public abstract TransaccionResponseDto toResponse(Transaccion transaccion);
 
-    @Mapping(source = "cuentaId", target = "cuenta", qualifiedByName = "longToCuenta")
+//    @Mapping(source = "cuentaId", target = "cuenta", qualifiedByName = "longToCuenta")
     @Mapping(source = "productofci", target = "productofci", qualifiedByName = "longToProducto")
     public abstract Transaccion toEntity(TransaccionRequestDto dto);
 
-    @Mapping(source = "cuentaId", target = "cuenta", qualifiedByName = "longToCuenta")
+//    @Mapping(source = "cuentaId", target = "cuenta", qualifiedByName = "longToCuenta")
     @Mapping(source = "productofci", target = "productofci", qualifiedByName = "longToProducto")
     public abstract void updateEntityFromDto(TransaccionRequestDto dto, @MappingTarget Transaccion transaccion);
 

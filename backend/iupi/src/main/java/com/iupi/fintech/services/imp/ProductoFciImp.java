@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,12 +82,13 @@ public class ProductoFciImp implements ProductoFciService{
     public List<ProductoFciDto> getRecomedacionesByPerfilUser(String identificacion){
 
         WebClient webClient = WebClient.builder()
-                .baseUrl("https://xxxxxxx")
+                .baseUrl("https://iupi-rec.onrender.com")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
-        return webClient.get()
-                .uri("/getRecomendacion/" + identificacion)
+        return webClient.post()
+                .uri("/recomendar")
+                .bodyValue(Collections.singletonMap("identificacion", "10000090")) // Enviar como JSON
                 .retrieve()
                 .bodyToFlux(ProductoFciDto.class)
                 .collectList()

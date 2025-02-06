@@ -33,7 +33,7 @@ public abstract class ProductoFciMapper {
     }
     @Named("transaccionToLong")
     public List<Long> transaccionToLong(List<Transaccion> transacciones) {
-        return transacciones.stream().map(Transaccion::getId).toList();
+        return transacciones.stream().map(Transaccion::getTransacciones_id).toList();
     }
 
 }

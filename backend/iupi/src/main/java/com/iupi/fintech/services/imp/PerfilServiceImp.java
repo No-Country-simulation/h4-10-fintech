@@ -37,7 +37,7 @@ public class PerfilServiceImp implements PerfilService {
     public PerfilDto save(PerfilDto requestDTO) {
 
        Perfil perfil= perfilMapper.toEntity(requestDTO);
-       perfil.setPerfilRiesgo(PerfilDeRiesgo.Conservador);
+       perfil.setPerfilRiesgo(PerfilDeRiesgo.CONSERVADOR);
        perfil.setCapacidadAhorro(CapacidadDeAhorro.BAJO);
        perfil.setConocimientoFinanciero(ConocimientoFinanciero.NOVATO);
        perfil.setNivelEconomico(NivelEconomico.BAJO);
