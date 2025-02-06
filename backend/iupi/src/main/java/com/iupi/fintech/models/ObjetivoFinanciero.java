@@ -27,6 +27,6 @@ public class ObjetivoFinanciero {
     private Boolean completado;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
     private User user;
 }

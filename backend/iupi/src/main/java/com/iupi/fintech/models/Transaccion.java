@@ -3,6 +3,7 @@ package com.iupi.fintech.models;
 import com.iupi.fintech.enums.Moneda;
 import com.iupi.fintech.enums.TipoTransaccion;
 import com.iupi.fintech.enums.TransaccionTipoProducto;
+import com.iupi.fintech.models.generic.ProductoFCI;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 public class Transaccion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long transacciones_id;
 
     @Enumerated(EnumType.STRING)
     private TransaccionTipoProducto tipoProducto;
@@ -43,7 +44,7 @@ public class Transaccion {
     private Cuenta cuenta;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
-    private Producto producto;
+    @JoinColumn(name = "productoFCI_id", nullable = false)
+    private ProductoFCI productoFCI;
 
 }

@@ -20,12 +20,11 @@ public abstract class TransaccionMapper {
     private CuentaRepository cuentaRepository;
 
 
-    @Mapping(source = "cuenta", target = "cuentaId", qualifiedByName = "cuentaToLong")
+//    @Mapping(source = "cuenta", target = "cuentaId", qualifiedByName = "cuentaToLong")
     @Mapping(source = "tiempo", target = "tiempoId", qualifiedByName = "tiempoToLong")
     public abstract TransaccionResponseDto toResponse(Transaccion transaccion);
 
     // @Mapping(source = "tiempoId", target = "tiempo", qualifiedByName = "longToTiempo")
-    @Mapping(source = "cuentaId", target = "cuenta", qualifiedByName = "longToCuenta")
     public abstract Transaccion toEntity(TransaccionRequestDto dto);
 
     public abstract void updateEntityFromDto(TransaccionRequestDto dto, @MappingTarget Transaccion transaccion);
@@ -35,10 +34,10 @@ public abstract class TransaccionMapper {
         return id != null ? cuentaRepository.findById(id).orElse(null) : null;
     }
 
-    @Named("cuentaToLong")
-    public Long toLong(Cuenta cuenta) {
-        return cuenta != null ? cuenta.getId() : null;
-    }
+//    @Named("cuentaToLong")
+//    public Long toLong(Cuenta cuenta) {
+//        return cuenta != null ? cuenta.getId() : null;
+//    }
 
 @Named("tiempoToLong")
 public Long toLong(Tiempo tiempo) {

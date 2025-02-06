@@ -30,7 +30,7 @@ public abstract class TiempoMapper {
 
     @Named("transaccionToLong")
     public List<Long> transaccionToLong(List<Transaccion> transacciones) {
-        return transacciones.stream().map(Transaccion::getId).collect(Collectors.toList());
+        return transacciones.stream().map(Transaccion::getTransacciones_id).collect(Collectors.toList());
     }
 
     @Named("longToTransaccion")

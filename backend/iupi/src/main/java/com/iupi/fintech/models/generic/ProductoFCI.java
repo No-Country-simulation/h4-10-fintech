@@ -1,6 +1,7 @@
 package com.iupi.fintech.models.generic;
 
 
+import com.iupi.fintech.models.Transaccion;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -46,4 +48,7 @@ public class ProductoFCI {
     private String tipo;
     // monto minimo para operar
     private BigDecimal montoMinimo;
+
+    @OneToMany(mappedBy = "productoFCI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Transaccion> transacciones;
 }

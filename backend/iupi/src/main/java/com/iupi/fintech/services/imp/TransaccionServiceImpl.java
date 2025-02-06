@@ -6,6 +6,8 @@ import com.iupi.fintech.dtos.cuenta.CuentaRequestDto;
 import com.iupi.fintech.dtos.tiempo.TiempoDto;
 import com.iupi.fintech.dtos.transaccion.TransaccionRequestDto;
 import com.iupi.fintech.dtos.transaccion.TransaccionResponseDto;
+import com.iupi.fintech.enums.TipoProducto;
+import com.iupi.fintech.enums.TransaccionTipoProducto;
 import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.mappers.timpo.TiempoMapper;
 import com.iupi.fintech.mappers.transaccion.TransaccionMapper;
@@ -53,6 +55,9 @@ public class TransaccionServiceImpl implements TransaccionService {
         Transaccion transaccion = transaccionMapper.toEntity(transaccionRequestDto);
         transaccion.setTiempo(tiempoMapper.toEntity(tiempo));
         transaccion.setFecha(LocalDateTime.now());
+        //Se setea ya que de momento todas las transacciones seran asi
+        transaccion.setTipoProducto(TransaccionTipoProducto.Financiero);
+        transaccion.setCuenta(user.getCuenta());
 
         Transaccion savedTransaccion = transaccionRepository.save(transaccion);
         BigDecimal resultado = user.getCuenta().getMonto().subtract(savedTransaccion.getMonto());

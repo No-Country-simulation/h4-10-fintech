@@ -16,7 +16,7 @@ import java.util.List;
 public class Cuenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long cuenta_id;
 
     @Column(nullable = false)
     private BigDecimal monto;

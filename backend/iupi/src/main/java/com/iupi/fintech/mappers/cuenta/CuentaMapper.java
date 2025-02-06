@@ -47,6 +47,6 @@ public abstract class CuentaMapper {
         if (transacciones == null) {
             return new ArrayList<>();
         }
-        return transacciones.stream().map(Transaccion::getId).collect(Collectors.toList());
+        return transacciones.stream().map(Transaccion::getTransacciones_id).collect(Collectors.toList());
     }
 }
