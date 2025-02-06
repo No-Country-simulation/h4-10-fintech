@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import Providers from "@/app/providers";
-import { AuthProvider } from "@/context/auth-context";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 
@@ -26,8 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${lato.variable} antialiased mx-auto`}>
       <UserProvider>
-        <body className="min-h-screen w-full">
-          <AuthProvider>
+          <body className="min-h-screen w-full">
             <Providers>
               <NavBar />
               <main className="min-h-[502px] w-full max-w-desktop mx-auto">
@@ -35,8 +33,7 @@ export default function RootLayout({
               </main>
               <Footer />
             </Providers>
-          </AuthProvider>
-        </body>
+          </body>
       </UserProvider>
     </html>
   );

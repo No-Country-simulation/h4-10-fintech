@@ -17,7 +17,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAuth } from "@/context/auth-context";
 
 const steps = [
   {
@@ -45,7 +44,6 @@ const steps = [
 export function OnboardingWizard() {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const { user } = useAuth();
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -64,7 +62,7 @@ export function OnboardingWizard() {
   return (
     <Card className="w-[400px]">
       <CardHeader>
-        <CardTitle>Bienvenido a Iupi, {user?.name}!</CardTitle>
+        <CardTitle>Bienvenido a Iupi, {"user?.nombre"}!</CardTitle>
       </CardHeader>
       <CardContent>
         <h2 className="text-lg font-semibold mb-4">
