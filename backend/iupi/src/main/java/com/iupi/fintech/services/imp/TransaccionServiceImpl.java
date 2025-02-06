@@ -2,19 +2,25 @@ package com.iupi.fintech.services.imp;
 
 
 
+import com.iupi.fintech.dtos.cuenta.CuentaRequestDto;
 import com.iupi.fintech.dtos.tiempo.TiempoDto;
 import com.iupi.fintech.dtos.transaccion.TransaccionRequestDto;
 import com.iupi.fintech.dtos.transaccion.TransaccionResponseDto;
 import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.mappers.timpo.TiempoMapper;
 import com.iupi.fintech.mappers.transaccion.TransaccionMapper;
+import com.iupi.fintech.models.Cuenta;
 import com.iupi.fintech.models.Transaccion;
+import com.iupi.fintech.models.User;
 import com.iupi.fintech.repositories.TransaccionRepository;
+import com.iupi.fintech.repositories.UserRepository;
 import com.iupi.fintech.services.TiempoService;
 import com.iupi.fintech.services.TransaccionService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -28,11 +34,15 @@ public class TransaccionServiceImpl implements TransaccionService {
     private final TransaccionMapper transaccionMapper;
     private final TiempoService tiempoService;
     private final TiempoMapper tiempoMapper;
-
+    private final AuthenticatedUserService authenticatedUser;
+    private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public TransaccionResponseDto save(TransaccionRequestDto transaccionRequestDto) {
-        // se debe obtener el usuario autenticado que es el que realiza la transaccion (pendiente)
+        String email = authenticatedUser.getAuthenticatedUsername().getEmail();
+        User user = userRepository.findByEmail(email).orElseThrow();
+
         LocalDate fecha= LocalDate.now();
 
         TiempoDto tiempo = tiempoService.findByFecha(fecha);
@@ -44,7 +54,12 @@ public class TransaccionServiceImpl implements TransaccionService {
         transaccion.setTiempo(tiempoMapper.toEntity(tiempo));
         transaccion.setFecha(LocalDateTime.now());
 
-       transaccionRepository.save(transaccion);
+        Transaccion savedTransaccion = transaccionRepository.save(transaccion);
+        BigDecimal resultado = user.getCuenta().getMonto().subtract(savedTransaccion.getMonto());
+
+        user.getCuenta().setMonto(resultado);
+        userRepository.save(user);
+
         return transaccionMapper.toResponse(transaccion);
     }
 
@@ -73,5 +88,13 @@ public class TransaccionServiceImpl implements TransaccionService {
         transaccionMapper.updateEntityFromDto(requestDto, transaccion);
         Transaccion transaccionActualizado = transaccionRepository.save(transaccion);
         return transaccionMapper.toResponse(transaccionActualizado);
+    }
+
+
+    public boolean validarTransaccion(Cuenta cuenta, TransaccionRequestDto requestDto){
+        if(cuenta.getMonto().compareTo(requestDto.monto()) <= 0){
+            throw new ApplicationException("Saldo insuficiente para realizar la transaccion.");
+        }
+        return true;
     }
 }
