@@ -1,8 +1,7 @@
 package com.iupi.fintech.utils.iol;
 
 import com.iupi.fintech.dtos.ProductoFciDto;
-import com.iupi.fintech.mappers.ProductoFciMapper;
-import com.iupi.fintech.models.generic.ProductoFCI;
+import com.iupi.fintech.models.generic.ProductoFci;
 import com.iupi.fintech.repositories.ProductoFciRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -46,7 +45,7 @@ public class IolDataImp implements IolDataInterface {
 
     //Obtiene un titulo por su simbolo(identificador)
     @Override
-    public ProductoFCI getIolDataBySimbolo(String user, String simbolo) {
+    public ProductoFci getIolDataBySimbolo(String user, String simbolo) {
 //        Optional<IolUser> userIupii = iolUserRepository.findById(user);
 //        String token= userIupii.get().getEncryptedIolToken();
 //        WebClient webClient= iolInterface.getConnection();

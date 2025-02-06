@@ -3,6 +3,7 @@ package com.iupi.fintech.models;
 import com.iupi.fintech.enums.Moneda;
 import com.iupi.fintech.enums.TipoTransaccion;
 import com.iupi.fintech.enums.TransaccionTipoProducto;
+import com.iupi.fintech.models.generic.ProductoFci;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,8 +46,9 @@ public class Transaccion {
 
 
 //    De donde sale este id, en el script es un id de productos pero existen dos tablas de productos
-//    @ManyToOne
-//    @JoinColumn(nullable = false)
-//    private Producto producto;
+    @ManyToOne
+    @JoinColumn( name = "productofci_id",nullable = false)
+    private ProductoFci productofci;
 
+//
 }

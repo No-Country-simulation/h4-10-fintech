@@ -1,6 +1,7 @@
 package com.iupi.fintech.dtos;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record ProductoFciDto(
 
@@ -18,7 +19,8 @@ public record ProductoFciDto(
         String pais,
         String mercado,
         String tipo,
-        BigDecimal montoMinimo
+        BigDecimal montoMinimo,
+        List<Long> transaccionesId
 
 
 ) {

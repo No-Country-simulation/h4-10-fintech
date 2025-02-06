@@ -1,11 +1,11 @@
 package com.iupi.fintech.services;
 
 import com.iupi.fintech.dtos.ProductoFciDto;
-import com.iupi.fintech.models.generic.ProductoFCI;
+import com.iupi.fintech.models.generic.ProductoFci;
 
 import java.util.List;
 
-public interface ProductoFciService extends GenericServiceDto<ProductoFCI, ProductoFciDto> {
+public interface ProductoFciService extends GenericServiceDto<ProductoFci, ProductoFciDto> {
 
 
     ProductoFciDto findBySimbolo(String simbolo);

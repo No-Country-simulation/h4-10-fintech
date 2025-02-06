@@ -46,7 +46,8 @@ public class ProductoFciImp implements ProductoFciService{
     @Override
     public List<ProductoFciDto> findByParamPerfilInversor(String perfilInversor) {
 
-        PerfilDeRiesgo.valueOf(perfilInversor);
+ PerfilDeRiesgo.valueOf(perfilInversor);
+
         return productoRepository.findByPerfilInversor(perfilInversor).stream().map(productoFciMapper::toDto).toList();
     }
 

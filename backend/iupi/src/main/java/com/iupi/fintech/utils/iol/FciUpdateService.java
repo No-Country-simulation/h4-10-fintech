@@ -3,7 +3,7 @@ package com.iupi.fintech.utils.iol;
 import com.iupi.fintech.dtos.ProductoFciDto;
 import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.mappers.ProductoFciMapper;
-import com.iupi.fintech.models.generic.ProductoFCI;
+import com.iupi.fintech.models.generic.ProductoFci;
 import com.iupi.fintech.repositories.ProductoFciRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -49,7 +49,7 @@ public class FciUpdateService {
     }
 
 
-    private Mono<List<ProductoFCI>> getIolDataFCI(String token) {
+    private Mono<List<ProductoFci>> getIolDataFCI(String token) {
 
         return getConnection().get()
                 .uri("/api/v2/Titulos/FCI")

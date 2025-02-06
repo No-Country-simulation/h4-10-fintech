@@ -29,6 +29,8 @@ public record TransaccionRequestDto(
 
         @NotNull(message = "El tipo de transacción es obligatorio.")
         @Pattern(regexp = "Deposito|Retiro|Inversion", message = "El tipo de transacción debe ser 'Deposito', 'Retiro' o 'Inversion'.")
-        String tipoTransaccion
+        String tipoTransaccion,
+
+        Long productofci
 ) {}
 

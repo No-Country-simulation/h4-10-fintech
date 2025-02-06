@@ -1,16 +1,15 @@
 package com.iupi.fintech.repositories;
 
-import com.iupi.fintech.models.generic.ProductoFCI;
+import com.iupi.fintech.models.generic.ProductoFci;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Collection;
 import java.util.List;
 
-public interface ProductoFciRepository extends JpaRepository<ProductoFCI, Long> {
+public interface ProductoFciRepository extends JpaRepository<ProductoFci, Long> {
 
-ProductoFCI findBySimbolo(String simbolo);
+ProductoFci findBySimbolo(String simbolo);
 
-    List<ProductoFCI> findByPerfilInversor(String perfilInversor);
+    List<ProductoFci> findByPerfilInversor(String perfilInversor);
 
-    List<ProductoFCI> findByHorizonteInversion(String horizonteInversion);
+    List<ProductoFci> findByHorizonteInversion(String horizonteInversion);
 }

@@ -43,7 +43,7 @@ public class UserServiceImp implements UserService {
         newUser.setEstadoRegistro(EstadoRegistro.INACTIVO);
         newUser.setFechaRegistro(LocalDate.now());
         Perfil perfil= new Perfil();
-        perfil.setPerfilRiesgo(PerfilDeRiesgo.CONSERVADOR);
+        perfil.setPerfilRiesgo(PerfilDeRiesgo.Conservador);
         perfil.setCapacidadAhorro(CapacidadDeAhorro.BAJO);
         perfil.setConocimientoFinanciero(ConocimientoFinanciero.NOVATO);
         perfil.setNivelEconomico(NivelEconomico.BAJO);
