@@ -1,4 +1,4 @@
-/* "use client"
+"use client"
 
 import { DashboardHeader } from "@/features/dashboard/components/dashboard-header";
 import { FinancialSummary } from "@/features/dashboard/components/financial-summary";
@@ -12,10 +12,10 @@ import { FinancialEducation } from "@/features/dashboard/components/financial-ed
 import { NotificationsCenter } from "@/features/dashboard/components/notifications-center";
 import { ExpenseAnalysis } from "@/features/dashboard/components/expense-analysis";
 import { FinancialInstrumentComparator } from "@/features/dashboard/components/financial-instrument-comparator";
-import { useAuth } from "@/hooks/useAuth";
+// import { useAuth } from "@/hooks/useAuth";
 
 export default function HomePage() {
-  const {iUpiUser, customToken} = useAuth();
+  // const {iUpiUser, customToken} = useAuth();
   
   return (
     <div className="space-y-6">
@@ -42,4 +42,3 @@ export default function HomePage() {
     </div>
   );
 }
- */
