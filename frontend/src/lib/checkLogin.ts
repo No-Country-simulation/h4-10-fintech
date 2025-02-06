@@ -16,7 +16,7 @@ export async function checkAuthentication() {
       if (isAuthenticated) {
         // Si está autenticado, obtener el custom token
         const tokenResponse = await fetch(
-          "https://h4-10-fintech.onrender.com/api/auth/getToken",
+          "https://h4-10-fintech.onrender.com/api/auth/generate-custom-token",
           {
             credentials: "include",
           }
