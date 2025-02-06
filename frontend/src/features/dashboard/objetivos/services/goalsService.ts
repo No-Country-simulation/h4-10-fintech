@@ -2,11 +2,11 @@ import { Goal } from "../types/goalTypes";
 
 const baseUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/objetivos-financieros`;
 
-export async function getUserGoals(customToken: string) {
+export async function getUserGoals(customToken?: string) {
   console.log(baseUrl);
   const options: RequestInit = {
     headers: {
-      Authorization: `Bearer ${customToken}`,
+      Authorization: `Bearer ${customToken ?? ""}`,
     },
   };
   const res = await fetch(`${baseUrl}`, options);
