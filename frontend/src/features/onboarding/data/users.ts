@@ -1,4 +1,4 @@
-export let users = [
+export const users = [
   {
     usuarioId: 1,
     auth0Id: "auth0|123456789",
