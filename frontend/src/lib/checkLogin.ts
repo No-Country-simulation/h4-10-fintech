@@ -24,10 +24,10 @@ export async function checkAuthentication() {
         if (tokenResponse.ok) {
           const data = await tokenResponse.json();
           return data.token;
-          window.history.replaceState({}, document.title, "/dashboard"); // Limpiar la URL
+           // Limpiar la URL
         }
       } else {
-        window.location.href = "/"; // Redirigir si no está autenticado
+        console.log("Dice que no está autenticado"); // Redirigir si no está autenticado
       }
     } catch (error) {
       console.error("Error verificando autenticación:", error);

@@ -27,6 +27,7 @@ export default function HomePage() {
       if(!customToken) {
         const newToken = await checkAuthentication();
         setCustomToken(newToken);
+        window.history.replaceState({}, document.title, "/dashboard");
       }
     })()
   }, [customToken, setCustomToken]);
