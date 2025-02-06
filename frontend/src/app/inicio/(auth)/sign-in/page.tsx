@@ -2,8 +2,12 @@
 import { useState } from "react";
 import Image from "next/image";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { users } from "@/data/users";
+import { redirect } from "next/navigation";
+import { useUserStore } from "@/store/session-store";
 
 const SignIn: React.FC = () => {
+    const setIUpiUser = useUserStore((state) => state.setIUpiUser);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -32,8 +36,9 @@ const SignIn: React.FC = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      // Aquí puedes manejar el envío del formulario
-      console.log("Formulario válido:", { email, password });
+      const index = users.findIndex((user) => user.email === email);
+      setIUpiUser(users[index])
+      redirect("/inicio/dashboard")
     }
   };
 

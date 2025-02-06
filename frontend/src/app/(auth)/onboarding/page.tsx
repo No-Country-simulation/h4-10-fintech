@@ -2,7 +2,7 @@
 
 import OnboardingForm from "@/features/onboarding/components/OnboardingForm";
 import { useOnboardingQuestions } from "@/features/dashboard/radiografia/hooks/useOnboardingQuestions";
-import testQuestions from "@/features/onboarding/data/questions";
+import testQuestions from "@/data/questions";
 
 export default function Onboarding() {
   const { data /* isError, isLoading */ } = useOnboardingQuestions();

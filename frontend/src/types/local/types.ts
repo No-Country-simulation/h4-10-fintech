@@ -8,9 +8,9 @@ export interface User {
   direccion?: string;
   telefono?: string;
   identificacion?: string;
-  fechaNacimiento?: Date;
-  fechaRegistro: Date;
-  fechaUltimaConexion?: Date;
+  fechaNacimiento?: string;
+  fechaRegistro: string;
+  fechaUltimaConexion?: string;
   estadoRegistro: string;
   tipoIdentificacion?: string;
   perfil: Perfil;
@@ -61,4 +61,11 @@ export interface Tiempo {
   dia: number;
   trimestre: number;
   semana: number;
+}
+
+export interface Goal {
+  id: number;
+  nombreObjetivo: string;
+  montoTotal: number;
+  montoActual: number;
 }
