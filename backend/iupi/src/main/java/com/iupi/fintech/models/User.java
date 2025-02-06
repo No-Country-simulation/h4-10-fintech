@@ -30,7 +30,6 @@ public class User implements UserDetails {
     private String auth0Id;
     private String nombre;
     private String email;
-    private Genero genero;
     private String pais;
     private String direccion;
     private String telefono;
@@ -44,7 +43,8 @@ public class User implements UserDetails {
     // Enums
     @Enumerated(EnumType.STRING)
     private Role rol;
-
+    @Enumerated(EnumType.STRING)
+    private Genero genero;
     @Enumerated(EnumType.STRING)
     private EstadoRegistro estadoRegistro;
     @Enumerated(EnumType.STRING)
