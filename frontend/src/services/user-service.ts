@@ -1,14 +1,18 @@
 import { User } from "@/types/user";
 
 const baseUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/user`;
-console.log(baseUrl);
 
 interface JwtRes {
   jwtToken: string
 }
 
 export async function getCustomToken(): Promise<JwtRes> {
-  const res = await fetch("https://h4-10-fintech.onrender.com/");
+  const res = await fetch(
+    "https://h4-10-fintech.onrender.com/api/auth/generate-custom-token",
+    {
+      credentials: "include",
+    }
+  );
   const jwtRes = res.json();
   return jwtRes;
 }
@@ -36,7 +40,6 @@ export async function getAccessToken(): Promise<string> {
     method: "POST",
     headers: headers,
   };
-  console.log(url.href);
   const res = await fetch(url.href, req);
   const data = await res.json();
   return data.access_token;

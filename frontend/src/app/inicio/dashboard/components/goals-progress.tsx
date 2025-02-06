@@ -7,40 +7,35 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Trophy, Plus } from "lucide-react";
-import { Goal } from "../objetivos/types/goalTypes";
-import { postGoal } from "../objetivos/services/goalsService";
-import { useGoals } from "../objetivos/hooks/goalsQuery";
+import { Goal } from "@/features/dashboard/objetivos/types/goalTypes";
+import { User } from "@/types/local/types";
+import { useGoals } from "@/hooks/local/goals-query";
 
-export function GoalsProgress() {
-  const {data} = useGoals();
-  console.log({data});
-  const goals = [
-    {
-      id: 1,
-      nombreObjetivo: "Vacaciones 2025",
-      montoTotal: 5000,
-      montoActual: 3000,
-    },
-    {
-      id: 2,
-      nombreObjetivo: "Comprar un auto",
-      montoTotal: 20000,
-      montoActual: 6000,
-    },
-  ];
+interface GoalsProgressType {
+  user: User;
+}
+
+export function GoalsProgress({ user }: GoalsProgressType) {
+  const { data: goals } = useGoals(user.usuarioId);
   const [newGoal, setNewGoal] = useState({
     nombreObjetivo: "",
     montoTotal: "",
   });
 
-  async function handleAddGoal(newGoal: {nombreObjetivo: string, montoTotal: string}) {
+  async function handleAddGoal(newGoal: {
+    nombreObjetivo: string;
+    montoTotal: string;
+  }) {
     const typedAmount = Number(newGoal.montoTotal);
-    const typedGoal: Omit<Goal, "id" | "montoActual"> = {nombreObjetivo: newGoal.nombreObjetivo, montoTotal: typedAmount};
-    const postedGoal = await postGoal(typedGoal);
-    setNewGoal({ nombreObjetivo: "", montoTotal: "" });
-    console.log(postedGoal);
+    const typedGoal: Omit<Goal, "id" | "montoActual"> = {
+      nombreObjetivo: newGoal.nombreObjetivo,
+      montoTotal: typedAmount,
+    };
+    // const postedGoal = await postGoal(typedGoal);
+    // setNewGoal({ nombreObjetivo: "", montoTotal: "" });
+    console.log(typedGoal);
   }
-
+  if (!goals) return;
   return (
     <Card className="bg-card dark:bg-gray-800 shadow-sm">
       <CardHeader>
@@ -51,12 +46,16 @@ export function GoalsProgress() {
       <CardContent>
         <div className="space-y-6">
           {goals.map((goal) => {
-            const progress = Math.round((goal.montoActual / goal.montoTotal) * 100);
+            const progress = Math.round(
+              (goal.montoActual / goal.montoTotal) * 100
+            );
             return (
               <div key={goal.id} className="space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    {progress === 100 && <Trophy className="h-5 w-5 text-blue-500" />}
+                    {progress === 100 && (
+                      <Trophy className="h-5 w-5 text-blue-500" />
+                    )}
                     <span>{goal.nombreObjetivo}</span>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -75,18 +74,24 @@ export function GoalsProgress() {
           <Input
             placeholder="Nombre del objetivo"
             value={newGoal.nombreObjetivo}
-            onChange={(e) => setNewGoal({ ...newGoal, nombreObjetivo: e.target.value })}
+            onChange={(e) =>
+              setNewGoal({ ...newGoal, nombreObjetivo: e.target.value })
+            }
           />
           <Input
             type="number"
             min={0}
             placeholder="Monto objetivo"
             value={newGoal.montoTotal}
-            onChange={(e) => setNewGoal({ ...newGoal, montoTotal: e.target.value })}
+            onChange={(e) =>
+              setNewGoal({ ...newGoal, montoTotal: e.target.value })
+            }
           />
           <Button
-          disabled={!newGoal.nombreObjetivo || Number(newGoal.montoTotal) < 1}
-          onClick={() => handleAddGoal(newGoal)} className="w-full">
+            disabled={!newGoal.nombreObjetivo || Number(newGoal.montoTotal) < 1}
+            onClick={() => handleAddGoal(newGoal)}
+            className="w-full"
+          >
             <Plus className="h-4 w-4 mr-2" /> Agregar Objetivo
           </Button>
         </div>

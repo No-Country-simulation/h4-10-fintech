@@ -1,15 +1,15 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
 "use client"
 import Image from "next/image";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import BellIcon from "@/assets/bell-icon.svg"
 import { Button } from "@/components/ui/button";
-import { useUser } from "@auth0/nextjs-auth0/client";
+import Link from "next/link";
+import { useUserStore } from "@/store/session-store";
 
 export default function SessionButtons() {
-  const {user} = useUser();
+  const iUpiUser = useUserStore(state => state.iUpiUser);
 
-  if (user) return (
+  if (iUpiUser) return (
     <Popover>
       <PopoverTrigger>
         <Image src={BellIcon} alt="Notificaciones"/>
@@ -21,19 +21,19 @@ export default function SessionButtons() {
   );
   return (
     <>
-      <a href="/api/auth/login">
+      <Link href="/inicio/sign-up">
         <Button variant="secondary" className="mx-2 text-base">
           Registrarse
         </Button>
-      </a>
-      <a href="/api/auth/login">
+      </Link>
+      <Link href="/inicio/sign-in">
         <Button
           variant="outline"
           className="text-base hover:bg-[#eee] hover:text-foreground"
         >
           Iniciar sesión
         </Button>
-      </a>
+      </Link>
     </>
   );
 }

@@ -12,12 +12,28 @@ import { FinancialEducation } from "@/features/dashboard/components/financial-ed
 import { NotificationsCenter } from "@/features/dashboard/components/notifications-center";
 import { ExpenseAnalysis } from "@/features/dashboard/components/expense-analysis";
 import { FinancialInstrumentComparator } from "@/features/dashboard/components/financial-instrument-comparator";
-import { useAuth } from "@/hooks/useAuth";
+import { useEffect } from "react";
+import { useUserStore } from "@/store/user-store";
+import { getCustomToken } from "@/services/user-service";
 
 export default function HomePage() {
-  const {iUpiUser, customToken} = useAuth();
+  const iUpiUser = useUserStore((state) => state.iUpiUser);
+  const customToken = useUserStore((state) => state.customToken);
+  const setCustomToken = useUserStore(state => state.setCustomToken);
 
-  console.log("Valores de dash home:", iUpiUser, customToken)
+  useEffect(() => {
+    (async () => {
+      console.log({customToken})
+      if(!customToken) {
+        const tokenRes = await getCustomToken();
+        console.log({tokenRes})
+        // setCustomToken(newToken);
+        window.history.replaceState({}, document.title, "/dashboard");
+      }
+    })()
+  }, [customToken, setCustomToken]);
+
+  console.log({iUpiUser, customToken})
   
   return (
     <div className="space-y-6">

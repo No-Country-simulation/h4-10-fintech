@@ -17,8 +17,10 @@ export async function getUserGoals(customToken?: string) {
 export async function postGoal(newGoal: Omit<Goal, "id" | "montoActual">) {
   const options: RequestInit = {
     method: "POST",
+    credentials: "include",
     body: JSON.stringify(newGoal),
   };
+  console.log(baseUrl);
   const res = await fetch(baseUrl, options);
   const data = await res.json();
   return data;
