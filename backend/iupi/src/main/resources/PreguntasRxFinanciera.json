@@ -1,0 +1,108 @@
+[
+  {
+    "id": 1,
+    "pregunta": "¿Cuál es tu ingreso mensual promedio en usd?",
+    "opciones": [
+      {
+        "idRespuesta": 1,
+        "respuesta": "Menos de $500"
+      },
+      {
+        "idRespuesta": 2,
+        "respuesta": "Entre $500 y $1,500"
+      },
+      {
+        "idRespuesta": 3,
+        "respuesta": "Entre $1,500 y $2,500"
+      },
+      {
+        "idRespuesta": 4,
+        "respuesta": "Más de $2,500"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "pregunta": "¿Tienes ahorros actualmente?",
+    "opciones": [
+      {
+        "idRespuesta": 1,
+        "respuesta": "Sí, más del 20% de mis ingresos mensuales."
+      },
+      {
+        "idRespuesta": 2,
+        "respuesta": "Sí, entre el 10% y el 20% de mis ingresos mensuales."
+      },
+      {
+        "idRespuesta": 3,
+        "respuesta": "Sí, menos del 10% de mis ingresos mensuales."
+      },
+      {
+        "idRespuesta": 4,
+        "respuesta": "No tengo ahorros."
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "pregunta": "¿Qué tanto conoces sobre instrumentos de ahorro e inversión?",
+    "opciones": [
+      {
+        "idRespuesta": 1,
+        "respuesta": "Muy poco (apenas ahorro y no invierto)."
+      },
+      {
+        "idRespuesta": 2,
+        "respuesta": "Nivel básico (ahorro en plazos fijos o similares)."
+      },
+      {
+        "idRespuesta": 3,
+        "respuesta": "Nivel intermedio (invierto en fondos, bonos o CEDEARs)."
+      },
+      {
+        "idRespuesta": 4,
+        "respuesta": "Nivel avanzado (gestiono inversiones complejas, como ETFs o acciones internacionales)."
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "pregunta": "¿Qué tan cómodo te sientes asumiendo riesgos financieros?",
+    "opciones": [
+      {
+        "idRespuesta": 1,
+        "respuesta": "Prefiero opciones seguras, aunque el rendimiento sea bajo."
+      },
+      {
+        "idRespuesta": 2,
+        "respuesta": "Estoy dispuesto a asumir riesgos moderados para obtener mejores rendimientos."
+      },
+      {
+        "idRespuesta": 3,
+        "respuesta": "Puedo asumir riesgos altos para maximizar mis ganancias."
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "pregunta": "¿Cuál es tu principal objetivo financiero actualmente?",
+    "opciones": [
+      {
+        "idRespuesta": 1,
+        "respuesta": "Ahorrar para una meta específica (vacaciones, un auto, etc.)."
+      },
+      {
+        "idRespuesta": 2,
+        "respuesta": "Generar ingresos pasivos con inversiones."
+      },
+      {
+        "idRespuesta": 3,
+        "respuesta": "Asegurar mi retiro o patrimonio a largo plazo."
+      },
+      {
+        "idRespuesta": 4,
+        "respuesta": "Otro: (Campo de texto libre)."
+      }
+    ]
+  }
+]
