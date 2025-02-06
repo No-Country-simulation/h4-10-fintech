@@ -1,6 +1,7 @@
 package com.iupi.fintech.controllers;
 
 import com.iupi.fintech.config.jwt.JwtToken;
+import com.iupi.fintech.dtos.ApiResponseDto;
 import com.iupi.fintech.services.imp.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,15 +40,35 @@ public class AuthController {
 
     @GetMapping("/generate-custom-token")
     @Operation(summary = "Genera un token personalizado a partir del Token emitido de Auth0")
-    public ResponseEntity<JwtToken> generateCustomToken(@RequestParam String access_token, HttpSession session) throws Exception {
+    public ResponseEntity<ApiResponseDto<String>> generateCustomToken(@RequestParam String access_token, HttpSession session, HttpServletResponse response) throws Exception {
 
         try {
             String customToken = authService.generateCustomToken(access_token);
             session.setAttribute("customToken", customToken);
-            return ResponseEntity.ok(new JwtToken(customToken));
+            response.sendRedirect("https://iupi-fintech.vercel.app/dashboard?loggedIn=true");
+            return ResponseEntity.ok(new ApiResponseDto<>(true, "Token personalizado generado", customToken));
         } catch (Exception e) {
            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/getToken")
+    @Operation(summary = "obtiene el token de la sesion")
+    public ResponseEntity<JwtToken> getToken(HttpSession session) throws Exception {
+
+        try {
+            String customToken = (String) session.getAttribute("customToken");
+            System.out.println("custom token en el getToken en el controlador de auth: " + customToken);
+            return ResponseEntity.ok(new JwtToken(customToken));
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/is-authenticated")
+    public ResponseEntity<Boolean> isAuthenticated(HttpSession session) {
+        String customToken = (String) session.getAttribute("customToken");
+        return ResponseEntity.ok(customToken != null);
     }
 
     @GetMapping("/logout")
