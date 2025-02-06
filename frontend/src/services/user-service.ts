@@ -1,7 +1,6 @@
 import { User } from "@/types/user";
 
 const baseUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/user`;
-console.log(baseUrl);
 
 interface JwtRes {
   jwtToken: string

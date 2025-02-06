@@ -27,11 +27,11 @@ export async function checkAuthentication() {
           window.history.replaceState({}, document.title, "/dashboard"); // Limpiar la URL
         }
       } else {
-        window.location.href = "/login"; // Redirigir si no está autenticado
+        window.location.href = "/"; // Redirigir si no está autenticado
       }
     } catch (error) {
       console.error("Error verificando autenticación:", error);
-      window.location.href = "/login";
+      window.location.href = "/";
     }
   }
 }
