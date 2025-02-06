@@ -13,8 +13,8 @@ import { NotificationsCenter } from "@/features/dashboard/components/notificatio
 import { ExpenseAnalysis } from "@/features/dashboard/components/expense-analysis";
 import { FinancialInstrumentComparator } from "@/features/dashboard/components/financial-instrument-comparator";
 import { useEffect } from "react";
-import { checkAuthentication } from "@/lib/checkLogin";
 import { useUserStore } from "@/store/user-store";
+import { getCustomToken } from "@/services/user-service";
 
 export default function HomePage() {
   const iUpiUser = useUserStore((state) => state.iUpiUser);
@@ -25,8 +25,9 @@ export default function HomePage() {
     (async () => {
       console.log({customToken})
       if(!customToken) {
-        const newToken = await checkAuthentication();
-        setCustomToken(newToken);
+        const tokenRes = await getCustomToken();
+        console.log({tokenRes})
+        // setCustomToken(newToken);
         window.history.replaceState({}, document.title, "/dashboard");
       }
     })()
