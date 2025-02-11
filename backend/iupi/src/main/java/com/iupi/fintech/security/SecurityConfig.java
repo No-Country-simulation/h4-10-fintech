@@ -75,6 +75,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/access-token**").permitAll()
                         .requestMatchers("/api/auth/is-authenticated**").permitAll()
                         .requestMatchers("/api/auth/getToken**").authenticated()
+                        .requestMatchers("api/auth/**").authenticated()
                         .requestMatchers("/api/home**").authenticated()
                         .requestMatchers("/logout**").authenticated()
                         // User Controller

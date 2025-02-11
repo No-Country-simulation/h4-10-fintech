@@ -11,13 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -86,6 +85,31 @@ public class AuthController {
         response.sendRedirect(logoutUrl);
 
         return ResponseEntity.status(302).header("Location", logoutUrl).build();
+    }
+
+    // ENDPOINTS DE PRUEBA
+    @GetMapping("/test-token")
+    public ResponseEntity<String> testToken(@RequestHeader("Authorization") String token) {
+        System.out.println("entro al test token");
+        return ResponseEntity.ok("Token recibido: " + token);
+    }
+
+    @GetMapping("/test-auth")
+    public ResponseEntity<String> testAuth(Authentication authentication) {
+        System.out.println("entro al test auth");
+        if (authentication == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No autenticado");
+        }
+        return ResponseEntity.ok("Usuario autenticado: " + authentication.getName());
+    }
+    @GetMapping("/test-authh")
+    public ResponseEntity<String> testAuth(OidcUser authentication) {
+        System.out.println("entro al test auth");
+        authentication.getAttribute("email");
+        if (authentication == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No autenticado");
+        }
+        return ResponseEntity.ok("Usuario autenticado: " + authentication.getName());
     }
 
 

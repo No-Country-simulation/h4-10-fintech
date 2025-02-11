@@ -36,6 +36,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
+            System.out.println(" me responde vacio no esta leyendo el bearer");
             return;
         }
 
@@ -46,14 +47,17 @@ public class SecurityFilter extends OncePerRequestFilter {
 
             String username = authService.getUsernameFromToken(token);
 
+            System.out.println("ire al securiryContext holdae");
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 UserDetails userDetails = userService.loadUserByUsername(username);
 
                 if (authService.validateTokenLocal(token, userDetails)) {
+                    System.out.println("entreando a validar el token ");
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                    System.out.println("token valido");
                 }
                 if (!authService.validateTokenLocal(token, userDetails)) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

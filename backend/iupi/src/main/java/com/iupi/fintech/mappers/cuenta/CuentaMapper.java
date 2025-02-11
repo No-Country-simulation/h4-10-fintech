@@ -30,6 +30,7 @@ public abstract class CuentaMapper {
 
     @Mapping(source = "user", target = "usuarioId", qualifiedByName = "userToLong")
     @Mapping(source = "transacciones", target = "transaccionesId", qualifiedByName = "transaccionToLong")
+    @Mapping(source = "cuenta_id", target = "id")
     public abstract CuentaResponseDto toResponse(Cuenta cuenta);
 
     public abstract void updateEntityFromDto(CuentaRequestDto dto, @MappingTarget Cuenta cuenta);
