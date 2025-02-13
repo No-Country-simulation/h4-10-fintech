@@ -7,7 +7,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -23,28 +25,22 @@ public class SecurityFilter extends OncePerRequestFilter {
     private final AuthService authService;
 
     @Autowired
-    public SecurityFilter( UserService userService, AuthService authService) {
+    public SecurityFilter(UserService userService, AuthService authService) {
         this.userService = userService;
         this.authService = authService;
     }
 
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
-
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (header == null || !header.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
-            System.out.println(" me responde vacio no esta leyendo el bearer");
             return;
         }
 
-        // Extraer el token
-        String token = authHeader.substring(7);
+        String token = header.replace("Bearer ", "");
         try {
-            // Validar el token
-
             String username = authService.getUsernameFromToken(token);
 
             System.out.println("ire al securiryContext holdae");
@@ -53,23 +49,25 @@ public class SecurityFilter extends OncePerRequestFilter {
                 UserDetails userDetails = userService.loadUserByUsername(username);
 
                 if (authService.validateTokenLocal(token, userDetails)) {
-                    System.out.println("entreando a validar el token ");
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                    System.out.println("token valido");
                 }
+
                 if (!authService.validateTokenLocal(token, userDetails)) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.getWriter().write("Token inválido o expirado.");
                 }
             }
 
-        } catch (Exception e) {
+            } catch(Exception e){
             response.setHeader("error", e.getMessage());
-            response.setStatus(401);
+           response.setStatus(401);
             response.setContentType("application/json");
             response.getWriter().write("{\"error en el filter\": \"" + e.getMessage() + "\"}");
+           }
+
+            filterChain.doFilter(request, response);
         }
     }
-}
+

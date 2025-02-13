@@ -37,6 +37,7 @@ public class LogoutController implements LogoutSuccessHandler {
         try {
 
             invalidateSession(req);
+            System.out.println("esta por desloguearse");
             String returnTo = req.getScheme() + "://" + req.getServerName();
             if ((req.getScheme().equals("http") && req.getServerPort() != 80) || (req.getScheme().equals("https") && req.getServerPort() != 443)) {
                 returnTo += ":" + req.getServerPort();

@@ -41,7 +41,6 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
         String accessToken = authorizedClient.getAccessToken().getTokenValue();
 
         try {
-            System.out.println("entro a validad el token");
                DecodedJWT jwt = auth0TokenValidator.validateToken(accessToken);
                if(jwt == null) {
                    throw new ApplicationException("Error al validar el token");

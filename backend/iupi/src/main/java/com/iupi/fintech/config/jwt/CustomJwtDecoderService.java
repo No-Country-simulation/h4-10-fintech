@@ -69,7 +69,7 @@ public class CustomJwtDecoderService implements JwtDecoder {
             // Crear el algoritmo con la clave pública
             Algorithm algorithm = Algorithm.RSA256(publicKey, null);
             JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer(domain.trim())
+                    .withIssuer(issuer)
                     .withAudience(audience.trim())
                     .build();
 

@@ -48,6 +48,7 @@ public class UserServiceImp implements UserService {
         perfil.setConocimientoFinanciero(ConocimientoFinanciero.NOVATO);
         perfil.setNivelEconomico(NivelEconomico.BAJO);
         newUser.setPerfil(perfil);
+        newUser.setRol(Role.USER);
         userRepository.save(newUser);
         return newUser;
     }
