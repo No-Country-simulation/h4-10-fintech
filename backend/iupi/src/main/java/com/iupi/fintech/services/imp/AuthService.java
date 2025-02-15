@@ -118,7 +118,7 @@ public class AuthService {
         }
     }
 
-    public Iterable<UserResponseDto> getMisTransacciones() {
+    public Iterable<UserResponseDto> getMisUsers() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName(); // ⚠ Si `authentication` es `null`, la consulta falla
         System.out.println("email: " + email);

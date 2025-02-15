@@ -1,6 +1,7 @@
 package com.iupi.fintech.utils.iol;
 
 import com.iupi.fintech.dtos.ProductoFciDto;
+import com.iupi.fintech.dtos.ProductoFciRequest;
 import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.mappers.ProductoFciMapper;
 import com.iupi.fintech.models.generic.ProductoFci;
@@ -55,8 +56,8 @@ public class FciUpdateService {
                 .uri("/api/v2/Titulos/FCI")
                 .header("Authorization", "Bearer " + token)
                 .retrieve()
-                .bodyToFlux(ProductoFciDto.class)
-                .map(productoMapper::toEntity)
+                .bodyToFlux(ProductoFciRequest.class)
+                .map(productoMapper::toEntityByRequest)
                 .collectList();
     }
 

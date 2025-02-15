@@ -10,7 +10,7 @@ public record TransaccionResponseDto(
         String moneda,
         String tipoTransaccion,
         LocalDateTime fecha,
-        Long cuentaId,
+        Long cuenta,
         Long tiempoId,
         Long productofci
 ) {

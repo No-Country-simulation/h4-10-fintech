@@ -33,11 +33,10 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         // Extraer el OAuth2AuthenticationToken
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
-
         // Acceder al token de acceso desde el cliente autorizado
         OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
                 token.getAuthorizedClientRegistrationId(), token.getName());
-            // Se Extrae el access token
+        // Se Extrae el access token
         String accessToken = authorizedClient.getAccessToken().getTokenValue();
 
         try {

@@ -42,7 +42,7 @@ public class TransaccionServiceImpl implements TransaccionService {
     @Override
     @Transactional
     public TransaccionResponseDto save(TransaccionRequestDto transaccionRequestDto) {
-        String email = authenticatedUser.getAuthenticatedUsername().getEmail();
+        String email = authenticatedUser.getAuthenticatedUsername();
         User user = userRepository.findByEmail(email).orElseThrow();
 
         LocalDate fecha= LocalDate.now();
@@ -57,6 +57,7 @@ public class TransaccionServiceImpl implements TransaccionService {
         transaccion.setFecha(LocalDateTime.now());
         //Se setea ya que de momento todas las transacciones seran asi
         transaccion.setTipoProducto(TransaccionTipoProducto.Financiero);
+
         transaccion.setCuenta(user.getCuenta());
 
         Transaccion savedTransaccion = transaccionRepository.save(transaccion);

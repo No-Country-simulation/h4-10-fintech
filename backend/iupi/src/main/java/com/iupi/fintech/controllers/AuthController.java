@@ -7,12 +7,14 @@ import com.iupi.fintech.services.imp.AuthService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -46,10 +48,9 @@ public class AuthController {
     @GetMapping("/generate-custom-token")
     @Operation(summary = "Genera un token personalizado a partir del Token emitido de Auth0")
     public ResponseEntity<ApiResponseDto<String>> generateCustomToken(@RequestParam String access_token, HttpServletResponse response) throws Exception {
-        System.out.println("entro a generar el custom token");
+
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            System.out.println("authentication: " + authentication.toString());
             if (!authentication.isAuthenticated()) {
                 return new ResponseEntity<>(new ApiResponseDto<>(false, "Usuario no autenticado", null), HttpStatus.UNAUTHORIZED);
             }
@@ -58,44 +59,14 @@ public class AuthController {
             String customToken = authService.generateCustomToken(access_token);
 
             // Enviar el token como query param al frontend
-            String redirectUrl = "https://iupi-fintech.vercel.app/dashboard?loggedIn=true&token=" + customToken;
-            response.sendRedirect(redirectUrl);
+//            String redirectUrl = "https://iupi-fintech.vercel.app/dashboard?loggedIn=true&token=" + customToken;
+//            response.sendRedirect(redirectUrl);
 
             return ResponseEntity.ok(new ApiResponseDto<>(true, "Token personalizado generado", customToken));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-//    @GetMapping("/getToken")
-//    @Operation(summary = "obtiene el token de la sesion")
-//    public ResponseEntity<JwtToken> getToken(HttpSession session) throws Exception {
-//
-//        System.out.println("estoy entrando en el getotjen");
-//        try {
-//            String customToken = (String) session.getAttribute("customToken");
-//            System.out.println("custom token en el getToken en el controlador de auth: " + customToken);
-//            return ResponseEntity.ok(new JwtToken(customToken));
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-@GetMapping("/getToken")
-@Operation(summary = "obtiene el token de la sesion")
-public ResponseEntity<ApiResponseDto<JwtToken>> getToken() throws Exception {
-
-    System.out.println("estoy entrando en el getotjen");
-    try {
-        System.out.println(" entro al try de get token");
- String customToken = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-
-        System.out.println("el custom token es: " + customToken);
-        System.out.println("custom token en el getToken en el controlador de auth: " + customToken);
-        return new ResponseEntity<>(new ApiResponseDto<>(true, "Token obtenido", new JwtToken(customToken)), HttpStatus.OK);
-    } catch (Exception e) {
-        return new ResponseEntity<>(new ApiResponseDto<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
-    }
-}
 
 //    @GetMapping("/is-authenticated")
 //    public ResponseEntity<Boolean> isAuthenticated(HttpSession session) {
@@ -104,17 +75,19 @@ public ResponseEntity<ApiResponseDto<JwtToken>> getToken() throws Exception {
 //    }
 
     @GetMapping("/logout")
-    @Operation(summary = "Logout manual del usuario")
+    @Operation(summary = "Logout manual del usuario sin envio de token.")
     public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Realiza el logout local
         SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
         logoutHandler.logout(request, response, null);
-
+        System.out.println("esta en el logout manual");
         // Redirige a Auth0 para el logout
         String logoutUrl = issuer + "v2/logout";
+        System.out.println("url de logout manual: " + logoutUrl);
 
         // Redirige al usuario a Auth0 para el logout
         response.sendRedirect(logoutUrl);
+        System.out.println(" se supone que redirigio");
 
         return ResponseEntity.status(302).header("Location", logoutUrl).build();
     }
@@ -155,7 +128,7 @@ public ResponseEntity<ApiResponseDto<JwtToken>> getToken() throws Exception {
     @GetMapping("/getUser")
     public ResponseEntity<Iterable<UserResponseDto>> laist () {
 
-       Iterable<UserResponseDto> a=authService.getMisTransacciones();
+       Iterable<UserResponseDto> a=authService.getMisUsers();
 
         return  ResponseEntity.ok(a);
     }

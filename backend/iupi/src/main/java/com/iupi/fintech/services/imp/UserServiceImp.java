@@ -5,6 +5,7 @@ import com.iupi.fintech.dtos.user.UserResponseDto;
 import com.iupi.fintech.enums.*;
 import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.mappers.user.UserMapper;
+import com.iupi.fintech.models.Cuenta;
 import com.iupi.fintech.models.Perfil;
 import com.iupi.fintech.models.User;
 import com.iupi.fintech.repositories.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Optional;
@@ -47,8 +49,14 @@ public class UserServiceImp implements UserService {
         perfil.setCapacidadAhorro(CapacidadDeAhorro.BAJO);
         perfil.setConocimientoFinanciero(ConocimientoFinanciero.NOVATO);
         perfil.setNivelEconomico(NivelEconomico.BAJO);
+        Cuenta cuenta= new Cuenta();
+        cuenta.setMonto(BigDecimal.ZERO);
+        cuenta.setCuenta_id(1L);
+
         newUser.setPerfil(perfil);
+        newUser.setCuenta(cuenta);
         newUser.setRol(Role.USER);
+
         userRepository.save(newUser);
         return newUser;
     }

@@ -67,6 +67,10 @@ public class User implements UserDetails {
         this.perfil = perfil;
         perfil.setUser(this); // Sincronizar el perfil con este usuario
     }
+    public void setCuenta(Cuenta cuenta) {
+        this.cuenta = cuenta;
+        cuenta.setUser(this); // Sincronizar la cuenta con este usuario
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

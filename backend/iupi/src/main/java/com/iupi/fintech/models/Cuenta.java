@@ -3,6 +3,7 @@ package com.iupi.fintech.models;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @Data
 @Table(name = "cuentas")
 @NoArgsConstructor
+@ToString
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Cuenta {
     @Id

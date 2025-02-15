@@ -40,8 +40,12 @@ public class TransaccionController {
     @PostMapping
     @Operation(summary = "Crear una nueva transacción", description = "Crea una nueva transacción con los datos proporcionados. (pendiente)")
     public ResponseEntity<ApiResponseDto<TransaccionResponseDto>> createTransaccion(@Valid @RequestBody TransaccionRequestDto transaccionRequestDto) {
-        TransaccionResponseDto transaccionCreada = transaccionService.save(transaccionRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponseDto<>(true, "Transacción creada", transaccionCreada));
+        try {
+            TransaccionResponseDto transaccionCreada = transaccionService.save(transaccionRequestDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponseDto<>(true, "Transacción creada", transaccionCreada));
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponseDto<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{id}")

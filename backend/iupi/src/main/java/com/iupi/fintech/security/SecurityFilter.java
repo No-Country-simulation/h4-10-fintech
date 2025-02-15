@@ -43,15 +43,16 @@ public class SecurityFilter extends OncePerRequestFilter {
         try {
             String username = authService.getUsernameFromToken(token);
 
-            System.out.println("ire al securiryContext holdae");
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 UserDetails userDetails = userService.loadUserByUsername(username);
 
                 if (authService.validateTokenLocal(token, userDetails)) {
+
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+
                 }
 
                 if (!authService.validateTokenLocal(token, userDetails)) {

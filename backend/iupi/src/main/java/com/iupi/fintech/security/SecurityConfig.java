@@ -68,13 +68,6 @@ public class SecurityConfig implements WebMvcConfigurer{
         this.customJwtDecoder = customJwtDecoder;
         this.securityFilter = securityFilter;
     }
-    @Autowired
-    private AuthInterceptor authInterceptor;
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authInterceptor);
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, @Lazy AuthenticationSuccessHandler authenticationSuccessHandler) throws Exception {
@@ -90,14 +83,14 @@ public class SecurityConfig implements WebMvcConfigurer{
                         .requestMatchers("/api/auth/access-token**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/auth/cualquiera**").permitAll()
                         .requestMatchers("/api/auth/generate-custom-token**").permitAll()
+                        .requestMatchers("api/auth/logout").permitAll()
+                        .requestMatchers("/logout**").permitAll()
                         .requestMatchers("/api/auth/test-token**").authenticated()
                         .requestMatchers("/api/auth/test-authh**").authenticated()
                         .requestMatchers("/api/auth/test-auth**").authenticated()
                         .requestMatchers("/api/auth/is-authenticated**").permitAll()
-                        .requestMatchers("/api/auth/getToken**").authenticated()
-                        .requestMatchers("api/auth/**").authenticated()
-                        .requestMatchers("/api/home**").authenticated()
-                        .requestMatchers("/logout**").authenticated()
+                        .requestMatchers("/api/auth/getToken**").permitAll()
+
                         // User Controller
                         .requestMatchers(HttpMethod.GET, "/api/user**").authenticated()
                         .requestMatchers(HttpMethod.PATCH, "/api/user/**").authenticated()
@@ -136,18 +129,16 @@ public class SecurityConfig implements WebMvcConfigurer{
                         .successHandler(authenticationSuccessHandler)
                         .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserService()))
                 )
-
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwtAuthenticationProvider())
-                )
-               // .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // ❌ No usa sesiones ni cookies
-
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                //                .oauth2ResourceServer(oauth2 -> oauth2
+//                        .jwt(jwt -> jwtAuthenticationProvider())
+//                )
+                .addFilterBefore(securityFilter, OAuth2LoginAuthenticationFilter.class)
                 .logout(logout -> logout
                         .logoutSuccessHandler(logoutSuccessHandler())
                         .deleteCookies("JSESSIONID")
                         .clearAuthentication(true)
                         .invalidateHttpSession(true)
+
                 );
         return http.build();
     }
