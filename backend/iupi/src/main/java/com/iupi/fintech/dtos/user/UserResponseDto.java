@@ -2,6 +2,7 @@ package com.iupi.fintech.dtos.user;
 
 import com.iupi.fintech.enums.EstadoRegistro;
 import com.iupi.fintech.enums.Genero;
+import com.iupi.fintech.enums.Role;
 import com.iupi.fintech.enums.TipoDeDocumentacion;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -34,6 +35,8 @@ public class UserResponseDto {
     private EstadoRegistro estadoRegistro;
     @Enumerated(EnumType.STRING)
     private TipoDeDocumentacion tipoIdentificacion;
+    @Enumerated(EnumType.STRING)
+    private Role rol;
 
     private Long perfilId;
 

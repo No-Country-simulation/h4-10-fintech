@@ -8,15 +8,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticatedUserService {
 
-    public OidcUser getAuthenticatedUsername() {
+//    public OidcUser getAuthenticatedUsername() {
+//
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//        Object principal = authentication.getPrincipal();
+//
+//        if (principal instanceof OidcUser oidcUser) {
+//            return oidcUser;
+//        }
+//        return null;
+//    }
+    public String getAuthenticatedUsername() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Object principal = authentication.getPrincipal();
-
-        if (principal instanceof OidcUser oidcUser) {
-            return oidcUser;
-        }
-        return null;
+       if (authentication.isAuthenticated()){
+           return authentication.getName();
+       }
+       return null;
     }
 }

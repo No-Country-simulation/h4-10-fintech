@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -28,14 +29,17 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig implements WebMvcConfigurer{
     @Value("${auth0.domain}")
     private String domain;
     @Value("${auth0.clientId}")
@@ -70,13 +74,23 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .authorizeHttpRequests(auth -> auth
                         //Auth Controller
+                        .requestMatchers("/login/oauth2/code/auth0").permitAll()
                         .requestMatchers("/api/auth/access-token**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/auth/cualquiera**").permitAll()
+                        .requestMatchers("/api/auth/generate-custom-token**").permitAll()
+                        .requestMatchers("api/auth/logout").permitAll()
+                        .requestMatchers("/logout**").permitAll()
+                        .requestMatchers("/api/auth/test-token**").authenticated()
+                        .requestMatchers("/api/auth/test-authh**").authenticated()
+                        .requestMatchers("/api/auth/test-auth**").authenticated()
                         .requestMatchers("/api/auth/is-authenticated**").permitAll()
-                        .requestMatchers("/api/auth/getToken**").authenticated()
-                        .requestMatchers("/api/home**").authenticated()
-                        .requestMatchers("/logout**").authenticated()
+                        .requestMatchers("/api/auth/getToken**").permitAll()
+
                         // User Controller
                         .requestMatchers(HttpMethod.GET, "/api/user**").authenticated()
                         .requestMatchers(HttpMethod.PATCH, "/api/user/**").authenticated()
@@ -115,34 +129,26 @@ public class SecurityConfig {
                         .successHandler(authenticationSuccessHandler)
                         .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserService()))
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwtAuthenticationProvider())
-                )
+                //                .oauth2ResourceServer(oauth2 -> oauth2
+//                        .jwt(jwt -> jwtAuthenticationProvider())
+//                )
                 .addFilterBefore(securityFilter, OAuth2LoginAuthenticationFilter.class)
                 .logout(logout -> logout
                         .logoutSuccessHandler(logoutSuccessHandler())
                         .deleteCookies("JSESSIONID")
                         .clearAuthentication(true)
                         .invalidateHttpSession(true)
+
                 );
         return http.build();
     }
 
     @Bean
     public JwtAuthenticationProvider jwtAuthenticationProvider() {
-        JwtAuthenticationProvider provider = new JwtAuthenticationProvider(new CustomJwtDecoderService());
+        JwtAuthenticationProvider provider = new JwtAuthenticationProvider(customJwtDecoder);
         provider.setJwtAuthenticationConverter(jwtAuthenticationConverter());
         return provider;
     }
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
-//            }
-//        };
-//    }
 
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {

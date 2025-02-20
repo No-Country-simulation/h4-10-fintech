@@ -80,6 +80,7 @@ public class JwtService {
                     .withClaim("email", user.getEmail())
                     .withClaim("name", user.getNombre())
                     .withClaim("id", user.getUsuarioId())
+                    .withClaim("role", user.getRol().toString())
                     // .withClaim("perfil", user.getPerfiles().getPerfilId())
                     // .withClaim("auth0Id", userInfo.getSub())
                     .withIssuedAt(new Date())

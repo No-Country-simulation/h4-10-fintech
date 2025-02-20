@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 
 public record TransaccionRequestDto(
 
-        @NotNull(message = "El ID del producto es obligatorio.")
-        Long productoId,
+//        @NotNull(message = "El ID del producto es obligatorio.")
+//        Long productoId,
 
         @NotNull(message = "El tipo de producto es obligatorio.")
         @Pattern(regexp = "Ahorro|Financiero", message = "El tipo de producto debe ser 'Ahorro' o 'Financiero'.")

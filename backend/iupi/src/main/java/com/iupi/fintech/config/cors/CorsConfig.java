@@ -19,9 +19,10 @@ public class CorsConfig {
                                 "http://localhost:5173",
                                 "https://iupi-fintech.vercel.app"
                         )
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD", "TRACE")
+                        .allowCredentials(true)
+                        .allowedHeaders("*");
+
             }
         };
     }

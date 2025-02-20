@@ -8,13 +8,14 @@ import com.iupi.fintech.exceptions.ApplicationException;
 import com.iupi.fintech.models.UserInfo;
 import com.iupi.fintech.mappers.user.UserMapper;
 import com.iupi.fintech.models.User;
-import com.iupi.fintech.repositories.UserRepository;
 import com.iupi.fintech.services.UserService;
 import com.iupi.fintech.utils.iol.IolInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -54,7 +55,6 @@ public class AuthService {
             //--------- Obtenemos el usuario si esta en la base de datos, sino pasara a registrarlo
             User userResponse = userService.findByEmail(userInfo.getEmail());
             // Nos conectamos al usuario de IOL
-            loginIol(userInfo.getEmail());
 
             if (userResponse == null) {
 
@@ -118,13 +118,13 @@ public class AuthService {
         }
     }
 
-    public void loginIol(String username) {
-       try{
-           System.out.println("entro al login de iol en el authService");
-               iolService.iolLogin(username);
-       } catch (ApplicationException e) {
-           throw new ApplicationException(e.getMessage());
-       }
+    public Iterable<UserResponseDto> getMisUsers() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName(); // ⚠ Si `authentication` es `null`, la consulta falla
+        System.out.println("email: " + email);
+        System.out.println(userService.findByEmail(email));
+        return userService.findAll();
     }
+
 
 }

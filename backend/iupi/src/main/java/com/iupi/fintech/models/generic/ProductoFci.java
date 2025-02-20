@@ -1,6 +1,7 @@
 package com.iupi.fintech.models.generic;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iupi.fintech.models.Transaccion;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -50,7 +51,6 @@ public class ProductoFci {
     private String tipo;
     // monto minimo para operar
     private BigDecimal montoMinimo;
-
     @OneToMany(mappedBy = "productofci", fetch = FetchType.LAZY)
     private List<Transaccion> transacciones= new ArrayList<>();
 }

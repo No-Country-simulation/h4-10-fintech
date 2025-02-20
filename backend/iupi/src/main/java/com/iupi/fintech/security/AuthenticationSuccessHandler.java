@@ -33,15 +33,13 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         // Extraer el OAuth2AuthenticationToken
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
-
         // Acceder al token de acceso desde el cliente autorizado
         OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
                 token.getAuthorizedClientRegistrationId(), token.getName());
-            // Se Extrae el access token
+        // Se Extrae el access token
         String accessToken = authorizedClient.getAccessToken().getTokenValue();
 
         try {
-            System.out.println("entro a validad el token");
                DecodedJWT jwt = auth0TokenValidator.validateToken(accessToken);
                if(jwt == null) {
                    throw new ApplicationException("Error al validar el token");
