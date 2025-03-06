@@ -129,7 +129,7 @@ Este proyecto ha sido posible gracias a un equipo de expertos en tecnología, fi
 
 - Informe de Errores
 
-[Documentación QA](https://drive.google.com/drive/folders/13YyOrC9wEYObiudBAomS9GStjnHua0TM?usp=drive_link)
+[Documentación QA](https://drive.google.com/drive/folders/1bqbN8a7Izj9ClnVJxZ82j4soN75HfZkJ)
 
 ---
 
